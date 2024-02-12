@@ -8,7 +8,7 @@ library(emld)
 library(EML)
 library(ids)
 library(keyring)
-library(tidyverse)
+library(xml2)
 library(here)
 
 # 1. Fill in metadata ----------------------------------------------------
@@ -65,6 +65,11 @@ contact_person <- list(organizationName = "Radboud University",
                        address = list(country = "NL",
                                       city = "Nijmegen"))
 
+# Metadata provider 
+metadataProvider <- list(organizationName = "Radboud University",
+                         address = list(country = "NL",
+                                        city = "Nijmegen"))
+
 # Date of publication of the data set
 publication_date <- "2021-05-04" # FIXME has to be our publishing date, right?
 
@@ -76,7 +81,7 @@ abstract <- list(para = "We tested whether increased P-limitation and/or acidifi
 
 
 # List of keywords and the thesaurus they are listed in
-keywords <- list(keyword = list("ecological stoichiometry","acidification", "management", "nitrogen deposition", "elemental ecology", "invertebrate diversity", "insect decline", "sod-cutting"),
+keywords <- list(keyword = list("ecological stoichiometry", "acidification", "management", "nitrogen deposition", "elemental ecology", "invertebrate diversity", "insect decline", "sod-cutting"),
                  keywordThesaurus = "???") # TODO Find thesaurus for keywords
 
 # License for the work
@@ -122,11 +127,9 @@ coverage <- list(geographicCoverage = geographic_coverage,
 
 # III. Create EML file ----------------------------------------------------
 
-# Fetch existing UUID or create new UUID
-packageId <- dplyr::if_else(condition = keyring::key_list() |>
-                              dplyr::filter(username == "Cricket EML packageId") |> nrow() > 0,
-                            rstudioapi::askForSecret("Cricket EML packageId"),
-                            ids::uuid(n = 1, drop_hyphens = FALSE, use_time = FALSE)) # FIXME creating a new one doesn't work for whatever reason
+# Package uuid
+packageId <- "21d3127e-e9f0-4c74-b537-0f3217cef732"
+
 
 # Combine all components in one list
 eml <- list(dataset =
@@ -139,10 +142,12 @@ eml <- list(dataset =
                    licensed = licensed,
                    coverage = coverage,
                    contact = contact_person),
+            packageId = packageId, 
             system = "uuid")
 
-# Write EMl file
+# Write EML file
 EML::write_eml(eml, file = here::here("data", "cricket_EML.xml"))          
+
 
 # 3. Add attributes for specific nodes ------------------------------------
 
@@ -166,6 +171,7 @@ userID_node <- xml2::xml_find_all(EML, xpath = "//userID")
 
 # Set title attribute
 xml2::xml_set_attr(userID_node, attr = "directory", value = "info:eu-repo/dai/nl/")
+
 
 # 4. Validate EML file ----------------------------------------------------
 if(!emld::eml_validate(EML)) {
