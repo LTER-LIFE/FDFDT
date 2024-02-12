@@ -28,15 +28,14 @@ meta_info_plantchem <- read.table(here::here("data", "meta_info_plantchem.txt"),
 df <- plant_chem %>% 
     dplyr::mutate(eventID = paste("plant", paste0(substring(Block, 1, 2), substring(Block, 4, 4)),
                                   substring(Treat, 1, 2), substring(Treat, 3, 5), sep = "_"))
-# TODO: split events according to their measuring method      
 
 # create event table
 event_plants <- df %>%
   dplyr::select("eventID") %>% 
   dplyr::mutate(verbatimLocality = "Hoge Veluwe",
                 samplingProtocol = "randomized complete block design (OBI:0500007)", 
-                sampleSizeValue = 225, # what is the correct sample Size here? area of plots? no of plots? no of blocks?
-                sampleSizeUnit = "m²",
+                sampleSizeValue = 225, 
+                sampleSizeUnit = "square metre",
                 type = "Event") # is that correct? 
 
 
@@ -77,7 +76,27 @@ MOF_plants <- df %>%
   dplyr::mutate(measurementID = paste(eventID, 1:n(), sep = "_"),
                 measurementValue = as.character(measurementValue))
 
+# create occurrence file 
+# get taxonomic information for Gryllus campestris & Tracheophyta
+taxon_info_plant <- taxize::get_gbifid_(sci = "Tracheophyta") %>%
+  dplyr::bind_rows() %>%
+  dplyr::filter(status == "ACCEPTED" & matchtype == "EXACT") %>%
+  dplyr::select("scientificName" = "scientificname", "kingdom", "phylum") %>% 
+  dplyr::mutate("class" = NA,
+                "order" = NA,
+                "family" = NA, 
+                "genus" = NA, 
+                "specificEpithet" = NA)
 
+occurrence_plants <- event_plants %>% 
+  dplyr::select("eventID") %>% 
+  dplyr::mutate(occurrenceID = paste(eventID, 1, sep = "_"),
+                phylum = "Tracheophyta",
+                individualCount = 1, # not really true??
+                basisOfRecord = "HumanObservation",
+                occurrenceStatus = "present",
+                occurrenceRemarks = NA) %>% 
+  dplyr::left_join(taxon_info_plant, by = "phylum")
 
 # III. Mapping of cricket data --------------------------------------------
 # Add missing variable & description
@@ -104,7 +123,7 @@ measurement_info_cricket <- meta_info_gryllus %>%
                                               Name == "batch9" ~ "N",
                                               Name == "batch10" ~ "O",
                                               Name %in% c("Total_repr_suc", "batch11") ~ "P",
-                                              Name == "Early_death" ~ "Q"),
+                                              Name == "Early_death" ~ "Q"), # TODO add group for treatments
                 measurementType = dplyr::case_when(Name == "InitW" ~ "Initial mass (PATO:0000125) at eclosion (GO:0007562)",
                                                    Name == "W14d" ~ "Mass (PATO:0000125) after 14 days of abstinence",
                                                    Name == "Delta_W_init14" ~ "Weight change (NCIT:C9232) after 14 days of abstinence",
@@ -140,7 +159,7 @@ measurement_info_cricket <- meta_info_gryllus %>%
                 measurementID = NA,
                 measurementMethod = "https://doi.org/10.3389/fevo.2021.659363")
 
-# pivot for Boolean variables
+# create measurement or fact file
 MOF_crickets <- crickets %>% 
   dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>%
   tidyr::pivot_longer(cols = Lime:batch11, names_to = "variable", values_to = "measurementValue") %>% 
@@ -159,23 +178,30 @@ event_cricket <- MOF_crickets %>%
   dplyr::distinct(., eventID, .keep_all = FALSE) %>% 
   dplyr::mutate(verbatimLocality = "Radboud University",
                 samplingProtocol = "randomized complete block design (OBI:0500007)", 
-                sampleSizeValue = 56, # what is the correct sample Size here? 
-                sampleSizeUnit = "individuals",
+                sampleSizeValue = 1, # what is the correct sample Size here? 
+                sampleSizeUnit = "individual",
                 type = "Event")
 
-
-# IV. Get taxonomic information -----------------------------------------------
-
 # get taxonomic information for Gryllus campestris & Tracheophyta
-taxon_info <- taxize::get_gbifid_(sci = c("Gryllus campestris", "Tracheophyta")) %>%
+taxon_info_cricket <- taxize::get_gbifid_(sci = "Gryllus campestris") %>%
   dplyr::bind_rows() %>%
   dplyr::filter(status == "ACCEPTED" & matchtype == "EXACT") %>%
   tidyr::separate(canonicalname, c("Genus", "specificEpithet"), remove = FALSE) %>%
-  dplyr::select("scientificName" = "scientificname", "species" = "canonicalname",
+  dplyr::select("scientificName" = "scientificname", "species" = "canonicalname", # TODO no species & canonical Name
                 "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet") 
 
+# create occurrence file
+occurrence_crickets <- event_cricket %>% 
+  dplyr::select("eventID") %>% 
+  dplyr::mutate(occurrenceID = paste(eventID, 1, sep = "_"),
+                specificEpithet = "campestris",
+                individualCount = 1,
+                basisOfRecord = "HumanObservation", 
+                occurrenceStatus = "present",
+                organismID = NA) %>% # TODO add organismID
+  dplyr::left_join(taxon_info_cricket, by = "specificEpithet")
 
-# V. combine files for plants and crickets into final DwC-A files  ------------
+# IV. combine files for plants and crickets into final DwC-A files  ------------
 
 event <- dplyr::bind_rows(event_plants, event_cricket) %>% 
   dplyr::mutate(eventDate = "2014-04-01/2014-07-01",
@@ -189,6 +215,11 @@ event <- dplyr::bind_rows(event_plants, event_cricket) %>%
 
 measurement_or_fact <- dplyr::bind_rows(MOF_plants, MOF_crickets)    
 
+occurrence <- dplyr::bind_rows(occurrence_crickets, occurrence_plants)
+
+
+# V. Save DwC-A files -----------------------------------------------------
 
 #write.csv(measurement_or_fact, file = here::here("data", "crickets_extendedmeasurementorfact.csv"), row.names = FALSE)
 #write.csv(event, file = here::here("data", "crickets_event.csv"), row.names = FALSE)
+#write.csv(occurrence, file = here::here("data", "crickets_occurrence.csv), row.names = FALSE)
