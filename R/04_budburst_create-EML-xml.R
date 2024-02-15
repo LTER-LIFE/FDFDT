@@ -116,10 +116,7 @@ methods <- list(methodStep = list(list(description = list(para = "Bud burst stat
 # 2. Create the EML.xml file ----------------------------------------------
 
 # Fetch existing UUID or create new UUID
-packageId <- dplyr::if_else(condition = keyring::key_list() |>
-                                         dplyr::filter(username == "Budburst EML packageId") |> nrow() > 0,
-                            rstudioapi::askForSecret("Budburst EML packageId"),
-                            ids::uuid(n = 1, drop_hyphens = FALSE, use_time = FALSE))
+packageId <- "105c879f-a2b1-478f-9abf-56f79d0bbb9f"
 
 # Combine all components in one list
 eml <- list(dataset =

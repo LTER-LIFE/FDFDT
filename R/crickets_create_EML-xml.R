@@ -23,42 +23,42 @@ creator <- list(list(individualName = list(salutation = "drs.",
                      organizationName = "Radboud University",
                      address = list(country = "NL",
                                     city = "Nijmegen"),
-                     userID = "327509856"), 
+                     userId = "327509856"), 
                 list(individualName = list(salutation = "dr",
                                            givenName = "W.C.E.P.",
                                            surName = "Verberk"),
                      organizationName = "Radboud University",
                      address = list(country = "NL",
                                     city = "Nijmegen"),
-                     userID = "265948576"),
+                     userId = "265948576"),
                 list(individualName = list(salutation = "drs.",
                                            givenName = "J.T.",
                                            surName = "Kuper"),
                      organizationName = "Radboud University",
                      address = list(country = "NL",
                                     city = "Nijmegen"),
-                     userID = "274568349"), 
+                     userId = "274568349"), 
                 list(individualName = list(salutation = "drs.",
                                            givenName = "M.J.",
                                            surName = "Weijters"),
                      organizationName = "Radboud University",
                      address = list(country = "NL",
                                     city = "Nijmegen"),
-                     userID = "334082919"), 
+                     userId = "334082919"), 
                 list(individualName = list(salutation = "dr",
                                            givenName = "R.",
                                            surName = "Bobbink"),
                      organizationName = "Radboud University",
                      address = list(country = "NL",
                                     city = "Nijmegen"),
-                     userID = "075033682"),
+                     userId = "075033682"),
                 list(individualName = list(salutation = "prof. dr.",
                                            givenName = "H.",
                                            surName = "Siepel"),
                      organizationName = "Radboud University",
                      address = list(country = "NL",
                                     city = "Nijmegen"),
-                     userID = "125440413"))
+                     userId = "125440413"))
 
 # Information on the contact person
 contact_person <- list(organizationName = "Radboud University",
@@ -81,8 +81,14 @@ abstract <- list(para = "We tested whether increased P-limitation and/or acidifi
 
 
 # List of keywords and the thesaurus they are listed in
-keywords <- list(keyword = list("ecological stoichiometry", "acidification", "management", "nitrogen deposition", "elemental ecology", "invertebrate diversity", "insect decline", "sod-cutting"),
-                 keywordThesaurus = "???") # TODO Find thesaurus for keywords
+keywords <- list(keyword = list("ecological stoichiometry", 
+                                "acidification", 
+                                "management", 
+                                "nitrogen deposition", 
+                                "elemental ecology", 
+                                "invertebrate diversity", 
+                                "insect decline", 
+                                "sod-cutting"))
 
 # License for the work
 licensed <- list(licenseName = "Creative Commons Attribution 4.0 International (CC BY 4.0)",
@@ -93,8 +99,11 @@ licensed <- list(licenseName = "Creative Commons Attribution 4.0 International (
 
 # Geographic coverage of the data
 geographic_coverage <- list(geographicDescription = "Field experiment in Hoge Veluwe National Park and breeding experiments at Radboud University",
-                            boundingCoordinates = list(eastBoundingCoordinate = "5.829359788293456",
-                                                       northBoundingCoordinate = "52.04231849823671"))
+                            boundingCoordinates = list(westBoundingCoordinate = "5.829359788293456",
+                                                       eastBoundingCoordinate = "5.829359788293456",
+                                                       northBoundingCoordinate = "52.04231849823671",
+                                                       southBoundingCoordinate = "52.04231849823671")) 
+# FIXME not schema valid without South and west, but is that the way to go?
 
 # Temporal coverage of the data
 temporal_coverage <- list(rangeOfDates = list(beginDate = list(calendarDate = "2014-04-01"),
@@ -119,10 +128,22 @@ coverage <- list(geographicCoverage = geographic_coverage,
                  temporalCoverage = temporal_coverage,
                  taxonomicCoverage = taxonomic_coverage)
 
-# Maintenance??
+# Maintenance: frequency of updates
+maintenance <- list(maintenanceUpdateFrequency = "unknown",
+                    description = list(para = "As this dataset belongs to a publication, it is unknown whether the data is still further updated."))
 
-# TODO Methods for data collection
-# how detailed do wen want that to be?
+
+# Methods for data collection
+methods <- list(methodStep = list(description = list(para = "In a randomized block design treatment combinations of liming and phosphorous addition were applied to 20 plots which previously have undergone sod-cutting. The two dominant plant species have been cut and used as food for crickets in a breeding experiment. Individual female crickets were fed with plants of one treatment and their reproductive success measured. For details see the cited publication"),
+                                  citation = list(bibtex = "@article{vogels2021restore,
+  title={How to restore invertebrate diversity of degraded heathlands? A case study on the reproductive performance of the field cricket Gryllus campestris (L.)},
+  author={Vogels, Joost J and Verberk, WCEP and Kuper, JT and Weijters, MJ and Bobbink, R and Siepel, H},
+  journal={Frontiers in Ecology and Evolution},
+  volume={9},
+  pages={659363},
+  year={2021},
+  publisher={Frontiers Media SA}
+}")))
 
 
 # III. Create EML file ----------------------------------------------------
@@ -141,7 +162,9 @@ eml <- list(dataset =
                    keywordSet = keywords,
                    licensed = licensed,
                    coverage = coverage,
-                   contact = contact_person),
+                   contact = contact_person,
+                   methods = methods,
+                   maintenance = maintenance),
             packageId = packageId, 
             system = "uuid")
 
@@ -166,11 +189,11 @@ title_node <- xml2::xml_find_all(EML, xpath = "//title")
 # Set title attribute
 xml2::xml_set_attr(title_node, attr = "xml:lang", value = "en")
 
-# Identify userID node
-userID_node <- xml2::xml_find_all(EML, xpath = "//userID")
+# Identify userId node
+userId_node <- xml2::xml_find_all(EML, xpath = "//userId")
 
 # Set title attribute
-xml2::xml_set_attr(userID_node, attr = "directory", value = "info:eu-repo/dai/nl/")
+xml2::xml_set_attr(userId_node, attr = "directory", value = "info:eu-repo/dai/nl/")
 
 
 # 4. Validate EML file ----------------------------------------------------

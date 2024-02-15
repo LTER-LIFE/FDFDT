@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="87836bfb-d166-480a-a318-29f90aae47fa" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="21d3127e-e9f0-4c74-b537-0f3217cef732" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
   <dataset>
     <title xml:lang="en">Data from: How to restore invertebrate diversity of degraded heathlands?</title>
     <creator>
-      <address>
-        <city>Nijmegen</city>
-        <country>NL</country>
-      </address>
       <individualName>
         <salutation>drs.</salutation>
         <givenName>J.J.</givenName>
         <surName>Vogels</surName>
       </individualName>
       <organizationName>Radboud University</organizationName>
-      <userID directory="info:eu-repo/dai/nl/">327509856</userID>
-    </creator>
-    <creator>
       <address>
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
+      <userId directory="info:eu-repo/dai/nl/">327509856</userId>
+    </creator>
+    <creator>
       <individualName>
         <salutation>dr</salutation>
         <givenName>W.C.E.P.</givenName>
         <surName>Verberk</surName>
       </individualName>
       <organizationName>Radboud University</organizationName>
-      <userID directory="info:eu-repo/dai/nl/">265948576</userID>
-    </creator>
-    <creator>
       <address>
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
+      <userId directory="info:eu-repo/dai/nl/">265948576</userId>
+    </creator>
+    <creator>
       <individualName>
         <salutation>drs.</salutation>
         <givenName>J.T.</givenName>
         <surName>Kuper</surName>
       </individualName>
       <organizationName>Radboud University</organizationName>
-      <userID directory="info:eu-repo/dai/nl/">274568349</userID>
-    </creator>
-    <creator>
       <address>
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
+      <userId directory="info:eu-repo/dai/nl/">274568349</userId>
+    </creator>
+    <creator>
       <individualName>
         <salutation>drs.</salutation>
         <givenName>M.J.</givenName>
         <surName>Weijters</surName>
       </individualName>
       <organizationName>Radboud University</organizationName>
-      <userID directory="info:eu-repo/dai/nl/">334082919</userID>
-    </creator>
-    <creator>
       <address>
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
+      <userId directory="info:eu-repo/dai/nl/">334082919</userId>
+    </creator>
+    <creator>
       <individualName>
         <salutation>dr</salutation>
         <givenName>R.</givenName>
         <surName>Bobbink</surName>
       </individualName>
       <organizationName>Radboud University</organizationName>
-      <userID directory="info:eu-repo/dai/nl/">075033682</userID>
-    </creator>
-    <creator>
       <address>
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
+      <userId directory="info:eu-repo/dai/nl/">075033682</userId>
+    </creator>
+    <creator>
       <individualName>
         <salutation>prof. dr.</salutation>
         <givenName>H.</givenName>
         <surName>Siepel</surName>
       </individualName>
       <organizationName>Radboud University</organizationName>
-      <userID directory="info:eu-repo/dai/nl/">125440413</userID>
+      <address>
+        <city>Nijmegen</city>
+        <country>NL</country>
+      </address>
+      <userId directory="info:eu-repo/dai/nl/">125440413</userId>
     </creator>
     <pubDate>2021-05-04</pubDate>
     <language>en</language>
@@ -94,7 +94,6 @@
       <keyword>invertebrate diversity</keyword>
       <keyword>insect decline</keyword>
       <keyword>sod-cutting</keyword>
-      <keywordThesaurus>???</keywordThesaurus>
     </keywordSet>
     <licensed>
       <licenseName>Creative Commons Attribution 4.0 International (CC BY 4.0)</licenseName>
@@ -104,8 +103,10 @@
       <geographicCoverage>
         <geographicDescription>Field experiment in Hoge Veluwe National Park and breeding experiments at Radboud University</geographicDescription>
         <boundingCoordinates>
+          <westBoundingCoordinate>5.829359788293456</westBoundingCoordinate>
           <eastBoundingCoordinate>5.829359788293456</eastBoundingCoordinate>
           <northBoundingCoordinate>52.04231849823671</northBoundingCoordinate>
+          <southBoundingCoordinate>52.04231849823671</southBoundingCoordinate>
         </boundingCoordinates>
       </geographicCoverage>
       <temporalCoverage>
@@ -147,5 +148,23 @@
         <country>NL</country>
       </address>
     </contact>
+    <methods>
+      <methodStep>
+        <description>
+          <para>In a randomized block design treatment combinations of liming and phosphorous addition were applied to 20 plots which previously have undergone sod-cutting. The two dominant plant species have been cut and used as food for crickets in a breeding experiment. Individual female crickets were fed with plants of one treatment and their reproductive success measured. For details see the cited publication</para>
+        </description>
+        <citation>
+          <bibtex>@article{vogels2021restore,
+  title={How to restore invertebrate diversity of degraded heathlands? A case study on the reproductive performance of the field cricket Gryllus campestris (L.)},
+  author={Vogels, Joost J and Verberk, WCEP and Kuper, JT and Weijters, MJ and Bobbink, R and Siepel, H},
+  journal={Frontiers in Ecology and Evolution},
+  volume={9},
+  pages={659363},
+  year={2021},
+  publisher={Frontiers Media SA}
+}</bibtex>
+        </citation>
+      </methodStep>
+    </methods>
   </dataset>
 </eml:eml>
