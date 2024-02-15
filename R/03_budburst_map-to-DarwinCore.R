@@ -7,13 +7,19 @@
 # Part I: Retrieve data ---------------------------------------------------
 
 # Load packages
-library(tidyverse)
+library(dplyr)
+library(tidyr)
 library(taxize)
 library(here)
+library(purrr)
+library(lubirdate)
+library(stringr)
 
 # Retrieve bud burst data files as list (including README) from Dataverse
 
 # Note: function `retrieve_dataverse_data()` comes from R/dataverse-api.R.
+source(here::here("R", "02_budburst_retrieveData-DataverseAPI.R"))
+
 dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.80227/test-QMGPSW")
 
 # Store each table as separate R objects for easier use, and exclude README
@@ -181,7 +187,7 @@ event <-
   dplyr::mutate(verbatimLocality = stringr::str_replace(string = verbatimLocality, pattern = "_", replacement = " "))
 
 # Save file as text file
-write.csv(event, file = here::here("data", "event.csv"), row.names = FALSE)
+write.csv(event, file = here::here("data", "budburst_event.csv"), row.names = FALSE)
 
 
 # Part III. Create occurrence table ---------------------------------------
@@ -262,7 +268,7 @@ occurrence <-
                 "family", "genus", "specificEpithet")
 
 # Save file as text file
-write.csv(occurrence, file = here::here("data", "occurrence.csv"), row.names = FALSE)
+write.csv(occurrence, file = here::here("data", "budburst_occurrence.csv"), row.names = FALSE)
 
 # Part IV: Create Measurement or fact file --------------------------------
 
@@ -302,4 +308,4 @@ measurement_or_fact <-
                 "measurementUnit", "measurementMethod", "measurementRemarks")
 
 # Save file as text file
-write.csv(measurement_or_fact, file = here::here("data", "extendedmeasurementorfact.csv"), row.names = FALSE)
+write.csv(measurement_or_fact, file = here::here("data", "budburst_extendedmeasurementorfact.csv"), row.names = FALSE)
