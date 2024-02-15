@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Created: 2024-02-07
-# Last updated: 2024-02-09
+# Last updated: 2024-02-15
 
 
 # I. Preparation ----------------------------------------------------------
@@ -11,6 +11,7 @@
 library(dplyr)
 library(tidyr)
 library(here)
+library(stringr)
 
 # load data
 ## plant chemical data
@@ -26,8 +27,12 @@ meta_info_plantchem <- read.table(here::here("data", "meta_info_plantchem.txt"),
 
 ## create eventID: event is measure per plot (within one block) 
 df <- plant_chem %>% 
-    dplyr::mutate(eventID = paste("plant", paste0(substring(Block, 1, 2), substring(Block, 4, 4)),
-                                  substring(Treat, 1, 2), substring(Treat, 3, 5), sep = "_"))
+    dplyr::mutate(TreatmentID = dplyr::case_when(Treat == "P+Ca+" ~ "PCa",
+                                                 Treat == "P-Ca+" ~ "0Ca",
+                                                 Treat == "P+Ca-" ~ "P0",
+                                                 Treat == "P-Ca-" ~ "00"),
+                  eventID = paste0(paste0(substring(Block, 1, 2), substring(Block, 4, 4)), TreatmentID))
+                 
 
 # create event table
 event_plants <- df %>%
@@ -42,8 +47,8 @@ event_plants <- df %>%
 
 # measurement or fact
 MOF_plants <- df %>%
-  dplyr::relocate(c("Nper", "Cper", "Pper"), .after = "Pmol") %>%
-  tidyr::pivot_longer(cols = Al:NPmol, names_to = "elements", values_to = "measurementValue") %>%
+  dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>%
+  tidyr::pivot_longer(cols = P:NPmol, names_to = "elements", values_to = "measurementValue") %>%
   dplyr::mutate(measurementUnit = dplyr::case_when(elements %in% c("Pper","Cper","Nper") ~ "percent (UO:0000187)",
                                                    elements %in% c("CNper", "CPper", "NPper") ~ "?",
                                                    elements %in% c("CNmol", "CPmol", "NPmol") ~ "?",
@@ -71,10 +76,9 @@ MOF_plants <- df %>%
                                                    elements == "CPmol" ~ "Ratio (SIO:001018) of concentration (NCIT:C41185) of carbon (CHEBI:27594) and phosphorus (CHEBI:28659)"), 
                 measurementMethod = dplyr::case_when(elements %in% c("Al", "Ca", "Fe", "K", "Zn", "S", "Si", "Mg", "Mn", "Pmol") ~ "inductively coupled plasma-atomic emission spectrometry (MMO:0000231)",
                                                      elements %in% c("Cmol", "Nmol") ~ "elemental CNS analyzer")) %>%
-  dplyr::select(!c("Block", "Treat", "elements")) %>%
+  dplyr::select(!c("Block", "Treat", "elements", "TreatmentID")) %>%
   dplyr::group_by(eventID) %>% 
-  dplyr::mutate(measurementID = paste(eventID, 1:n(), sep = "_"),
-                measurementValue = as.character(measurementValue))
+  dplyr::mutate(measurementID = paste(eventID, 1:n(), sep = "_"))
 
 # create occurrence file 
 # get taxonomic information for Gryllus campestris & Tracheophyta
@@ -95,7 +99,7 @@ occurrence_plants <- event_plants %>%
                 individualCount = 1, # not really true??
                 basisOfRecord = "HumanObservation",
                 occurrenceStatus = "present",
-                occurrenceRemarks = NA) %>% 
+                organismID = NA) %>% 
   dplyr::left_join(taxon_info_plant, by = "phylum")
 
 # III. Mapping of cricket data --------------------------------------------
@@ -123,7 +127,8 @@ measurement_info_cricket <- meta_info_gryllus %>%
                                               Name == "batch9" ~ "N",
                                               Name == "batch10" ~ "O",
                                               Name %in% c("Total_repr_suc", "batch11") ~ "P",
-                                              Name == "Early_death" ~ "Q"), # TODO add group for treatments
+                                              Name == "Early_death" ~ "Q",
+                                              Name %in% c("P", "Lime") ~ "R"),
                 measurementType = dplyr::case_when(Name == "InitW" ~ "Initial mass (PATO:0000125) at eclosion (GO:0007562)",
                                                    Name == "W14d" ~ "Mass (PATO:0000125) after 14 days of abstinence",
                                                    Name == "Delta_W_init14" ~ "Weight change (NCIT:C9232) after 14 days of abstinence",
@@ -156,29 +161,31 @@ measurement_info_cricket <- meta_info_gryllus %>%
                                                                "DeltaW_repr_period", "DeltaW_adult_lifespan") ~ "g",
                                                    Name %in% c("Adult_lifespan", "Reprd_lifespan") ~ "days", 
                                                    Name %in% c("DeltaW_daily_adult_lifespan", "DeltaW_daily_repr_lifespan") ~ "g/day"),
-                measurementID = NA,
                 measurementMethod = "https://doi.org/10.3389/fevo.2021.659363")
 
 # create measurement or fact file
-MOF_crickets <- crickets %>% 
+measurements_crickets <- crickets %>% 
   dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>%
   tidyr::pivot_longer(cols = Lime:batch11, names_to = "variable", values_to = "measurementValue") %>% 
   dplyr::left_join(measurement_info_cricket %>%
                      dplyr::select(!"Description"), 
                    by = c("variable" = "Name")) %>% 
-  dplyr::mutate(eventID = paste("cricket", paste0("F", Femnum), substring(Treat, 1, 2), substring(Treat, 3, 5), eventGroup, sep = "_")) %>%
+  dplyr::mutate(eventID = paste0("C", Femnum, eventGroup)) %>%
   dplyr::group_by(eventID) %>%
-  dplyr::mutate(measurementID = paste(eventID, 1:n(), sep = "_")) %>%
-  dplyr::ungroup() %>% 
+  dplyr::mutate(measurementID = paste(eventID, 1:n(), sep = "_"),
+                organismID = Femnum) %>%
+  dplyr::ungroup() 
+
+MOF_crickets <- measurements_crickets %>% 
   dplyr::select("measurementID", "eventID", "measurementType", "measurementValue",
                 "measurementUnit", "measurementMethod")
 
 # create event file
-event_cricket <- MOF_crickets %>%
-  dplyr::distinct(., eventID, .keep_all = FALSE) %>% 
+event_cricket <- measurements_crickets %>%
+  dplyr::distinct(., eventID, .keep_all = TRUE) %>% 
   dplyr::mutate(verbatimLocality = "Radboud University",
-                samplingProtocol = "randomized complete block design (OBI:0500007)", 
-                sampleSizeValue = 1, # what is the correct sample Size here? 
+                samplingProtocol = "https://doi.org/10.3389/fevo.2021.659363", 
+                sampleSizeValue = 1, 
                 sampleSizeUnit = "individual",
                 type = "Event")
 
@@ -187,19 +194,19 @@ taxon_info_cricket <- taxize::get_gbifid_(sci = "Gryllus campestris") %>%
   dplyr::bind_rows() %>%
   dplyr::filter(status == "ACCEPTED" & matchtype == "EXACT") %>%
   tidyr::separate(canonicalname, c("Genus", "specificEpithet"), remove = FALSE) %>%
-  dplyr::select("scientificName" = "scientificname", "species" = "canonicalname", # TODO no species & canonical Name
-                "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet") 
+  dplyr::select("scientificName" = "scientificname", "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet") 
 
 # create occurrence file
 occurrence_crickets <- event_cricket %>% 
-  dplyr::select("eventID") %>% 
+  dplyr::select("eventID", "organismID") %>% 
   dplyr::mutate(occurrenceID = paste(eventID, 1, sep = "_"),
-                specificEpithet = "campestris",
                 individualCount = 1,
                 basisOfRecord = "HumanObservation", 
                 occurrenceStatus = "present",
-                organismID = NA) %>% # TODO add organismID
+                specificEpithet = "campestris") %>% 
   dplyr::left_join(taxon_info_cricket, by = "specificEpithet")
+
+
 
 # IV. combine files for plants and crickets into final DwC-A files  ------------
 
@@ -211,15 +218,32 @@ event <- dplyr::bind_rows(event_plants, event_cricket) %>%
                 countryCode = "NL",
                 institutionCode = "RU Radboud University",
                 institutionID = "https://ror.org/016xsfp80",
-                bibliographicCitation = "J.J. Vogels; W.C.E.P. Verberk; J.T. Kuper; M.J. Weijters; R. Bobbink; H. Siepel, 2021, 'Data from: How to restore invertebrate diversity of degraded heathlands?', https://doi.org/10.17026/dans-zsa-f3y9, DANS Data Station Life Sciences, V2")
+                bibliographicCitation = "J.J. Vogels; W.C.E.P. Verberk; J.T. Kuper; M.J. Weijters; R. Bobbink; H. Siepel, 2021, 'Data from: How to restore invertebrate diversity of degraded heathlands?', https://doi.org/10.17026/dans-zsa-f3y9, DANS Data Station Life Sciences, V2") %>% 
+  dplyr::select("eventID", "samplingProtocol", "sampleSizeValue", "sampleSizeUnit", "eventDate", 
+                "year", "country", "countryCode", "verbatimLocality", "type", "language", "bibliographicCitation", "institutionID", "institutionCode")
 
-measurement_or_fact <- dplyr::bind_rows(MOF_plants, MOF_crickets)    
+measurement_or_fact <- dplyr::bind_rows(MOF_plants, MOF_crickets) %>% 
+  dplyr::mutate(measurementValue = stringr::str_replace(string = measurementValue, pattern = "NO", replacement = "no"),
+                measurementValue = stringr::str_replace(string = measurementValue, pattern = "YES", replacement = "yes")) %>% 
+  dplyr::select("measurementID", "eventID", "measurementType", "measurementValue", "measurementUnit", "measurementMethod")
 
-occurrence <- dplyr::bind_rows(occurrence_crickets, occurrence_plants)
+occurrence <- dplyr::bind_rows(occurrence_crickets, occurrence_plants) %>% 
+  dplyr::select("eventID", "occurrenceID", "individualCount", "basisOfRecord", "occurrenceStatus", "organismID", "scientificName", "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet")
 
 
 # V. Save DwC-A files -----------------------------------------------------
 
-#write.csv(measurement_or_fact, file = here::here("data", "crickets_extendedmeasurementorfact.csv"), row.names = FALSE)
-#write.csv(event, file = here::here("data", "crickets_event.csv"), row.names = FALSE)
-#write.csv(occurrence, file = here::here("data", "crickets_occurrence.csv), row.names = FALSE)
+write.csv(measurement_or_fact, file = here::here("data", "crickets_extendedmeasurementorfact.csv"), row.names = FALSE)
+write.csv(event, file = here::here("data", "crickets_event.csv"), row.names = FALSE)
+write.csv(occurrence, file = here::here("data", "crickets_occurrence.csv"), row.names = FALSE)
+
+
+# VI. Create meta.xml for cricket DwC-A -------------------------------------
+
+# fetch functions to create meta.xml file from according script and create meta.xml file for cricket DwC-A
+source(here::here("R", "create-meta-xml-of-DwCA.R"))
+
+create_meta_xml(core = c("Event" = here::here("data", "crickets_event.csv")),
+                extensions = c("ExtendedMeasurementOrFact" = here::here("data", "crickets_extendedmeasurementorfact.csv"),
+                               "Occurrence" = here::here("data", "crickets_occurrence.csv")),
+                file = here::here("data", "crickets_meta.xml"))
