@@ -20,7 +20,8 @@ library(stringr)
 # Note: function `retrieve_dataverse_data()` comes from R/dataverse-api.R.
 source(here::here("R", "02_budburst_retrieveData-DataverseAPI.R"))
 
-dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.80227/test-QMGPSW")
+dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.80227/test-QMGPSW",
+                                          server = "demo.dataverse.nl")
 
 # Store each table as separate R objects for easier use, and exclude README
 purrr::walk2(.x = names(dataverse_list)[-1],
@@ -309,3 +310,11 @@ measurement_or_fact <-
 
 # Save file as text file
 write.csv(measurement_or_fact, file = here::here("data", "budburst_extendedmeasurementorfact.csv"), row.names = FALSE)
+
+# Create meta.xml for bud burst DwC-A -------------------------------------
+source(here::here("R", "create-meta-xml-of-DwCA.R"))
+
+create_meta_xml(core = c("Event" = here::here("data", "budburst_event.csv")),
+                extensions = c("ExtendedMeasurementOrFact" = here::here("data", "budburst_extendedmeasurementorfact.csv"),
+                               "Occurrence" = here::here("data", "budburst_occurrence.csv")),
+                file = here::here("data", "budburst_meta.xml"))
