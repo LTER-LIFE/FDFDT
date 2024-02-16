@@ -57,15 +57,42 @@ retrieve_dataverse_data <- function(dataset,
     purrr::pluck("dataFile")
   
   # Retrieve each data file in list using their unique IDs
-  data <- purrr::map(.x = dataset_files$id,
-                     .f = ~{
-                       
-                       httr::GET(url = paste0("https://", server, "/api/",
-                                              "access/datafile/", .x),
-                                 httr::add_headers("X-Dataverse-key" = key)) |>
-                         httr::content(encoding = "UTF-8")
-                       
-                     }) |>
+  data <- purrr::map2(.x = dataset_files$id,
+                      .y = dataset_files$contentType,
+                      .f = ~{
+                        
+                        file <- httr::GET(url = paste0("https://", server, "/api/",
+                                                       "access/datafile/", .x),
+                                          httr::add_headers("X-Dataverse-key" = key)) |>
+                          httr::content(encoding = "UTF-8")
+                        
+                        # Fix text reading issue
+                        # httr::content() does not know what to do with internet media (MIME) type "text/plain"
+                        if(.y == "text/plain") {
+                          
+                          file <- read.table(text = file, 
+                                             header = TRUE, 
+                                             stringsAsFactors = FALSE, 
+                                             sep = "", 
+                                             fill = TRUE)
+                          
+                        } 
+                        
+                        # Fix csv separator issue
+                        # httr::content() interprets .csv files but fails when those files are use
+                        # ";" instead of "," as separator
+                        if(.y == "text/csv" && "spec_tbl_df" %in% class(file) && ncol(file) == 1) {
+                          
+                          file <- tidyr::separate_wider_delim(data = file, 
+                                                              cols = 1, 
+                                                              names = stringr::str_split_1(names(file), pattern = ";"), 
+                                                              delim = ";")
+                          
+                        }
+                        
+                        return(file)
+                        
+                      }) |>
     purrr::set_names(stringr::str_remove_all(string = dataset_files$filename, "\\..*"))
   
   # If API is unsuccessful, prompt message to check DOI, version and/or server
