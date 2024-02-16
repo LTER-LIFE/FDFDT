@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Created: 2024-02-07
-# Last updated: 2024-02-15
+# Last updated: 2024-02-16
 
 
 # I. Preparation ----------------------------------------------------------
@@ -13,20 +13,27 @@ library(tidyr)
 library(here)
 library(stringr)
 
-# load data
-## plant chemical data
-plant_chem <- read.table(here::here("data", "plantchem.csv"), header = TRUE, sep = ";")
-crickets <- read.table(here::here("data", "gryllus.txt"), header = TRUE)
+source(here::here("R", "retrieveData-API-Dataverse.R"))
 
-## info files with columns descriptions
-meta_info_gryllus <- read.table(here::here("data", "meta_info_gryllus.txt"), header = TRUE) 
-meta_info_plantchem <- read.table(here::here("data", "meta_info_plantchem.txt"), header = TRUE) 
+# Retrieve data from Data station
+
+dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.17026/dans-zsa-f3y9",
+                                          server = "lifesciences.datastations.nl")
+
+
+purrr::map2(.x = c("gryllus", "meta_info_gryllus", "meta_info_plantchem", "plantchem"),
+            .y = dataverse_list[names(dataverse_list) %in% c("gryllus", "meta_info_gryllus", "meta_info_plantchem", "plantchem")],
+            .f = ~{
+              
+              assign(.x, .y, envir = .GlobalEnv)
+            
+              })
 
 
 # II. Mapping of plant data  ----------------------------------------------
 
 ## create eventID: event is measure per plot (within one block) 
-df <- plant_chem %>% 
+df <- plantchem %>% 
     dplyr::mutate(TreatmentID = dplyr::case_when(Treat == "P+Ca+" ~ "PCa",
                                                  Treat == "P-Ca+" ~ "0Ca",
                                                  Treat == "P+Ca-" ~ "P0",
@@ -41,22 +48,20 @@ event_plants <- df %>%
                 samplingProtocol = "randomized complete block design (OBI:0500007)", 
                 sampleSizeValue = 225, 
                 sampleSizeUnit = "square metre",
-                type = "Event") # is that correct? 
+                type = "Event")
 
 
 
 # measurement or fact
 MOF_plants <- df %>%
-  dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>%
   tidyr::pivot_longer(cols = P:NPmol, names_to = "elements", values_to = "measurementValue") %>%
   dplyr::mutate(measurementUnit = dplyr::case_when(elements %in% c("Pper","Cper","Nper") ~ "percent (UO:0000187)",
-                                                   elements %in% c("CNper", "CPper", "NPper") ~ "?",
-                                                   elements %in% c("CNmol", "CPmol", "NPmol") ~ "?",
+                                                   elements %in% c("CNper", "CPper", "NPper", "CNmol", "CPmol", "NPmol") ~ NA,
                                                    TRUE ~ "micromole/gram (SNOMED:258816005) dry weight"),
                 measurementType = dplyr::case_when(elements == "Al" ~ "Aluminium (CHEBI:28984) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)",
                                                    elements == "Ca" ~ "Calcium (CHEBI:22984) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)",
                                                    elements == "Fe" ~ "Iron (CHEBI:18248) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)",
-                                                   elements == "K" ~ "Potassium (CHEBI:26216) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)",                                    
+                                                   elements == "K" ~ "Potassium (CHEBI:26216) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)", 
                                                    elements == "Mg" ~ "Magnesium (CHEBI:25107) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)",                                    
                                                    elements == "Mn" ~ "Manganese (CHEBI:18291) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)",                                    
                                                    elements == "S" ~ "Sulfur (CHEBI:26833) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)",                                    
@@ -164,7 +169,7 @@ measurement_info_cricket <- meta_info_gryllus %>%
                 measurementMethod = "https://doi.org/10.3389/fevo.2021.659363")
 
 # create measurement or fact file
-measurements_crickets <- crickets %>% 
+measurements_crickets <- gryllus %>% 
   dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>%
   tidyr::pivot_longer(cols = Lime:batch11, names_to = "variable", values_to = "measurementValue") %>% 
   dplyr::left_join(measurement_info_cricket %>%
