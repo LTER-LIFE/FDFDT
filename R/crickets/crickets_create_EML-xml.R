@@ -70,9 +70,6 @@ metadataProvider <- list(organizationName = "Radboud University",
                          address = list(country = "NL",
                                         city = "Nijmegen"))
 
-# Date of publication of the data set
-publication_date <- "2021-05-04" # FIXME has to be our publishing date, right?
-
 # Language of the data
 language <- "en"
 
@@ -95,7 +92,7 @@ licensed <- list(licenseName = "Creative Commons Attribution 4.0 International (
                  url = "https://creativecommons.org/licenses/by/4.0/")
 
 # intellectual rights
-# FIXME what about rightsHolder and accesRights?? what EML equivalent can be used here? 
+intellectualRights <- list(para = "Rights holder of this resource is Radboud University.") 
 
 # Geographic coverage of the data
 geographic_coverage <- list(geographicDescription = "Field experiment in Hoge Veluwe National Park and breeding experiments at Radboud University",
@@ -103,7 +100,6 @@ geographic_coverage <- list(geographicDescription = "Field experiment in Hoge Ve
                                                        eastBoundingCoordinate = "5.829359788293456",
                                                        northBoundingCoordinate = "52.04231849823671",
                                                        southBoundingCoordinate = "52.04231849823671")) 
-# FIXME not schema valid without South and west, but is that the way to go?
 
 # Temporal coverage of the data
 temporal_coverage <- list(rangeOfDates = list(beginDate = list(calendarDate = "2014-04-01"),
@@ -156,7 +152,7 @@ packageId <- "21d3127e-e9f0-4c74-b537-0f3217cef732"
 eml <- list(dataset =
               list(title = title,
                    creator = creator,
-                   pubDate = publication_date,
+                   #pubDate = publication_date,
                    language = language,
                    abstract = abstract,
                    keywordSet = keywords,
@@ -164,7 +160,8 @@ eml <- list(dataset =
                    coverage = coverage,
                    contact = contact_person,
                    methods = methods,
-                   maintenance = maintenance),
+                   maintenance = maintenance,
+                   intellectualRights = intellectualRights),
             packageId = packageId, 
             system = "uuid")
 
@@ -201,7 +198,7 @@ if(!emld::eml_validate(EML)) {
   
   stop("The generated EML is not schema-valid.")
   
-} # FIXME not yet schema valid -> additionally, it would be better to also give the errors if invalid
+}
 
 # Write final EML file
 xml2::write_xml(EML, file = here::here("data", "cricket_EML.xml"))

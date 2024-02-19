@@ -80,7 +80,6 @@
       </address>
       <userId directory="info:eu-repo/dai/nl/">125440413</userId>
     </creator>
-    <pubDate>2021-05-04</pubDate>
     <language>en</language>
     <abstract>
       <para>We tested whether increased P-limitation and/or acidification reduced food quality of plants after sod-cutting management by performing feeding experiments with the field cricket (Gryllus campestris), using food obtained from a field experiment in which we applied P and/or lime to sod-cut heathland. We show that increased plant N:P ratio following sod-cutting constrains the reproductive potential in Gryllus campestris. However, liming greatly reduced reproductive performance. Detailed analysis on elemental stoichiometry revealed skewed Fe:Mg and Mn:Mg ratio’s induced by liming, which diverge strongly from invertebrate ratios. The datafiles are part of a study that investigated the effects of methods aimed to restore P availability (reduced due to sod-cutting) and of reducing soil acidity (increased due to acid deposition) on heathland vegetation nutritional quality for invertebrates, using the field cricket Gryllus campestris (L.) as model species. This study was performed in the National Park the Hoge Veluwe (experimental plots) and the Radboud University Nijmegen (controlled feeding experiment) from April to July 2014. This dataset contains field cricket life history and reproduction measurements and plant tissue elemental content data results from the experiment. The full methodology can be found in the linked paper.</para>
@@ -95,6 +94,9 @@
       <keyword>insect decline</keyword>
       <keyword>sod-cutting</keyword>
     </keywordSet>
+    <intellectualRights>
+      <para>Rights holder of this resource is Radboud University.</para>
+    </intellectualRights>
     <licensed>
       <licenseName>Creative Commons Attribution 4.0 International (CC BY 4.0)</licenseName>
       <url>https://creativecommons.org/licenses/by/4.0/</url>
@@ -141,6 +143,12 @@
         </taxonomicClassification>
       </taxonomicCoverage>
     </coverage>
+    <maintenance>
+      <description>
+        <para>As this dataset belongs to a publication, it is unknown whether the data is still further updated.</para>
+      </description>
+      <maintenanceUpdateFrequency>unknown</maintenanceUpdateFrequency>
+    </maintenance>
     <contact>
       <organizationName>Radboud University</organizationName>
       <address>
