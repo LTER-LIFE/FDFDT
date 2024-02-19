@@ -79,7 +79,7 @@ retrieve_dataverse_data <- function(dataset,
                         } 
                         
                         # Fix csv separator issue
-                        # httr::content() interprets .csv files but fails when those files are use
+                        # httr::content() interprets .csv files but fails when those files use
                         # ";" instead of "," as separator
                         if(.y == "text/csv" && "spec_tbl_df" %in% class(file) && ncol(file) == 1) {
                           
