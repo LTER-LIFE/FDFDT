@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="21d3127e-e9f0-4c74-b537-0f3217cef732" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
   <dataset>
-    <title xml:lang="en">Data from: How to restore invertebrate diversity of degraded heathlands?</title>
+    <title>Data from: How to restore invertebrate diversity of degraded heathlands?</title>
     <creator>
       <individualName>
         <salutation>drs.</salutation>
@@ -13,7 +13,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId directory="info:eu-repo/dai/nl/">327509856</userId>
+      <userId>327509856</userId>
     </creator>
     <creator>
       <individualName>
@@ -26,7 +26,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId directory="info:eu-repo/dai/nl/">265948576</userId>
+      <userId>265948576</userId>
     </creator>
     <creator>
       <individualName>
@@ -39,7 +39,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId directory="info:eu-repo/dai/nl/">274568349</userId>
+      <userId>274568349</userId>
     </creator>
     <creator>
       <individualName>
@@ -52,7 +52,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId directory="info:eu-repo/dai/nl/">334082919</userId>
+      <userId>334082919</userId>
     </creator>
     <creator>
       <individualName>
@@ -65,7 +65,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId directory="info:eu-repo/dai/nl/">075033682</userId>
+      <userId>075033682</userId>
     </creator>
     <creator>
       <individualName>
@@ -78,7 +78,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId directory="info:eu-repo/dai/nl/">125440413</userId>
+      <userId>125440413</userId>
     </creator>
     <language>en</language>
     <abstract>
@@ -127,19 +127,19 @@
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Molinia caerulea</taxonRankValue>
           <commonName>Purple moor-grass</commonName>
-          <taxonId provider="https://www.gbif.org/">5289877</taxonId>
+          <taxonId>5289877</taxonId>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Calluna vulgaris</taxonRankValue>
           <commonName>Common heather</commonName>
-          <taxonId provider="https://www.gbif.org/">2882482</taxonId>
+          <taxonId>2882482</taxonId>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Gryllus campestris</taxonRankValue>
           <commonName>European field cricket</commonName>
-          <taxonId provider="https://www.gbif.org/">1716462</taxonId>
+          <taxonId>1716462</taxonId>
         </taxonomicClassification>
       </taxonomicCoverage>
     </coverage>

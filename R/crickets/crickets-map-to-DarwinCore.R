@@ -49,7 +49,7 @@ event_plants <- plants %>%
                 geodeticDatum = "EPSG:4326")
 
 # create occurrence file 
-# get taxonomic information for Gryllus campestris & Tracheophyta
+# get taxonomic information for Tracheophyta
 taxon_info_plant <- taxize::get_gbifid_(sci = "Tracheophyta") %>%
   dplyr::bind_rows() %>%
   dplyr::filter(status == "ACCEPTED" & matchtype == "EXACT") %>%

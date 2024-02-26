@@ -12,13 +12,13 @@ library(tidyr)
 library(taxize)
 library(here)
 library(purrr)
-library(lubirdate)
+library(lubridate)
 library(stringr)
 
 # Retrieve bud burst data files as list (including README) from Dataverse
 
 # Note: function `retrieve_dataverse_data()` comes from R/dataverse-api.R.
-source(here::here("R", "02_budburst_retrieveData-DataverseAPI.R"))
+source(here::here("R", "retrieveData-API-Dataverse.R"))
 
 dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.80227/test-QMGPSW",
                                           server = "demo.dataverse.nl")
