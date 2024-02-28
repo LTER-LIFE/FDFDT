@@ -20,7 +20,7 @@ library(stringr)
 # Note: function `retrieve_dataverse_data()` comes from R/dataverse-api.R.
 source(here::here("R", "retrieveData-API-Dataverse.R"))
 
-dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.80227/test-QMGPSW",
+dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.80227/PDVNL/VLPXA3",
                                           server = "demo.dataverse.nl")
 
 # Store each table as separate R objects for easier use, and exclude README
