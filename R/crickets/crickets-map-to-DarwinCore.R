@@ -11,6 +11,8 @@
 library(dplyr)
 library(tidyr)
 library(here)
+library(tidyselect)
+library(stringr)
 
 source(here::here("R", "retrieveData-API-Dataverse.R"))
 
@@ -33,7 +35,7 @@ purrr::map2(.x = c("gryllus", "meta_info_gryllus", "meta_info_plantchem", "plant
 
 ## create eventID: event is measure per plot (within one block) 
 plants <- plantchem %>% 
-  dplyr::mutate(eventID = paste0(paste0(substring(Block, 1, 2), substring(Block, 4, 4)), Treat))
+  dplyr::mutate(eventID = paste0(substring(Block, 1, 2), substring(Block, 4, 4), Treat))
 
 
 # create event table
@@ -67,7 +69,7 @@ occurrence_plants <- event_plants %>%
 
 # measurement or fact
 MOF_plants <- plants %>%
-  tidyr::pivot_longer(cols = P:NPmol, names_to = "variable", values_to = "measurementValue") %>%
+  tidyr::pivot_longer(cols = "P":"NPmol", names_to = "variable", values_to = "measurementValue") %>%
   dplyr::mutate(measurementUnit = dplyr::case_when(variable %in% c("Pper","Cper","Nper") ~ "percent (UO:0000187)",
                                                    variable %in% c("CNper", "CPper", "NPper", "CNmol", "CPmol", "NPmol", "P", "Dol") ~ NA,
                                                    TRUE ~ "micromole/gram (SNOMED:258816005) dry weight"),
@@ -108,7 +110,7 @@ MOF_plants <- plants %>%
   dplyr::left_join(occurrence_plants %>%
                      dplyr::select("eventID", "occurrenceID"),
                    by = "eventID") %>% 
-  dplyr::mutate(measurementID = paste(occurrenceID, 1:n(), sep = "_"), .by = "eventID") 
+  dplyr::mutate(measurementID = paste(occurrenceID, 1:dplyr::n(), sep = "_"), .by = "eventID") 
 
 
 # III. Mapping of cricket data --------------------------------------------
@@ -176,8 +178,8 @@ measurement_info_cricket <- meta_info_gryllus %>%
 
 # create measurement or fact file
 measurements_crickets <- gryllus %>% 
-  dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>%
-  tidyr::pivot_longer(cols = Lime:batch11, names_to = "variable", values_to = "measurementValue") %>% 
+  dplyr::mutate(dplyr::across(tidyselect::everything(), as.character)) %>%
+  tidyr::pivot_longer(cols = "Lime":"batch11", names_to = "variable", values_to = "measurementValue") %>% 
   dplyr::left_join(measurement_info_cricket %>%
                      dplyr::select(!"Description"), 
                    by = c("variable" = "Name")) %>% 
@@ -185,7 +187,7 @@ measurements_crickets <- gryllus %>%
 
 # create event file
 event_cricket <- measurements_crickets %>%
-  dplyr::distinct(., eventID, .keep_all = TRUE) %>% 
+  dplyr::distinct(eventID, .keep_all = TRUE) %>% 
   dplyr::mutate(verbatimLocality = "Radboud University",
                 samplingProtocol = "https://doi.org/10.3389/fevo.2021.659363", 
                 sampleSizeValue = 1, 
@@ -216,7 +218,7 @@ MOF_crickets <- measurements_crickets %>%
   left_join(occurrence_crickets %>% 
               dplyr::select("eventID", "occurrenceID"),
             by = "eventID") %>%
-  dplyr::mutate(measurementID = paste(occurrenceID, 1:n(), sep = "_"), .by = "eventID") %>%
+  dplyr::mutate(measurementID = paste(occurrenceID, 1:dplyr::n(), sep = "_"), .by = "eventID") %>%
   dplyr::select("measurementID", "eventID", "measurementType", "measurementValue", "measurementUnit", "measurementMethod")
 
 # IV. combine files for plants and crickets into final DwC-A files  ------------
@@ -235,8 +237,7 @@ event <- dplyr::bind_rows(event_plants, event_cricket) %>%
                 "language", "bibliographicCitation", "institutionID", "institutionCode")
 
 measurement_or_fact <- dplyr::bind_rows(MOF_plants, MOF_crickets) %>% 
-  dplyr::mutate(measurementValue = stringr::str_replace(string = measurementValue, pattern = "NO", replacement = "no"),
-                measurementValue = stringr::str_replace(string = measurementValue, pattern = "YES", replacement = "yes")) %>% 
+  dplyr::mutate(measurementValue = tolower(measurementValue)) %>% 
   dplyr::select("measurementID", "eventID", "measurementType", "measurementValue", "measurementUnit", "measurementMethod", "measurementRemarks")
 
 occurrence <- dplyr::bind_rows(occurrence_crickets, occurrence_plants) %>% 
