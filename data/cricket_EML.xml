@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="6b5a5951-f5b6-487a-8225-e5ee9a419c7b" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+  <dataset>
+    <title xml:lang="en">
+      <value>Data from: How to restore invertebrate diversity of degraded heathlands?</value>
+    </title>
+    <title xml:lang="en">
+      <value>A case study on the reproductive performance of the field cricket Gryllus campestris (L.)</value>
+    </title>
+    <creator>
+      <individualName>
+        <salutation>drs.</salutation>
+        <givenName>J.J.</givenName>
+        <surName>Vogels</surName>
+      </individualName>
+      <organizationName>Radboud University</organizationName>
+      <address>
+        <city>Nijmegen</city>
+        <country>NL</country>
+      </address>
+      <userId directory="info:eu-repo/dai/nl/">327509856</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <salutation>dr</salutation>
+        <givenName>W.C.E.P.</givenName>
+        <surName>Verberk</surName>
+      </individualName>
+      <organizationName>Radboud University</organizationName>
+      <address>
+        <city>Nijmegen</city>
+        <country>NL</country>
+      </address>
+      <userId directory="info:eu-repo/dai/nl/">265948576</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <salutation>drs.</salutation>
+        <givenName>J.T.</givenName>
+        <surName>Kuper</surName>
+      </individualName>
+      <organizationName>Radboud University</organizationName>
+      <address>
+        <city>Nijmegen</city>
+        <country>NL</country>
+      </address>
+      <userId directory="info:eu-repo/dai/nl/">274568349</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <salutation>drs.</salutation>
+        <givenName>M.J.</givenName>
+        <surName>Weijters</surName>
+      </individualName>
+      <organizationName>Radboud University</organizationName>
+      <address>
+        <city>Nijmegen</city>
+        <country>NL</country>
+      </address>
+      <userId directory="info:eu-repo/dai/nl/">334082919</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <salutation>dr</salutation>
+        <givenName>R.</givenName>
+        <surName>Bobbink</surName>
+      </individualName>
+      <organizationName>Radboud University</organizationName>
+      <address>
+        <city>Nijmegen</city>
+        <country>NL</country>
+      </address>
+      <userId directory="info:eu-repo/dai/nl/">075033682</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <salutation>prof. dr.</salutation>
+        <givenName>H.</givenName>
+        <surName>Siepel</surName>
+      </individualName>
+      <organizationName>Radboud University</organizationName>
+      <address>
+        <city>Nijmegen</city>
+        <country>NL</country>
+      </address>
+      <userId directory="info:eu-repo/dai/nl/">125440413</userId>
+    </creator>
+    <language>en</language>
+    <abstract>
+      <para>We tested whether increased P-limitation and/or acidification reduced food quality of plants after sod-cutting management by performing feeding experiments with the field cricket (Gryllus campestris), using food obtained from a field experiment in which we applied P and/or lime to sod-cut heathland. We show that increased plant N:P ratio following sod-cutting constrains the reproductive potential in Gryllus campestris. However, liming greatly reduced reproductive performance. Detailed analysis on elemental stoichiometry revealed skewed Fe:Mg and Mn:Mg ratio’s induced by liming, which diverge strongly from invertebrate ratios. The datafiles are part of a study that investigated the effects of methods aimed to restore P availability (reduced due to sod-cutting) and of reducing soil acidity (increased due to acid deposition) on heathland vegetation nutritional quality for invertebrates, using the field cricket Gryllus campestris (L.) as model species. This study was performed in the National Park the Hoge Veluwe (experimental plots) and the Radboud University Nijmegen (controlled feeding experiment) from April to July 2014. This dataset contains field cricket life history and reproduction measurements and plant tissue elemental content data results from the experiment. The full methodology can be found in the linked paper.</para>
+    </abstract>
+    <keywordSet>
+      <keyword>ecological stoichiometry</keyword>
+      <keyword>acidification</keyword>
+      <keyword>management</keyword>
+      <keyword>nitrogen deposition</keyword>
+      <keyword>elemental ecology</keyword>
+      <keyword>invertebrate diversity</keyword>
+      <keyword>insect decline</keyword>
+      <keyword>sod-cutting</keyword>
+    </keywordSet>
+    <intellectualRights>
+      <para>Rights holder of this resource is Radboud University.</para>
+    </intellectualRights>
+    <licensed>
+      <licenseName>CC BY 4.0</licenseName>
+      <url>http://creativecommons.org/licenses/by/4.0</url>
+    </licensed>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>Field experiment in Hoge Veluwe National Park and breeding experiments at Radboud University</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>5.8293598</westBoundingCoordinate>
+          <eastBoundingCoordinate>5.8293598</eastBoundingCoordinate>
+          <northBoundingCoordinate>52.0423185</northBoundingCoordinate>
+          <southBoundingCoordinate>52.0423185</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates>
+          <beginDate>
+            <calendarDate>2014-04-01</calendarDate>
+          </beginDate>
+          <endDate>
+            <calendarDate>2014-07-01</calendarDate>
+          </endDate>
+        </rangeOfDates>
+      </temporalCoverage>
+      <taxonomicCoverage>
+        <generalTaxonomicCoverage>For the feeding experiment the two dominant plant species (common heather and purple moor-grass) were harvested and the breeding experiment was conducted on the European field cricket</generalTaxonomicCoverage>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Molinia caerulea</taxonRankValue>
+          <commonName>Purple moor-grass</commonName>
+          <taxonId provider="https://www.gbif.org/">5289877</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Calluna vulgaris</taxonRankValue>
+          <commonName>Common heather</commonName>
+          <taxonId provider="https://www.gbif.org/">2882482</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Gryllus campestris</taxonRankValue>
+          <commonName>European field cricket</commonName>
+          <taxonId provider="https://www.gbif.org/">1716462</taxonId>
+        </taxonomicClassification>
+      </taxonomicCoverage>
+    </coverage>
+    <maintenance>
+      <description>
+        <para>As this dataset belongs to a publication, it is unknown whether the data is still further updated.</para>
+      </description>
+      <maintenanceUpdateFrequency>unknown</maintenanceUpdateFrequency>
+    </maintenance>
+    <contact>
+      <organizationName>RU  Radboud University</organizationName>
+      <address>
+        <city>Nijmegen</city>
+        <country>NL</country>
+      </address>
+    </contact>
+    <methods>
+      <methodStep>
+        <description>
+          <para>In a randomized block design treatment combinations of liming and phosphorous addition were applied to 20 plots which previously have undergone sod-cutting. The two dominant plant species have been cut and used as food for crickets in a breeding experiment. Individual female crickets were fed with plants of one treatment and their reproductive success measured. For details see the cited publication</para>
+        </description>
+        <citation>
+          <bibtex> @article{Vogels_2021, title={How to Restore Invertebrate Diversity of Degraded Heathlands? A Case Study on the Reproductive Performance of the Field Cricket Gryllus campestris (L.)}, volume={9}, ISSN={2296-701X}, url={http://dx.doi.org/10.3389/fevo.2021.659363}, DOI={10.3389/fevo.2021.659363}, journal={Frontiers in Ecology and Evolution}, publisher={Frontiers Media SA}, author={Vogels, Joost J. and Verberk, W. C. E. P. and Kuper, J. T. and Weijters, M. J. and Bobbink, R. and Siepel, H.}, year={2021}, month=may }
+</bibtex>
+        </citation>
+      </methodStep>
+    </methods>
+  </dataset>
+</eml:eml>
