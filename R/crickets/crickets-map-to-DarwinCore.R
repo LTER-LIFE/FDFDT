@@ -46,8 +46,8 @@ event_plants <- plants %>%
                 sampleSizeValue = 225, 
                 sampleSizeUnit = "square metre",
                 type = "Event",
-                decimalLongitude = 5.829359788293456,
-                decimalLatitude = 52.04231849823671,
+                decimalLongitude = 5.8293598,
+                decimalLatitude = 52.0423185,
                 geodeticDatum = "EPSG:4326")
 
 # create occurrence file 

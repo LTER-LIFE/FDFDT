@@ -27,12 +27,15 @@ assign_uuid <- function(dataset){
   } else if (nrow(uuid_lookup %>% dplyr::filter(dataset_name == dataset)) == 0){
     
     new_uuid <- uuid::UUIDgenerate(use.time = FALSE)
-    df <- tibble::tibble(dataset_name = dataset, uuid = new_uuid)
     
-    dplyr::bind_rows(uuid_lookup, df) %>% 
-      write.csv(file = here::here("data", "uuid_lookup.csv"), row.names = FALSE)
+    uuid_lookup <- uuid_lookup %>%
+      dplyr::mutate(dataset_name = dataset,
+                    uuid = new_uuid)
+    
+    write.csv(uuid_lookup, file = here::here("data", "uuid_lookup.csv"), row.names = FALSE)
     
     return(new_uuid)
+    
   }
   
 }
