@@ -2,6 +2,7 @@
 
 # Author. Cherine Jantzen
 # Created: 2024-02-09
+# Last updated: 2024-03-01
 
 # Load packages
 library(emld)
@@ -10,11 +11,31 @@ library(ids)
 library(keyring)
 library(xml2)
 library(here)
+library(purrr)
+library(dplyr)
+library(httr)
+library(jsonlite)
 
 # 1. Fill in metadata ----------------------------------------------------
+server <- "lifesciences.datastations.nl"
+dataset_doi <- "doi:10.17026/dans-zsa-f3y9"
+key <- rstudioapi::askForSecret("API key")
+
+# retrieve metadata from Data Station
+meta_fields <- httr::GET(url = paste0("https://", server, "/api/",
+                                      "datasets/:persistentId?persistentId=", dataset_doi),
+                         httr::add_headers("X-Dataverse-key" = key)) |>
+  httr::content(as = "text", encoding = "UTF-8") |>
+  jsonlite::fromJSON() |>
+  purrr::pluck("data") |>
+  purrr::pluck("latestVersion") |>
+  purrr::pluck("metadataBlocks") |>
+  purrr::pluck("citation") |>
+  purrr::pluck("fields")
 
 # Title of the data set
-title <- "Data from: How to restore invertebrate diversity of degraded heathlands?"
+title <- list(list(value = meta_fields |> dplyr::filter(typeName == "title") |> purrr::pluck("value")),
+              list(value = meta_fields |> dplyr::filter(typeName == "alternativeTitle") |> purrr::pluck("value")))
 
 # Information on the creator of the data set
 creator <- list(list(individualName = list(salutation = "drs.",
@@ -61,7 +82,12 @@ creator <- list(list(individualName = list(salutation = "drs.",
                      userId = "125440413"))
 
 # Information on the contact person
-contact_person <- list(organizationName = "Radboud University",
+contact_person <- list(organizationName = meta_fields |>
+                         dplyr::filter(typeName == "datasetContact") |>
+                         purrr::pluck("value") |>
+                         dplyr::bind_rows() |>
+                         purrr::pluck("datasetContactName") |>
+                         purrr::pluck("value"),
                        address = list(country = "NL",
                                       city = "Nijmegen"))
 
@@ -78,28 +104,35 @@ abstract <- list(para = "We tested whether increased P-limitation and/or acidifi
 
 
 # List of keywords and the thesaurus they are listed in
-keywords <- list(keyword = list("ecological stoichiometry", 
-                                "acidification", 
-                                "management", 
-                                "nitrogen deposition", 
-                                "elemental ecology", 
-                                "invertebrate diversity", 
-                                "insect decline", 
-                                "sod-cutting"))
+keywords <- list(keyword = list(meta_fields |>
+                                  dplyr::filter(typeName == "keyword") |>
+                                  purrr::pluck("value") |>
+                                  dplyr::bind_rows() |>
+                                  purrr::pluck("keywordValue") |>
+                                  purrr::pluck("value")))
 
 # License for the work
-licensed <- list(licenseName = "Creative Commons Attribution 4.0 International (CC BY 4.0)",
-                 url = "https://creativecommons.org/licenses/by/4.0/")
+meta_license <- httr::GET(url = paste0("https://", server, "/api/",
+                                  "datasets/:persistentId?persistentId=", dataset_doi),
+                     httr::add_headers("X-Dataverse-key" = key)) |>
+  httr::content(as = "text", encoding = "UTF-8") |>
+  jsonlite::fromJSON() |>
+  purrr::pluck("data") |>
+  purrr::pluck("latestVersion") |>
+  purrr::pluck("license")
+
+licensed <- list(licenseName = meta_license$name,
+                 url = meta_license$uri)
 
 # intellectual rights
 intellectualRights <- list(para = "Rights holder of this resource is Radboud University.") 
 
 # Geographic coverage of the data
 geographic_coverage <- list(geographicDescription = "Field experiment in Hoge Veluwe National Park and breeding experiments at Radboud University",
-                            boundingCoordinates = list(westBoundingCoordinate = "5.829359788293456",
-                                                       eastBoundingCoordinate = "5.829359788293456",
-                                                       northBoundingCoordinate = "52.04231849823671",
-                                                       southBoundingCoordinate = "52.04231849823671")) 
+                            boundingCoordinates = list(westBoundingCoordinate = "5.8293598",
+                                                       eastBoundingCoordinate = "5.8293598",
+                                                       northBoundingCoordinate = "52.0423185",
+                                                       southBoundingCoordinate = "52.0423185")) 
 
 # Temporal coverage of the data
 temporal_coverage <- list(rangeOfDates = list(beginDate = list(calendarDate = "2014-04-01"),
@@ -131,21 +164,15 @@ maintenance <- list(maintenanceUpdateFrequency = "unknown",
 
 # Methods for data collection
 methods <- list(methodStep = list(description = list(para = "In a randomized block design treatment combinations of liming and phosphorous addition were applied to 20 plots which previously have undergone sod-cutting. The two dominant plant species have been cut and used as food for crickets in a breeding experiment. Individual female crickets were fed with plants of one treatment and their reproductive success measured. For details see the cited publication"),
-                                  citation = list(bibtex = "@article{vogels2021restore,
-  title={How to restore invertebrate diversity of degraded heathlands? A case study on the reproductive performance of the field cricket Gryllus campestris (L.)},
-  author={Vogels, Joost J and Verberk, WCEP and Kuper, JT and Weijters, MJ and Bobbink, R and Siepel, H},
-  journal={Frontiers in Ecology and Evolution},
-  volume={9},
-  pages={659363},
-  year={2021},
-  publisher={Frontiers Media SA}
-}")))
+                                  citation = list(bibtex = rcrossref::cr_cn("10.3389/fevo.2021.659363", format = "bibtex"))))
 
 
 # III. Create EML file ----------------------------------------------------
 
 # Package uuid
-packageId <- "21d3127e-e9f0-4c74-b537-0f3217cef732"
+source(here::here("R", "assign_uuid.R"))
+
+packageId <- assign_uuid(dataset = "crickets")
 
 
 # Combine all components in one list
@@ -189,7 +216,7 @@ xml2::xml_set_attr(title_node, attr = "xml:lang", value = "en")
 # Identify userId node
 userId_node <- xml2::xml_find_all(EML, xpath = "//userId")
 
-# Set title attribute
+# Set directory attribute
 xml2::xml_set_attr(userId_node, attr = "directory", value = "info:eu-repo/dai/nl/")
 
 
@@ -202,4 +229,3 @@ if(!emld::eml_validate(EML)) {
 
 # Write final EML file
 xml2::write_xml(EML, file = here::here("data", "cricket_EML.xml"))
-
