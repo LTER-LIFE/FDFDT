@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="21d3127e-e9f0-4c74-b537-0f3217cef732" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="6b5a5951-f5b6-487a-8225-e5ee9a419c7b" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
   <dataset>
-    <title>Data from: How to restore invertebrate diversity of degraded heathlands?</title>
+    <title xml:lang="en">
+      <value>Data from: How to restore invertebrate diversity of degraded heathlands?</value>
+    </title>
+    <title xml:lang="en">
+      <value>A case study on the reproductive performance of the field cricket Gryllus campestris (L.)</value>
+    </title>
     <creator>
       <individualName>
         <salutation>drs.</salutation>
@@ -13,7 +18,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId>327509856</userId>
+      <userId directory="info:eu-repo/dai/nl/">327509856</userId>
     </creator>
     <creator>
       <individualName>
@@ -26,7 +31,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId>265948576</userId>
+      <userId directory="info:eu-repo/dai/nl/">265948576</userId>
     </creator>
     <creator>
       <individualName>
@@ -39,7 +44,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId>274568349</userId>
+      <userId directory="info:eu-repo/dai/nl/">274568349</userId>
     </creator>
     <creator>
       <individualName>
@@ -52,7 +57,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId>334082919</userId>
+      <userId directory="info:eu-repo/dai/nl/">334082919</userId>
     </creator>
     <creator>
       <individualName>
@@ -65,7 +70,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId>075033682</userId>
+      <userId directory="info:eu-repo/dai/nl/">075033682</userId>
     </creator>
     <creator>
       <individualName>
@@ -78,7 +83,7 @@
         <city>Nijmegen</city>
         <country>NL</country>
       </address>
-      <userId>125440413</userId>
+      <userId directory="info:eu-repo/dai/nl/">125440413</userId>
     </creator>
     <language>en</language>
     <abstract>
@@ -98,17 +103,17 @@
       <para>Rights holder of this resource is Radboud University.</para>
     </intellectualRights>
     <licensed>
-      <licenseName>Creative Commons Attribution 4.0 International (CC BY 4.0)</licenseName>
-      <url>https://creativecommons.org/licenses/by/4.0/</url>
+      <licenseName>CC BY 4.0</licenseName>
+      <url>http://creativecommons.org/licenses/by/4.0</url>
     </licensed>
     <coverage>
       <geographicCoverage>
         <geographicDescription>Field experiment in Hoge Veluwe National Park and breeding experiments at Radboud University</geographicDescription>
         <boundingCoordinates>
-          <westBoundingCoordinate>5.829359788293456</westBoundingCoordinate>
-          <eastBoundingCoordinate>5.829359788293456</eastBoundingCoordinate>
-          <northBoundingCoordinate>52.04231849823671</northBoundingCoordinate>
-          <southBoundingCoordinate>52.04231849823671</southBoundingCoordinate>
+          <westBoundingCoordinate>5.8293598</westBoundingCoordinate>
+          <eastBoundingCoordinate>5.8293598</eastBoundingCoordinate>
+          <northBoundingCoordinate>52.0423185</northBoundingCoordinate>
+          <southBoundingCoordinate>52.0423185</southBoundingCoordinate>
         </boundingCoordinates>
       </geographicCoverage>
       <temporalCoverage>
@@ -127,19 +132,19 @@
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Molinia caerulea</taxonRankValue>
           <commonName>Purple moor-grass</commonName>
-          <taxonId>5289877</taxonId>
+          <taxonId provider="https://www.gbif.org/">5289877</taxonId>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Calluna vulgaris</taxonRankValue>
           <commonName>Common heather</commonName>
-          <taxonId>2882482</taxonId>
+          <taxonId provider="https://www.gbif.org/">2882482</taxonId>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Gryllus campestris</taxonRankValue>
           <commonName>European field cricket</commonName>
-          <taxonId>1716462</taxonId>
+          <taxonId provider="https://www.gbif.org/">1716462</taxonId>
         </taxonomicClassification>
       </taxonomicCoverage>
     </coverage>
@@ -150,7 +155,7 @@
       <maintenanceUpdateFrequency>unknown</maintenanceUpdateFrequency>
     </maintenance>
     <contact>
-      <organizationName>Radboud University</organizationName>
+      <organizationName>RU  Radboud University</organizationName>
       <address>
         <city>Nijmegen</city>
         <country>NL</country>
@@ -162,15 +167,8 @@
           <para>In a randomized block design treatment combinations of liming and phosphorous addition were applied to 20 plots which previously have undergone sod-cutting. The two dominant plant species have been cut and used as food for crickets in a breeding experiment. Individual female crickets were fed with plants of one treatment and their reproductive success measured. For details see the cited publication</para>
         </description>
         <citation>
-          <bibtex>@article{vogels2021restore,
-  title={How to restore invertebrate diversity of degraded heathlands? A case study on the reproductive performance of the field cricket Gryllus campestris (L.)},
-  author={Vogels, Joost J and Verberk, WCEP and Kuper, JT and Weijters, MJ and Bobbink, R and Siepel, H},
-  journal={Frontiers in Ecology and Evolution},
-  volume={9},
-  pages={659363},
-  year={2021},
-  publisher={Frontiers Media SA}
-}</bibtex>
+          <bibtex> @article{Vogels_2021, title={How to Restore Invertebrate Diversity of Degraded Heathlands? A Case Study on the Reproductive Performance of the Field Cricket Gryllus campestris (L.)}, volume={9}, ISSN={2296-701X}, url={http://dx.doi.org/10.3389/fevo.2021.659363}, DOI={10.3389/fevo.2021.659363}, journal={Frontiers in Ecology and Evolution}, publisher={Frontiers Media SA}, author={Vogels, Joost J. and Verberk, W. C. E. P. and Kuper, J. T. and Weijters, M. J. and Bobbink, R. and Siepel, H.}, year={2021}, month=may }
+</bibtex>
         </citation>
       </methodStep>
     </methods>

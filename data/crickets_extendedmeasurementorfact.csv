@@ -240,18 +240,18 @@
 "PM1P-Ca+_1_9","PM1P-Ca+","Sulfur (CHEBI:26833) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","74.11312859","micromole/gram (SNOMED:258816005) dry weight","inductively coupled plasma-atomic emission spectrometry (MMO:0000231)",NA
 "PM1P-Ca+_1_10","PM1P-Ca+","Silicon (CHEBI:27573) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","6.932942896","micromole/gram (SNOMED:258816005) dry weight","inductively coupled plasma-atomic emission spectrometry (MMO:0000231)",NA
 "PM1P-Ca+_1_11","PM1P-Ca+","Zinc (CHEBI:27363) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","0.661276945","micromole/gram (SNOMED:258816005) dry weight","inductively coupled plasma-atomic emission spectrometry (MMO:0000231)",NA
-"PM1P-Ca+_1_12","PM1P-Ca+","Percentage (SIO:001413) of nitrogen (CHEBI:25555) in plant tissue (NCIT:C18945)","NA","percent (UO:0000187)",NA,NA
+"PM1P-Ca+_1_12","PM1P-Ca+","Percentage (SIO:001413) of nitrogen (CHEBI:25555) in plant tissue (NCIT:C18945)","na","percent (UO:0000187)",NA,NA
 "PM1P-Ca+_1_13","PM1P-Ca+","Percentage (SIO:001413) of carbon (CHEBI:27594) in plant tissue (NCIT:C18945)","44.15219879","percent (UO:0000187)",NA,NA
 "PM1P-Ca+_1_14","PM1P-Ca+","Percentage (SIO:001413) of phosphorus (CHEBI:28659) in plant tissue (NCIT:C18945)","0.139215881","percent (UO:0000187)",NA,NA
-"PM1P-Ca+_1_15","PM1P-Ca+","Nitrogen (CHEBI:25555) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","NA","micromole/gram (SNOMED:258816005) dry weight","elemental CNS analyzer",NA
+"PM1P-Ca+_1_15","PM1P-Ca+","Nitrogen (CHEBI:25555) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","na","micromole/gram (SNOMED:258816005) dry weight","elemental CNS analyzer",NA
 "PM1P-Ca+_1_16","PM1P-Ca+","Carbon (CHEBI:27594) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","18694.06904","micromole/gram (SNOMED:258816005) dry weight","elemental CNS analyzer",NA
 "PM1P-Ca+_1_17","PM1P-Ca+","Phosphorus (CHEBI:28659) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","44.95185064","micromole/gram (SNOMED:258816005) dry weight","inductively coupled plasma-atomic emission spectrometry (MMO:0000231)",NA
-"PM1P-Ca+_1_18","PM1P-Ca+","Ratio (SIO:001018) of percentage (SIO:001413) of carbon (CHEBI:27594) and nitrogen (CHEBI:25555)","NA",NA,NA,"Calculated as percentage of carbon divided by percentage of nitrogen"
+"PM1P-Ca+_1_18","PM1P-Ca+","Ratio (SIO:001018) of percentage (SIO:001413) of carbon (CHEBI:27594) and nitrogen (CHEBI:25555)","na",NA,NA,"Calculated as percentage of carbon divided by percentage of nitrogen"
 "PM1P-Ca+_1_19","PM1P-Ca+","Ratio (SIO:001018) of percentage (SIO:001413) of carbon (CHEBI:27594) and phosphorus (CHEBI:28659)","161.2716645",NA,NA,"Calculated as percentage of carbon divided by percentage of phosphorus"
-"PM1P-Ca+_1_20","PM1P-Ca+","Ratio (SIO:001018) of percentage (SIO:001413) of nitrogen (CHEBI:25555) and phosphorus (CHEBI:28659)","NA",NA,NA,"Calculated as percentage of nitrogen divided by percentage of phosphorus"
-"PM1P-Ca+_1_21","PM1P-Ca+","Ratio (SIO:001018) of concentration (NCIT:C41185) of carbon (CHEBI:27594) and nitrogen (CHEBI:25555)","NA",NA,NA,"Calculated as molar concentration of carbon divided by molar concentration of nitrogen"
+"PM1P-Ca+_1_20","PM1P-Ca+","Ratio (SIO:001018) of percentage (SIO:001413) of nitrogen (CHEBI:25555) and phosphorus (CHEBI:28659)","na",NA,NA,"Calculated as percentage of nitrogen divided by percentage of phosphorus"
+"PM1P-Ca+_1_21","PM1P-Ca+","Ratio (SIO:001018) of concentration (NCIT:C41185) of carbon (CHEBI:27594) and nitrogen (CHEBI:25555)","na",NA,NA,"Calculated as molar concentration of carbon divided by molar concentration of nitrogen"
 "PM1P-Ca+_1_22","PM1P-Ca+","Ratio (SIO:001018) of concentration (NCIT:C41185) of carbon (CHEBI:27594) and phosphorus (CHEBI:28659)","817.8275811",NA,NA,"Calculated as molar concentration of carbon divided by molar concentration of phosphorus"
-"PM1P-Ca+_1_23","PM1P-Ca+","Ratio (SIO:001018) of concentration (NCIT:C41185) of nitrogen (CHEBI:25555) and phosphorus (CHEBI:28659)","NA",NA,NA,"Calculated as molar concentration of nitrogen divided by molar concentration of phosphorus"
+"PM1P-Ca+_1_23","PM1P-Ca+","Ratio (SIO:001018) of concentration (NCIT:C41185) of nitrogen (CHEBI:25555) and phosphorus (CHEBI:28659)","na",NA,NA,"Calculated as molar concentration of nitrogen divided by molar concentration of phosphorus"
 "PM2P-Ca+_1_1","PM2P-Ca+","Phosphorus treatment (AGRO:00000322)","no",NA,NA,NA
 "PM2P-Ca+_1_2","PM2P-Ca+","Liming process (AGRO:00000112) treatment (AGRO:00000322)","yes",NA,NA,NA
 "PM2P-Ca+_1_3","PM2P-Ca+","Aluminium (CHEBI:28984) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","6.134142942","micromole/gram (SNOMED:258816005) dry weight","inductively coupled plasma-atomic emission spectrometry (MMO:0000231)",NA
@@ -309,18 +309,18 @@
 "PM4P-Ca+_1_9","PM4P-Ca+","Sulfur (CHEBI:26833) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","65.05459891","micromole/gram (SNOMED:258816005) dry weight","inductively coupled plasma-atomic emission spectrometry (MMO:0000231)",NA
 "PM4P-Ca+_1_10","PM4P-Ca+","Silicon (CHEBI:27573) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","6.53662983","micromole/gram (SNOMED:258816005) dry weight","inductively coupled plasma-atomic emission spectrometry (MMO:0000231)",NA
 "PM4P-Ca+_1_11","PM4P-Ca+","Zinc (CHEBI:27363) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","0.659116463","micromole/gram (SNOMED:258816005) dry weight","inductively coupled plasma-atomic emission spectrometry (MMO:0000231)",NA
-"PM4P-Ca+_1_12","PM4P-Ca+","Percentage (SIO:001413) of nitrogen (CHEBI:25555) in plant tissue (NCIT:C18945)","NA","percent (UO:0000187)",NA,NA
+"PM4P-Ca+_1_12","PM4P-Ca+","Percentage (SIO:001413) of nitrogen (CHEBI:25555) in plant tissue (NCIT:C18945)","na","percent (UO:0000187)",NA,NA
 "PM4P-Ca+_1_13","PM4P-Ca+","Percentage (SIO:001413) of carbon (CHEBI:27594) in plant tissue (NCIT:C18945)","44.1428051","percent (UO:0000187)",NA,NA
 "PM4P-Ca+_1_14","PM4P-Ca+","Percentage (SIO:001413) of phosphorus (CHEBI:28659) in plant tissue (NCIT:C18945)","0.128312205","percent (UO:0000187)",NA,NA
-"PM4P-Ca+_1_15","PM4P-Ca+","Nitrogen (CHEBI:25555) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","NA","micromole/gram (SNOMED:258816005) dry weight","elemental CNS analyzer",NA
+"PM4P-Ca+_1_15","PM4P-Ca+","Nitrogen (CHEBI:25555) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","na","micromole/gram (SNOMED:258816005) dry weight","elemental CNS analyzer",NA
 "PM4P-Ca+_1_16","PM4P-Ca+","Carbon (CHEBI:27594) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","36755.04171","micromole/gram (SNOMED:258816005) dry weight","elemental CNS analyzer",NA
 "PM4P-Ca+_1_17","PM4P-Ca+","Phosphorus (CHEBI:28659) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","41.43112864","micromole/gram (SNOMED:258816005) dry weight","inductively coupled plasma-atomic emission spectrometry (MMO:0000231)",NA
-"PM4P-Ca+_1_18","PM4P-Ca+","Ratio (SIO:001018) of percentage (SIO:001413) of carbon (CHEBI:27594) and nitrogen (CHEBI:25555)","NA",NA,NA,"Calculated as percentage of carbon divided by percentage of nitrogen"
+"PM4P-Ca+_1_18","PM4P-Ca+","Ratio (SIO:001018) of percentage (SIO:001413) of carbon (CHEBI:27594) and nitrogen (CHEBI:25555)","na",NA,NA,"Calculated as percentage of carbon divided by percentage of nitrogen"
 "PM4P-Ca+_1_19","PM4P-Ca+","Ratio (SIO:001018) of percentage (SIO:001413) of carbon (CHEBI:27594) and phosphorus (CHEBI:28659)","344.0265481",NA,NA,"Calculated as percentage of carbon divided by percentage of phosphorus"
-"PM4P-Ca+_1_20","PM4P-Ca+","Ratio (SIO:001018) of percentage (SIO:001413) of nitrogen (CHEBI:25555) and phosphorus (CHEBI:28659)","NA",NA,NA,"Calculated as percentage of nitrogen divided by percentage of phosphorus"
-"PM4P-Ca+_1_21","PM4P-Ca+","Ratio (SIO:001018) of concentration (NCIT:C41185) of carbon (CHEBI:27594) and nitrogen (CHEBI:25555)","NA",NA,NA,"Calculated as molar concentration of carbon divided by molar concentration of nitrogen"
+"PM4P-Ca+_1_20","PM4P-Ca+","Ratio (SIO:001018) of percentage (SIO:001413) of nitrogen (CHEBI:25555) and phosphorus (CHEBI:28659)","na",NA,NA,"Calculated as percentage of nitrogen divided by percentage of phosphorus"
+"PM4P-Ca+_1_21","PM4P-Ca+","Ratio (SIO:001018) of concentration (NCIT:C41185) of carbon (CHEBI:27594) and nitrogen (CHEBI:25555)","na",NA,NA,"Calculated as molar concentration of carbon divided by molar concentration of nitrogen"
 "PM4P-Ca+_1_22","PM4P-Ca+","Ratio (SIO:001018) of concentration (NCIT:C41185) of carbon (CHEBI:27594) and phosphorus (CHEBI:28659)","887.1359029",NA,NA,"Calculated as molar concentration of carbon divided by molar concentration of phosphorus"
-"PM4P-Ca+_1_23","PM4P-Ca+","Ratio (SIO:001018) of concentration (NCIT:C41185) of nitrogen (CHEBI:25555) and phosphorus (CHEBI:28659)","NA",NA,NA,"Calculated as molar concentration of nitrogen divided by molar concentration of phosphorus"
+"PM4P-Ca+_1_23","PM4P-Ca+","Ratio (SIO:001018) of concentration (NCIT:C41185) of nitrogen (CHEBI:25555) and phosphorus (CHEBI:28659)","na",NA,NA,"Calculated as molar concentration of nitrogen divided by molar concentration of phosphorus"
 "PM5P-Ca+_1_1","PM5P-Ca+","Phosphorus treatment (AGRO:00000322)","no",NA,NA,NA
 "PM5P-Ca+_1_2","PM5P-Ca+","Liming process (AGRO:00000112) treatment (AGRO:00000322)","yes",NA,NA,NA
 "PM5P-Ca+_1_3","PM5P-Ca+","Aluminium (CHEBI:28984) concentration (NCIT:C41185) of plant tissue (NCIT:C18945)","8.653089874","micromole/gram (SNOMED:258816005) dry weight","inductively coupled plasma-atomic emission spectrometry (MMO:0000231)",NA

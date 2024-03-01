@@ -61,7 +61,8 @@ occurrence_plants <- event_plants %>%
   dplyr::select("eventID") %>% 
   dplyr::mutate(occurrenceID = paste(eventID, 1, sep = "_"),
                 phylum = "Tracheophyta",
-                individualCount = NA, 
+                organismQuantity = NA,
+                organismQuantityType = NA,
                 basisOfRecord = "HumanObservation",
                 occurrenceStatus = "present",
                 taxonRank = "phylum") %>% 
@@ -206,7 +207,8 @@ taxon_info_cricket <- taxize::get_gbifid_(sci = "Gryllus campestris") %>%
 occurrence_crickets <- event_cricket %>% 
   dplyr::select("eventID", "organismID") %>% 
   dplyr::mutate(occurrenceID = paste(eventID, 1, sep = "_"),
-                individualCount = 1,
+                organismQuantity = 1,
+                organismQuantityType = "individual",
                 basisOfRecord = "HumanObservation", 
                 occurrenceStatus = "present",
                 specificEpithet = "campestris",
@@ -241,7 +243,7 @@ measurement_or_fact <- dplyr::bind_rows(MOF_plants, MOF_crickets) %>%
   dplyr::select("measurementID", "eventID", "measurementType", "measurementValue", "measurementUnit", "measurementMethod", "measurementRemarks")
 
 occurrence <- dplyr::bind_rows(occurrence_crickets, occurrence_plants) %>% 
-  dplyr::select("eventID", "occurrenceID", "individualCount", "basisOfRecord", "occurrenceStatus", "organismID", "scientificName", "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet", "taxonRank")
+  dplyr::select("eventID", "occurrenceID", "organismQuantity", "organismQuantityType", "basisOfRecord", "occurrenceStatus", "organismID", "scientificName", "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet", "taxonRank")
 
 
 # V. Save DwC-A files -----------------------------------------------------
