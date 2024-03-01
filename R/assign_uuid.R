@@ -13,7 +13,6 @@ library(here)
 # Arguments:
 # - dataset: Character, specifying the name of the data set for which the uuid should be created or looked for
 
-
 assign_uuid <- function(dataset){
   
   uuid_lookup <- read.csv(here::here("data", "uuid_lookup.csv"))
@@ -28,11 +27,10 @@ assign_uuid <- function(dataset){
     
     new_uuid <- uuid::UUIDgenerate(use.time = FALSE)
     
-    uuid_lookup <- uuid_lookup %>%
-      dplyr::mutate(dataset_name = dataset,
-                    uuid = new_uuid)
+    df <- tibble::tibble(dataset_name = dataset, uuid = new_uuid)
     
-    write.csv(uuid_lookup, file = here::here("data", "uuid_lookup.csv"), row.names = FALSE)
+    dplyr::bind_rows(uuid_lookup, df) %>% 
+      write.csv(file = here::here("data", "uuid_lookup.csv"), row.names = FALSE)
     
     return(new_uuid)
     
