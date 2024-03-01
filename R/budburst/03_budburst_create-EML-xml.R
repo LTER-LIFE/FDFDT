@@ -2,15 +2,14 @@
 
 # Authors: Cherine Jantzen, Stefan Vriend
 # Created: 2023-12-04
-# Last updated: 2024-01-22
+# Last updated: 2024-03-01
 
 
 # Load packages
 library(emld)
 library(EML)
 library(ids)
-library(keyring)
-library(tidyverse)
+library(xml2)
 library(here)
 
 # 1. Fill in metadata ----------------------------------------------------
@@ -115,8 +114,10 @@ methods <- list(methodStep = list(list(description = list(para = "Bud burst stat
 
 # 2. Create the EML.xml file ----------------------------------------------
 
-# Fetch existing UUID or create new UUID
-packageId <- "105c879f-a2b1-478f-9abf-56f79d0bbb9f"
+# Package uuid
+source(here::here("R", "assign_uuid.R"))
+
+packageId <- assign_uuid(dataset = "budburst")
 
 # Combine all components in one list
 eml <- list(dataset =
@@ -136,13 +137,13 @@ eml <- list(dataset =
             packageId = packageId)
 
 # Write EMl file
-EML::write_eml(eml, file = here::here("data", "EML.xml"))
+EML::write_eml(eml, file = here::here("data", "budburst_EML.xml"))
 
 
 # 3. Add attributes for specific nodes ------------------------------------
 
 # Read EML file as XML file
-EML <- xml2::read_xml(here::here("data", "EML.xml"))
+EML <- xml2::read_xml(here::here("data", "budburst_EML.xml"))
 
 # Identify all taxonId nodes for which attribute shall be set
 taxonId_node <- xml2::xml_find_all(EML, xpath = "//taxonId")
@@ -165,4 +166,4 @@ if(!emld::eml_validate(EML)) {
 }
 
 # Write final EML file
-xml2::write_xml(EML, file = here::here("data", "EML.xml"))
+xml2::write_xml(EML, file = here::here("data", "budburst_EML.xml"))
