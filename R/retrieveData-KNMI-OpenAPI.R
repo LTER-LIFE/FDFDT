@@ -208,7 +208,7 @@ retrieve_knmi_open_data <- function(variable = c("mean temperature", "max temper
 
 # III. Call function ------------------------------------------------------
 
-call_knmi_open_api(variable = "min temperature",
+retrieve_knmi_open_data(variable = "min temperature",
                    start_year = "1999",
                    season_start = c(1, 1),
                    season_end = c(2, 22),
