@@ -25,16 +25,18 @@ library(here)
 # - season_start: Vector specifying the start month and day of the period of the year for which data should be retrieved in the format: c(mm, dd), e.g., c(2, 10) for February 10. Allows to limit data retrieval to a selected period of the year. If empty, data for the full year is retrieved. 
 # - season_end: Vector specifying the end month and day of the period of the year for which data should be retrieved in the format: c(mm, dd), e.g., c(5, 15) for May 15. If provided, season_start also needs to be provided.
 # - version: Character specifying the version of the data set. (Version "5" for mean temperature and precipitation, version "2" for min and max temperature)
+# - netCDF_location: Character specifying the path of the folder the downloaded netCDF files should be stored in, e.g., "data/netCDF files/"
 # - knmi_open_key: Character specifying user-specific KNMI Open API key (request here: https://developer.dataplatform.knmi.nl/apis).
 
 
-call_knmi_open_api <- function(variable = c("mean temperature", "max temperature",
+retrieve_knmi_open_data <- function(variable = c("mean temperature", "max temperature",
                                             "min temperature", "precipitation"),
                                start_year,
                                end_year = NULL,
                                season_start = NULL,
                                season_end = NULL,
                                version,
+                               netCDF_location,
                                knmi_open_key = rstudioapi::askForSecret("Open_API_KEY")) {
   
   
@@ -45,7 +47,7 @@ call_knmi_open_api <- function(variable = c("mean temperature", "max temperature
     var_name = c("mean temperature", "max temperature", "min temperature", "precipitation"),
     file_ending_before2018 = c("0005.nc", "0002.nc", "0002.nc", "0005.nc"),
     filename_timestamp = c("T000000", "T000000", "T000000", "T080000"),
-    min_date_dataset = c("1961-01-01", "	1961-01-01", "1961-01-01", 	"1951-01-01")
+    min_date_dataset = c("1961-01-01", "1961-01-01", "1961-01-01", "1951-01-01")
   )
   
   
@@ -134,9 +136,7 @@ call_knmi_open_api <- function(variable = c("mean temperature", "max temperature
   
   
   # Create .nc file names per day
-  file_name <- list()
-  
-  file_name <- purrr::map(.x = 1:length(start_date_seq),
+  file_names <- purrr::map_chr(.x = 1:length(start_date_seq),
                            .f = ~{
     
     names <- paste0("INTER_OPER_R___", 
@@ -173,8 +173,7 @@ call_knmi_open_api <- function(variable = c("mean temperature", "max temperature
   },
   .progress = TRUE) 
   
-  file_names <- do.call(rbind, file_name)
-  
+
   
   # GET request KNMI Open API
   purrr::map(.x = file_names,
@@ -195,9 +194,9 @@ call_knmi_open_api <- function(variable = c("mean temperature", "max temperature
                
                # dowload netCDF file per day
                download.file(url = jsonlite::fromJSON(rawToChar(knmi_api$content))$temporaryDownloadUrl,
-                             destfile = here::here("data", "netCDF files", paste0(knmi_var_lookup %>% 
-                                                                            dplyr::filter(var_name == variable) %>% dplyr::pull("collection"), "_",
-                                                                          stringr::str_sub(string = .x, start = 28, end = 58), ".nc")), 
+                             destfile = paste0(netCDF_location, knmi_var_lookup %>% 
+                                                 dplyr::filter(var_name == variable) %>% dplyr::pull("collection"), "_",
+                                               stringr::str_sub(string = .x, start = 28, end = 58), ".nc"), 
                              mode = "wb", quiet = TRUE)
                
                
@@ -209,10 +208,10 @@ call_knmi_open_api <- function(variable = c("mean temperature", "max temperature
 
 # III. Call function ------------------------------------------------------
 
-call_knmi_open_api(variable = "precipitation",
+call_knmi_open_api(variable = "min temperature",
                    start_year = "1999",
                    season_start = c(1, 1),
                    season_end = c(2, 22),
                    end_year = "2023",
-                   version = "5") 
-
+                   version = "2",
+                   netCDF_location = "data/netCDF files/") 

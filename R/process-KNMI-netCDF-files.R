@@ -18,25 +18,39 @@ library(here)
 
 # Arguments: 
 # - bbox: Spatial bounding box for which to retrieve data. Vector of four numeric values, indicating western-most, southern-most, eastern-most and northern-most point of the bounding box (in Amersfoort/RD New (ESPG:28992)).
-# - netCDF_location: Character specifying the folder name in which the netCDF files are stored. Folder needs to be a sub-folder of the working directory. 
+# - netCDF_location: Character specifying the path of the folder in which the netCDF files are stored. E.g., "data/netCDF files/"
 
-process_netCDF <- function(bbox,
-                           netCDF_location){
+
+process_KNMI_netCDF <- function(bbox,
+                                netCDF_location){
   
+  # check whether coordinates are in the order
+  if(bbox[1] > bbox[3] || bbox[2] > bbox[4]) {
+    
+    stop("Please provide the bounding box in the following order: west, south, east, north.")
+  }
   
-  # set longitude and latitude range according to boundng box
+  # check whether coordinates are in the correct CRS
+  if(!dplyr::between(bbox[1], 500, 299500) || !dplyr::between(bbox[3], 500, 299500) || 
+     !dplyr::between(bbox[2], 290500, 639500) || !dplyr::between(bbox[4], 290500, 639500)) {
+
+    stop("Coordinate systems do not match. Please transform coordinates to ESPG:28992 (Amersfoort/RD New).")
+    
+  }
+  
+  # set longitude and latitude range according to bounding box
   lonrange <- c(bbox[1], bbox[3])
   latrange <- c(bbox[2], bbox[4])
   
   # get all available netCDF files in the specified directory
-  files <- list.files(here::here(netCDF_location), pattern = ".nc")
+  files <- list.files(netCDF_location, pattern = ".nc")
   
-  # loop thorugh netCDF files to format them 
+  # loop through netCDF files to format them 
   climate_variable <- purrr::map(.x = files,
                             .f = ~{
                               
                               # connect to netCDF source
-                              df <- tidync::tidync(here::here(netCDF_location, .x))
+                              df <- tidync::tidync(paste0(netCDF_location, .x))
                               
                               # extract time information
                               time_ex <- df %>% 
@@ -44,7 +58,7 @@ process_netCDF <- function(bbox,
                                 tidync::hyper_array()
                               
                               # extract time unit from metadata of netCDF
-                              tunit <- ncmeta::nc_atts(here::here(netCDF_location, .x), "time") %>% 
+                              tunit <- ncmeta::nc_atts(paste0(netCDF_location, .x), "time") %>% 
                                 tidyr::unnest(cols = c(value)) %>% 
                                 dplyr::filter(name == "units")
                               
@@ -60,9 +74,9 @@ process_netCDF <- function(bbox,
                                             time_parts[,"second"],
                                             tz = "Europe/Amsterdam")
                               
-                              # extract time unit from metadata of netCDF
+                              # extract variable name from metadata of netCDF
                               variable_name <- ncmeta::nc_atts(here::here(netCDF_location, .x), "prediction") %>% 
-                                filter(name == "long_name") %>% 
+                                dplyr::filter(name == "long_name") %>% 
                                 unlist() %>% 
                                 purrr::pluck("value.long_name")
                               
@@ -73,7 +87,7 @@ process_netCDF <- function(bbox,
                                                      y = dplyr::between(y, latrange[1], latrange[2])) %>% 
                                 tidync::hyper_tibble()
                               
-                              # add date information to tibble and select only desired output columns
+                              # add extracted information to tibble and select only desired output columns
                               sliced_data <-
                                 fx_slice %>%
                                 dplyr::mutate(date = date,
@@ -96,5 +110,5 @@ process_netCDF <- function(bbox,
 # III. Use function to process netCDF for Hoge Veluwe ---------------------
 
 test_data <- process_netCDF(bbox = c(185003.9, 449430.1, 188144.4, 451036.0),
-                            netCDF_location = "data/netCDF files")
+                            netCDF_location = "data/netCDF files/")
 
