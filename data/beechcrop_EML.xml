@@ -27,7 +27,7 @@
     <pubDate>2024-02-28</pubDate>
     <language>en</language>
     <abstract>
-      <para>Wihtin the National Park Hoge Veluwe the amount of beech nuts is assessed yearly to determine the beech crop index and thereby monitor seed availability to dependent predators.</para>
+      <para>Within the National Park Hoge Veluwe the amount of beech nuts is assessed yearly to determine the beech crop index and thereby monitor seed availability for dependent predators.</para>
     </abstract>
     <keywordSet>
       <keyword>trees</keyword>
@@ -46,10 +46,10 @@
       <geographicCoverage>
         <geographicDescription>The Nationalpark Hoge Veluwe</geographicDescription>
         <boundingCoordinates>
-          <westBoundingCoordinate>5.824436777442551</westBoundingCoordinate>
-          <eastBoundingCoordinate>5.870356194968013</eastBoundingCoordinate>
-          <northBoundingCoordinate>52.046647934312794</northBoundingCoordinate>
-          <southBoundingCoordinate>52.032393019069225</southBoundingCoordinate>
+          <westBoundingCoordinate>5.824437</westBoundingCoordinate>
+          <eastBoundingCoordinate>5.870356</eastBoundingCoordinate>
+          <northBoundingCoordinate>52.046648</northBoundingCoordinate>
+          <southBoundingCoordinate>52.032393</southBoundingCoordinate>
         </boundingCoordinates>
       </geographicCoverage>
       <temporalCoverage>
@@ -63,7 +63,7 @@
         </rangeOfDates>
       </temporalCoverage>
       <taxonomicCoverage>
-        <generalTaxonomicCoverage>Data covers is ocllected on European beech trees.</generalTaxonomicCoverage>
+        <generalTaxonomicCoverage>Data is collected on European beech trees.</generalTaxonomicCoverage>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Fagus sylvatica</taxonRankValue>
@@ -95,7 +95,7 @@
       </methodStep>
       <methodStep>
         <description>
-          <para>Four grids of 30 by 30 cm are placed in the direction of a cross that is carved into the bark of the tree. The first grid is placed half a meter from the stem and the last grid prependicular to the end point of the farthest overhanging branch, while the other two grids are placed on equal disntances in between the first and last grid.</para>
+          <para>Four grids of 30 by 30 cm are placed in the direction of a cross that is carved into the bark of the tree. The first grid is placed half a meter from the stem and the last grid prependicular to the end point of the farthest overhanging branch, while the other two grids are placed on equal distances in between the first and last grid.</para>
         </description>
       </methodStep>
       <methodStep>
@@ -105,7 +105,7 @@
       </methodStep>
       <methodStep>
         <description>
-          <para>Within few days, nuts have to be analysed. From 2011 onwards, the nuts are dried (outside the bags) at room temperature for 24 hours before analysis. After drying, the nuts are sorted into six categories: Whole nuts (shiny and firm; total number and gross weight in milligrams are determined), caterpillar nuts (have small round hole and when opened usually are full of caterpillar droppings; total number is counted), eaten nuts (hole in nut is not smooth but frayed and mainly located at the thick side of the nut or the corner; total number is counted), empty nuts (can easily be squashed with the fingers and are completely empty inside; total number is counted), rotten nuts (usually seem firm and whole, but are very light in weight and have smaller black nuts in the inside when opened; total number is counted) and other (nut that do not belong to any other category).</para>
+          <para>Within few days, nuts have to be analysed. From 2011 onwards, the nuts are dried (outside the bags) at room temperature for 24 hours before analysis. After drying, the nuts are sorted into six categories: whole nuts (shiny and firm; total number and gross weight in milligrams are determined), caterpillar nuts (have small round hole and, when opened, usually are full of caterpillar droppings; total number is counted), eaten nuts (hole in nut is not smooth but frayed and mainly located at the thick side of the nut or the corner; total number is counted), empty nuts (can easily be squashed with the fingers and are completely empty inside; total number is counted), rotten nuts (usually seem firm and whole, but are very light in weight and have smaller black nuts in the inside when opened; total number is counted) and other (nut that do not belong to any other category; total number is counted).</para>
         </description>
       </methodStep>
       <methodStep>

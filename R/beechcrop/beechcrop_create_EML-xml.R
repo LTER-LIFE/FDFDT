@@ -2,7 +2,7 @@
 
 # Authors: Cherine Jantzen
 # Created: 2024-02-28
-# Last updated: 2024-03-01
+# Last updated: 2024-03-05
 
 
 # Load packages
@@ -43,7 +43,7 @@ contact_person <- list(organizationName = "Department of Animal Ecology, Netherl
 language <- "en"
 
 # Abstract describing the data set
-abstract <- list(para = "Wihtin the National Park Hoge Veluwe the amount of beech nuts is assessed yearly to determine the beech crop index and thereby monitor seed availability to dependent predators.")
+abstract <- list(para = "Within the National Park Hoge Veluwe the amount of beech nuts is assessed yearly to determine the beech crop index and thereby monitor seed availability for dependent predators.")
 
 # List of keywords and the thesaurus they are listed in
 keywords <- list(list(keyword = list("trees", "ecology"),
@@ -56,17 +56,17 @@ licensed <- list(licenseName = "Creative Commons Attribution 4.0 International (
 
 # Geographic coverage of the data
 geographic_coverage <- list(geographicDescription = "The Nationalpark Hoge Veluwe",
-                            boundingCoordinates = list(westBoundingCoordinate = "5.824436777442551",
-                                                       eastBoundingCoordinate = "5.870356194968013",
-                                                       northBoundingCoordinate = "52.046647934312794",
-                                                       southBoundingCoordinate = "52.032393019069225"))
+                            boundingCoordinates = list(westBoundingCoordinate = "5.824437",
+                                                       eastBoundingCoordinate = "5.870356",
+                                                       northBoundingCoordinate = "52.046648",
+                                                       southBoundingCoordinate = "52.032393"))
 
 # Temporal coverage of the data
 temporal_coverage <- list(rangeOfDates = list(beginDate = list(calendarDate = "1976-10-08"),
                                               endDate = list(calendarDate = "2022-10-19")))
 
 # Taxonomic coverage of the data
-taxonomic_coverage <- list(generalTaxonomicCoverage = "Data covers is ocllected on European beech trees.",
+taxonomic_coverage <- list(generalTaxonomicCoverage = "Data is collected on European beech trees.",
                            taxonomicClassification = list(list(taxonRankName = "Species",
                                                                taxonRankValue = "Fagus sylvatica",
                                                                taxonId = "2882316",
@@ -81,15 +81,15 @@ coverage <- list(geographicCoverage = geographic_coverage,
 maintenance <- list(maintenanceUpdateFrequency = "annually",
                     description = list(para = "Data is updated after annual data collection."))
 
-# dat of publication
+# date of publication
 publication_date <- "2024-02-28"
 
 
 # Methods for data collection
 methods <- list(methodStep = list(list(description = list(para = "A set of selected beech trees is visited each year in autumn.")),
-                                  list(description = list(para = "Four grids of 30 by 30 cm are placed in the direction of a cross that is carved into the bark of the tree. The first grid is placed half a meter from the stem and the last grid prependicular to the end point of the farthest overhanging branch, while the other two grids are placed on equal disntances in between the first and last grid.")),
+                                  list(description = list(para = "Four grids of 30 by 30 cm are placed in the direction of a cross that is carved into the bark of the tree. The first grid is placed half a meter from the stem and the last grid prependicular to the end point of the farthest overhanging branch, while the other two grids are placed on equal distances in between the first and last grid.")),
                                   list(description = list(para = "All beech nuts in each grid are collected (from whole nuts to partial nuts) and packed, per grid, in labelled bags.")),
-                                  list(description = list(para = "Within few days, nuts have to be analysed. From 2011 onwards, the nuts are dried (outside the bags) at room temperature for 24 hours before analysis. After drying, the nuts are sorted into six categories: Whole nuts (shiny and firm; total number and gross weight in milligrams are determined), caterpillar nuts (have small round hole and when opened usually are full of caterpillar droppings; total number is counted), eaten nuts (hole in nut is not smooth but frayed and mainly located at the thick side of the nut or the corner; total number is counted), empty nuts (can easily be squashed with the fingers and are completely empty inside; total number is counted), rotten nuts (usually seem firm and whole, but are very light in weight and have smaller black nuts in the inside when opened; total number is counted) and other (nut that do not belong to any other category).")),
+                                  list(description = list(para = "Within few days, nuts have to be analysed. From 2011 onwards, the nuts are dried (outside the bags) at room temperature for 24 hours before analysis. After drying, the nuts are sorted into six categories: whole nuts (shiny and firm; total number and gross weight in milligrams are determined), caterpillar nuts (have small round hole and, when opened, usually are full of caterpillar droppings; total number is counted), eaten nuts (hole in nut is not smooth but frayed and mainly located at the thick side of the nut or the corner; total number is counted), empty nuts (can easily be squashed with the fingers and are completely empty inside; total number is counted), rotten nuts (usually seem firm and whole, but are very light in weight and have smaller black nuts in the inside when opened; total number is counted) and other (nut that do not belong to any other category; total number is counted).")),
                                   list(description = list(para = "For whole nuts, the total gross weight of all nuts is weighted and all whole nuts are separately weighted with peel (gross weight) and without peel (net weight) with a maximum of five nuts per sample."))))
 
 # 2. Create the EML.xml file ----------------------------------------------
