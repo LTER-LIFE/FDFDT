@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Created: 2024-02-07
-# Last updated: 2024-02-19
+# Last updated: 2024-03-05
 
 
 # I. Preparation ----------------------------------------------------------
@@ -35,7 +35,11 @@ purrr::map2(.x = c("gryllus", "meta_info_gryllus", "meta_info_plantchem", "plant
 
 ## create eventID: event is measure per plot (within one block) 
 plants <- plantchem %>% 
-  dplyr::mutate(eventID = paste0(substring(Block, 1, 2), substring(Block, 4, 4), Treat))
+  dplyr::mutate(TreatID = dplyr::case_when(Treat == "P+Ca+" ~ "T1",
+                                           Treat == "P+Ca-" ~ "T2",
+                                           Treat == "P-Ca+" ~ "T3",
+                                           Treat == "P-Ca-" ~ "T4"),
+                eventID = paste(paste0(substring(Block, 1, 2), substring(Block, 4, 4)), TreatID, sep = "-"))
 
 
 # create event table
@@ -59,7 +63,7 @@ taxon_info_plant <- taxize::get_gbifid_(sci = "Tracheophyta") %>%
 
 occurrence_plants <- event_plants %>% 
   dplyr::select("eventID") %>% 
-  dplyr::mutate(occurrenceID = paste(eventID, 1, sep = "_"),
+  dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1), sep = "_"),
                 phylum = "Tracheophyta",
                 organismQuantity = NA,
                 organismQuantityType = NA,
@@ -111,7 +115,7 @@ MOF_plants <- plants %>%
   dplyr::left_join(occurrence_plants %>%
                      dplyr::select("eventID", "occurrenceID"),
                    by = "eventID") %>% 
-  dplyr::mutate(measurementID = paste(occurrenceID, 1:dplyr::n(), sep = "_"), .by = "eventID") 
+  dplyr::mutate(measurementID = paste(stringr::str_remove(string = occurrenceID, pattern = "o"), paste0("m", 1:dplyr::n()), sep = "_"), .by = "eventID") 
 
 
 # III. Mapping of cricket data --------------------------------------------
@@ -194,7 +198,7 @@ event_cricket <- measurements_crickets %>%
                 sampleSizeValue = 1, 
                 sampleSizeUnit = "individual",
                 type = "Event") %>% 
-  dplyr::rename(organismID = Femnum)
+  dplyr::rename("organismID" = "Femnum")
 
 # get taxonomic information for Gryllus campestris & Tracheophyta
 taxon_info_cricket <- taxize::get_gbifid_(sci = "Gryllus campestris") %>%
@@ -206,9 +210,10 @@ taxon_info_cricket <- taxize::get_gbifid_(sci = "Gryllus campestris") %>%
 # create occurrence file
 occurrence_crickets <- event_cricket %>% 
   dplyr::select("eventID", "organismID") %>% 
-  dplyr::mutate(occurrenceID = paste(eventID, 1, sep = "_"),
+  dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1), sep = "_"),
                 organismQuantity = 1,
                 organismQuantityType = "individual",
+                sex = "female",
                 basisOfRecord = "HumanObservation", 
                 occurrenceStatus = "present",
                 specificEpithet = "campestris",
@@ -220,7 +225,7 @@ MOF_crickets <- measurements_crickets %>%
   left_join(occurrence_crickets %>% 
               dplyr::select("eventID", "occurrenceID"),
             by = "eventID") %>%
-  dplyr::mutate(measurementID = paste(occurrenceID, 1:dplyr::n(), sep = "_"), .by = "eventID") %>%
+  dplyr::mutate(measurementID = paste(stringr::str_remove(string = occurrenceID, pattern = "o"), paste0("m", 1:dplyr::n()), sep = "_"), .by = "eventID") %>%
   dplyr::select("measurementID", "eventID", "measurementType", "measurementValue", "measurementUnit", "measurementMethod")
 
 # IV. combine files for plants and crickets into final DwC-A files  ------------
@@ -243,7 +248,7 @@ measurement_or_fact <- dplyr::bind_rows(MOF_plants, MOF_crickets) %>%
   dplyr::select("measurementID", "eventID", "measurementType", "measurementValue", "measurementUnit", "measurementMethod", "measurementRemarks")
 
 occurrence <- dplyr::bind_rows(occurrence_crickets, occurrence_plants) %>% 
-  dplyr::select("eventID", "occurrenceID", "organismQuantity", "organismQuantityType", "basisOfRecord", "occurrenceStatus", "organismID", "scientificName", "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet", "taxonRank")
+  dplyr::select("eventID", "occurrenceID", "organismQuantity", "organismQuantityType", "sex", "basisOfRecord", "occurrenceStatus", "organismID", "scientificName", "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet", "taxonRank")
 
 
 # V. Save DwC-A files -----------------------------------------------------
