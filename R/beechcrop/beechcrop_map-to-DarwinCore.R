@@ -12,6 +12,7 @@ library(tidyr)
 library(lubridate)
 library(here)
 library(stringr)
+library(taxize)
 
 # retrieve data
 source(here::here("R", "beechcrop", "beechcrop_retrieveData-SQL-Server.R"))
@@ -39,6 +40,7 @@ events_level2 <- d_sample %>%
   dplyr::mutate(eventDate = lubridate::make_date(YearCollect, MonthCollect, DayCollect),
                 parentEventID = paste(WinterYear, paste0(MonthCollect, DayCollect), TreeID, sep = "-"),
                 eventID = paste(parentEventID, paste0("P", Position), sep = "_"),
+                samplingProtocol = "ground-based collection of nuts in mobile quadrat",
                 sampleSizeValue = 0.09,
                 sampleSizeUnit = "square metre",
                 verbatimLocality = trees$AreaName[match(.$TreeID, trees$TreeID)]) %>% 
@@ -51,7 +53,8 @@ events_level2 <- d_sample %>%
 # create level 1 events: sampling one individual tree on one day in a year
 events_level1 <- events_level2 %>% 
   dplyr::distinct(parentEventID, .keep_all = TRUE) %>% 
-  dplyr::mutate(sampleSizeValue = 1,
+  dplyr::mutate(samplingProtocol = "Perdeck, A. C., Visser, M. E., & Van Balen, J. H. (2000). Great tit Parus major survival and the beech-crop. Ardea, 88, 99-106.",
+                sampleSizeValue = 1,
                 sampleSizeUnit = "tree",
                 verbatimLocality = trees$AreaName[match(.$TreeID, trees$TreeID)]) %>% 
   dplyr::select(!"eventID") %>% 
@@ -61,8 +64,7 @@ events_level1 <- events_level2 %>%
 # create level 3 events: individual nuts per plot
 events_level3 <- d_sample %>% 
   dplyr::left_join(d_weight %>% 
-                     dplyr::select(!c("SysUser", "SysDate")) %>% 
-                     dplyr::rename("measurementRemarks" = "Remarks"), 
+                     dplyr::select(!c("SysUser", "SysDate")), 
                    by = "BeechSampleID") %>%
   dplyr::filter(!is.na(WeightID)) %>% 
   dplyr::rename("year" = "YearCollect",
@@ -72,16 +74,16 @@ events_level3 <- d_sample %>%
   dplyr::mutate(eventID = paste(paste(WinterYear, paste0(MonthCollect, DayCollect), TreeID, sep = "-"), paste0("P", Position), paste0("N", 1:dplyr::n()), sep = "_"), .by = "BeechSampleID",
                 parentEventID = paste(paste(WinterYear, paste0(MonthCollect, DayCollect), TreeID, sep = "-"), paste0("P", Position), sep = "_"),
                 eventDate = lubridate::make_date(year, month, day),
+                samplingProtocol = "weighing of individual nuts",
                 sampleSizeValue = 1,
-                sampleSizeUnit = "beechnut",
+                sampleSizeUnit = "nut",
                 verbatimLocality = "NIOO-KNAW")
 
 # combine all event level to event file & add general terms
 event <- dplyr::bind_rows(events_level1, events_level2, events_level3) %>% 
   dplyr::select("eventID", "parentEventID", "eventDate", "year", "month", "day",
                 "sampleSizeValue", "sampleSizeUnit", "TreeID", "verbatimLocality", "recordedByID") %>% 
-  dplyr::mutate(samplingProtocol = "Perdeck, A. C., Visser, M. E., & Van Balen, J. H. (2000). Great tit Parus major survival and the beech-crop. Ardea, 88, 99-106.",
-                decimalLatitude = d_tree$Longitude[match(.$TreeID, d_tree$TreeID)],
+  dplyr::mutate(decimalLatitude = d_tree$Longitude[match(.$TreeID, d_tree$TreeID)],
                 decimalLongitude = d_tree$Latitude[match(.$TreeID, d_tree$TreeID)],
                 geodeticDatum = dplyr::case_when(!is.na(decimalLatitude) ~ "EPSG:4326",
                                                  TRUE ~ NA_character_),
@@ -89,7 +91,7 @@ event <- dplyr::bind_rows(events_level1, events_level2, events_level3) %>%
                 country = "Netherlands",
                 countryCode = "NL",
                 institutionID = "https://ror.org/01g25jp36",
-                institutionCode = "NIOO",
+                institutionCode = "NIOO-KNAW",
                 type = "Event") %>% 
   dplyr::arrange(eventID) %>% 
   dplyr::select(!c("TreeID", "recordedByID"))
@@ -116,7 +118,8 @@ occurrence_L1 <- events_level1 %>%
   dplyr::select("eventID", "TreeID") %>% 
   dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1), sep = "_"), 
                 organismQuantity = 1,
-                organismQuantityType = "tree")
+                organismQuantityType = "tree",
+                organismID = TreeID)
 
 # create occurrence table for level 2 events
 occurrence_L2 <- events_level2 %>% 
@@ -127,23 +130,22 @@ occurrence_L2 <- events_level2 %>%
                    by = "BeechSampleID") %>% 
   dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1:dplyr::n()), sep = "_"), .by = eventID,
                 organismQuantity = sumNuts,
-                organismQuantityType = "beechnuts")
+                organismQuantityType = "nuts")
 
 # create helper file for creating occurrence and measurement table of level 3 events
 h1 <- events_level3 %>% 
-  dplyr::select("eventID", "GrossWeight", "NetWeight", "NbrNuts", "recordedByID", "TreeID", "measurementRemarks", "eventDate") %>% 
+  dplyr::select("eventID", "GrossWeight", "NetWeight", "NbrNuts", "recordedByID", "TreeID", "eventDate") %>% 
   dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1:dplyr::n()), sep = "_"), .by = eventID) %>% 
   tidyr::pivot_longer(cols = "GrossWeight":"NetWeight", names_to = "variable", values_to = "measurementValue") %>%
   dplyr::mutate(measurementID = paste(stringr::str_remove(string = occurrenceID, pattern = "o"), paste0("m", 1:dplyr::n()), sep = "_"), .by = occurrenceID,
-                measurementMethod = "Weighting of individual nuts",
                 measurementDeterminedDate = eventDate)
 
 # create occurrence table for level 3 events
 occurrence_L3 <- h1 %>%
-  dplyr::select("eventID", "occurrenceID", "NbrNuts") %>%
+  dplyr::select("eventID", "occurrenceID", "NbrNuts", "TreeID") %>%
   dplyr::distinct(occurrenceID, .keep_all = TRUE) %>% 
   dplyr::mutate(organismQuantity = NbrNuts,
-                organismQuantityType = "beechnuts") 
+                organismQuantityType = "nuts") 
 
 # bind occurrence files together and add general terms
 occurrence <- dplyr::bind_rows(occurrence_L1, occurrence_L2, occurrence_L3) %>% 
@@ -152,7 +154,6 @@ occurrence <- dplyr::bind_rows(occurrence_L1, occurrence_L2, occurrence_L3) %>%
                    by = "TreeID") %>%
   dplyr::mutate(basisOfRecord = "HumanObservation",
                 occurrenceStatus = "present") %>% 
-  dplyr::rename("organismID" = "TreeID") %>% 
   dplyr::select("eventID", "occurrenceID", "organismID", "recordedByID", "organismQuantity", "organismQuantityType", "occurrenceStatus", 
                 "scientificName", "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet")
 
@@ -163,20 +164,19 @@ occurrence <- dplyr::bind_rows(occurrence_L1, occurrence_L2, occurrence_L3) %>%
 measures_1 <- events_level2 %>% 
   dplyr::left_join(d_sample %>% 
                      dplyr::select("BeechSampleID", "NbrWhole", "TotalGrossWeightWhole", "NbrEaten", "NbrWithCaterpillars", 
-                                   "NbrRotten", "NbrRemainder", "NbrEmpty", "MonthWeight", "DayWeight"), 
+                                   "NbrRotten", "NbrRemainder", "NbrEmpty", "MonthWeight", "DayWeight", "AnalysticObserverID"), 
                    by = "BeechSampleID") %>% 
   tidyr::pivot_longer(cols = "NbrWhole":"NbrEmpty", names_to = "variable", values_to = "measurementValue") %>% 
   dplyr::left_join(occurrence_L2 %>% 
                      dplyr::select("BeechSampleID", "occurrenceID"),
                    by = "BeechSampleID") %>% 
   dplyr::mutate(measurementDeterminedDate = lubridate::make_date(year, MonthWeight, DayWeight),
-                measurementMethod = "Categorising and counting collected nuts",
-                measurementID = paste(stringr::str_remove(string = occurrenceID, pattern = "o"), paste0("m", 1:dplyr::n()), sep = "_"), .by = occurrenceID) %>% 
-  dplyr::rename(measurementRemarks = Remarks)
+                measurementDeterminedBy = AnalysticObserverID,
+                measurementID = paste(stringr::str_remove(string = occurrenceID, pattern = "o"), paste0("m", 1:dplyr::n()), sep = "_"), .by = occurrenceID) 
 
 # measurements on individual nut level (level 3 events)
 measures_2 <- h1 %>% 
-dplyr::select(c("eventID", "variable", "measurementValue", "measurementID", "measurementRemarks", "measurementMethod", "measurementDeterminedDate")) 
+  dplyr::select(c("eventID", "occurrenceID", "variable", "measurementValue", "measurementID", "measurementDeterminedDate", "measurementDeterminedBy" = "recordedByID")) 
 
 # bind different measurements together and add remaining terms
 measurement_or_fact <- dplyr::bind_rows(measures_1, measures_2) %>% 
@@ -189,8 +189,18 @@ measurement_or_fact <- dplyr::bind_rows(measures_1, measures_2) %>%
                                                    variable == "NbrEmpty" ~ "Number of empty (SIO:001339) nut fruits (PO:0030102)",
                                                    variable == "GrossWeight" ~ "Nut fruit weight (TO:0001093) with pericarp (PO:0009084) of individual whole (PATO:0001446) nut fruits (PO:0030102)",
                                                    variable == "NetWeight" ~ "Nut fruit weight (TO:0001093) without pericarp (PO:0009084) of individual whole (PATO:0001446) nut fruits (PO:0030102)"),
-                measurementUnit = dplyr::case_when(stringr::str_detect(string = measurementType, pattern = "weight") ~ "milligrams")) %>% 
-  dplyr::select("measurementID", "eventID", "measurementType", "measurementValue", "measurementUnit", "measurementDeterminedDate", "measurementMethod", "measurementRemarks")
+                measurementUnit = dplyr::if_else((stringr::str_detect(string = measurementType, pattern = "weight") & !is.na(measurementValue)), "milligram", NA),
+                measurementMethod = dplyr::case_when(variable == "NbrWhole" ~ "Hand count all shiny and firm whole nut fruits", 
+                                                     variable == "TotalGrossWeightWhole" ~ "Weigh all whole nut fruits with pericarp",
+                                                     variable == "NbrEaten" ~ "Hand count nut fruits with frayed wholes (usually) at thick side or corner of nut fruit",
+                                                     variable == "NbrWithCaterpillars" ~ "Hand count nut fruits with small round wholes and caterpillar droppings inside",
+                                                     variable == "NbrRotten" ~ "Hand count nut fruits that are light in weight and contain smaller balck nut fruits inside",
+                                                     variable == "NbrRemainder" ~ "Hand count nut fruits belonging to no other category",
+                                                     variable == "NbrEmpty" ~ "Hand count nut fruits that are completely empfty and can easily be squashed",
+                                                     variable == "GrossWeight" ~ "Weigh individual nut fruit with pericarp",
+                                                     variable == "NetWeight" ~ "Weigh individual nut fruit without pericarp"),
+                measurementRemarks = NA) %>% 
+  dplyr::select("eventID", "occurrenceID", "measurementID", "measurementType", "measurementValue", "measurementUnit", "measurementDeterminedDate", "measurementDeterminedBy", "measurementMethod", "measurementRemarks")
 
 
 # IV. Save DwC-A files -----------------------------------------------------
