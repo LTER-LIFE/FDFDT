@@ -18,7 +18,29 @@ library(taxize)
 source(here::here("R", "beechcrop", "beechcrop_retrieveData-SQL-Server.R"))
 
 
-# II. Event table ---------------------------------------------------------
+# II. Deal with missing years ---------------------------------------------
+missing_years <- setdiff(seq(min(d_sample$WinterYear), max(d_sample$WinterYear), 1), unique(d_sample$WinterYear))
+
+trees_1980_1995 <- d_sample %>% 
+  dplyr::filter(WinterYear == missing_years - 1) %>% 
+  dplyr::group_by(WinterYear) %>%  
+  dplyr::distinct(TreeID, .keep_all = TRUE) %>% 
+  dplyr::select(WinterYear, TreeID) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::mutate(YearCollect = WinterYear + 1,
+                WinterYear = YearCollect)
+
+trees_missingYears <- trees_1980_1995 %>% 
+  dplyr::filter(WinterYear == 1980) %>% 
+  dplyr::mutate(YearCollect = WinterYear + 2,
+                WinterYear = YearCollect) %>% 
+  dplyr::bind_rows(trees_1980_1995)
+  
+d_sample <- d_sample %>% 
+  dplyr::bind_rows(trees_missingYears)
+
+
+# III. Event table ---------------------------------------------------------
 
 # combine all tree related information
 trees <- d_tree %>%  
