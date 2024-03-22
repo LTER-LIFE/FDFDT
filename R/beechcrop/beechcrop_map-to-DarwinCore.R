@@ -21,29 +21,32 @@ source(here::here("R", "beechcrop", "beechcrop_retrieveData-SQL-Server.R"))
 # II. Deal with missing years ---------------------------------------------
 missing_years <- setdiff(seq(min(d_sample$WinterYear), max(d_sample$WinterYear), 1), unique(d_sample$WinterYear))
 
-trees_1980_1995 <- d_sample %>% 
-  dplyr::filter(WinterYear == missing_years - 1) %>% 
-  dplyr::group_by(WinterYear) %>%  
-  dplyr::distinct(TreeID, .keep_all = TRUE) %>% 
-  dplyr::select(WinterYear, TreeID) %>% 
-  dplyr::ungroup() %>% 
+trees_1981_1996 <- d_sample %>%
+  dplyr::filter(WinterYear == missing_years - 1) %>%
+  dplyr::group_by(WinterYear) %>%
+  dplyr::distinct(TreeID, .keep_all = TRUE) %>%
+  dplyr::select("WinterYear", "TreeID", "MonthCollect", "DayCollect") %>%
+  dplyr::ungroup() %>%
   dplyr::mutate(YearCollect = WinterYear + 1,
                 WinterYear = YearCollect)
 
-trees_missingYears <- trees_1980_1995 %>% 
-  dplyr::filter(WinterYear == 1980) %>% 
-  dplyr::mutate(YearCollect = WinterYear + 2,
-                WinterYear = YearCollect) %>% 
-  dplyr::bind_rows(trees_1980_1995)
-  
-d_sample <- d_sample %>% 
+trees_missingYears <- trees_1981_1996 %>%
+  dplyr::filter(WinterYear == 1981) %>%
+  dplyr::mutate(YearCollect = WinterYear + 1,
+                WinterYear = YearCollect) %>%
+  dplyr::bind_rows(trees_1981_1996) %>% 
+  dplyr::mutate(BeechSampleID = c((max(d_sample$BeechSampleID) + 1):(length(.$YearCollect) + max(d_sample$BeechSampleID))),
+                Position = 1234)
+
+d_sample <- d_sample %>%
   dplyr::bind_rows(trees_missingYears)
 
+# FIXME that's not working like this, because later on the IDs are not unique. causing huge vectors when pivoting the data that break the script
 
 # III. Event table ---------------------------------------------------------
 
 # combine all tree related information
-trees <- d_tree %>%  
+trees <- d_tree %>%
   dplyr::select(!c("SysDate", "SysUser", "Budburst", "Frass", "Wintermoth_Selection")) %>%  
   dplyr::left_join(d_area %>% 
                      dplyr::select("AreaID", "AreaName"), 
@@ -117,6 +120,7 @@ event <- dplyr::bind_rows(events_level1, events_level2, events_level3) %>%
                 type = "Event") %>% 
   dplyr::arrange(eventID) %>% 
   dplyr::select(!c("TreeID", "recordedByID"))
+
 
 # III. Occurrence table ---------------------------------------------------
 
