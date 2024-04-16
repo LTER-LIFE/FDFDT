@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Created: 2024-02-29
-# Last updated: 2024-03-05
+# Last updated: 2024-04-16
 
 # Part I: Retrieve data ---------------------------------------------------
 
@@ -21,11 +21,22 @@ source(here::here("R", "beechcrop", "beechcrop_retrieveData-SQL-Server.R"))
 # II. Deal with missing years ---------------------------------------------
 missing_years <- setdiff(seq(min(d_sample$WinterYear), max(d_sample$WinterYear), 1), unique(d_sample$WinterYear))
 
+average_samplingDay <- d_sample %>% 
+  dplyr::filter(dplyr::between(YearCollect, 2000, 2020)) %>% 
+  dplyr::mutate(date = lubridate::make_date(YearCollect, MonthCollect, DayCollect),
+                doy = lubridate::yday(date)) %>% 
+  dplyr::summarise(meanDoy = mean(doy, na.rm = TRUE)) %>% 
+  dplyr::pull(meanDoy)
+
+eventDate_missingYears <- tibble::tibble(year = missing_years, eventDate = (round(average_samplingDay) + lubridate::make_date(missing_years, 1, 1) - 1)) %>% 
+  dplyr::mutate(DayCollect = lubridate::day(eventDate),
+                MonthCollect = lubridate::month(eventDate))
+
 trees_1981_1996 <- d_sample %>%
   dplyr::filter(WinterYear == missing_years - 1) %>%
   dplyr::group_by(WinterYear) %>%
   dplyr::distinct(TreeID, .keep_all = TRUE) %>%
-  dplyr::select("WinterYear", "TreeID", "MonthCollect", "DayCollect") %>%
+  dplyr::select("WinterYear", "TreeID") %>%
   dplyr::ungroup() %>%
   dplyr::mutate(YearCollect = WinterYear + 1,
                 WinterYear = YearCollect)
@@ -36,12 +47,17 @@ trees_missingYears <- trees_1981_1996 %>%
                 WinterYear = YearCollect) %>%
   dplyr::bind_rows(trees_1981_1996) %>% 
   dplyr::mutate(BeechSampleID = c((max(d_sample$BeechSampleID) + 1):(length(.$YearCollect) + max(d_sample$BeechSampleID))),
-                Position = 1234)
+                Position = 1234,
+                NbrWhole = 0,
+                NbrEaten = 0, 
+                NbrWithCaterpillars = 0, 
+                NbrRotten = 0, 
+                NbrRemainder = 0, 
+                NbrEmpty = 0) %>% 
+  dplyr::left_join(eventDate_missingYears, by = c("WinterYear" = "year"))
 
 d_sample <- d_sample %>%
   dplyr::bind_rows(trees_missingYears)
-
-# FIXME that's not working like this, because later on the IDs are not unique. causing huge vectors when pivoting the data that break the script
 
 # III. Event table ---------------------------------------------------------
 
