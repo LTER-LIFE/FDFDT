@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="09aa6a9d-bccc-4eba-a98c-191e3cd09322" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+  <dataset>
+    <title>CLUE field data - Vegetation cover under 4 different treatments - Terrestrial Ecology/NIOO-KNAW</title>
+    <creator>
+      <address>
+        <city>Wageningen</city>
+        <country>NL</country>
+      </address>
+      <electronicMailAddress>W.vanderPutten@nioo.knaw.nl</electronicMailAddress>
+      <individualName>
+        <givenName>Wim H.</givenName>
+        <surName>van der Putten</surName>
+      </individualName>
+      <organizationName>Netherlands Institute of Ecology (NIOO-KNAW)</organizationName>
+      <positionName>head of department</positionName>
+      <userID>0000-0002-9341-4442</userID>
+    </creator>
+    <metadataProvider>
+      <individualName>
+        <givenName>Cherine C.</givenName>
+        <surName>Jantzen</surName>
+      </individualName>
+      <organizationName>Netherlands Institute of Ecology (NIOO-KNAW)</organizationName>
+      <address>
+        <city>Wageningen</city>
+        <country>NL</country>
+      </address>
+      <electronicMailAddress>C.Jantzen@nioo.knaw.nl</electronicMailAddress>
+      <userId>0009-0006-0723-2682</userId>
+    </metadataProvider>
+    <language>en</language>
+    <abstract>
+      <para>The data was collected as part of an long-term grassland biodiversity experiment in which plant community composition is studied under different treatments. In a randomized-block design with 5 blocks, each consisting of 4 plots, 4 different treatments were randomly assigned and different plant species were sown.</para>
+    </abstract>
+    <keywordSet>
+      <keyword>primary succession</keyword>
+      <keyword>grassland</keyword>
+      <keyword>vegetation</keyword>
+      <keyword>nematodes</keyword>
+      <keyword>biodiversity</keyword>
+      <keyword>ecosystem function</keyword>
+      <keyword>secondary succession</keyword>
+      <keyword>plant biomass</keyword>
+      <keyword>productivity</keyword>
+      <keyword>plant diversity</keyword>
+      <keywordThesaurus>envThes</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>long-term experiment</keyword>
+      <keyword>soil biodiversity</keyword>
+      <keywordThesaurus>GEMET</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>soil community</keyword>
+      <keyword>soil inoculation</keyword>
+      <keyword>ragwort</keyword>
+      <keyword>low diversity</keyword>
+      <keyword>high diversity</keyword>
+      <keyword>Jacobaea vulgaris</keyword>
+    </keywordSet>
+    <licensed>
+      <licenseName>Creative Commons Attribution 4.0 International</licenseName>
+      <url>https://creativecommons.org/licenses/by/4.0/</url>
+      <identifier>CC-BY-4.0</identifier>
+    </licensed>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>Mossel, Netherlands</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>5.751</westBoundingCoordinate>
+          <eastBoundingCoordinate>5.752</eastBoundingCoordinate>
+          <northBoundingCoordinate>52.060</northBoundingCoordinate>
+          <southBoundingCoordinate>52.059</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates>
+          <beginDate>
+            <calendarDate>1996</calendarDate>
+          </beginDate>
+          <endDate>
+            <calendarDate>2016</calendarDate>
+          </endDate>
+        </rangeOfDates>
+      </temporalCoverage>
+      <taxonomicCoverage>
+        <generalTaxonomicCoverage>Data covers 131 plant species coming from 25 families. It includes 2 species of the family Amaranthaceae, 5 species of the family Apiaceae, 27 species of the family Asteraceae, 2 species of the family Betulaceae, 3 species of the family Boraginaceae, 6 species of the family Brassicaceae, 1 species of the family Caprifoliaceae, 3 species of the family Caryophyllaceae, 1 species of the family Convolvulaceae, 12 species of the family Fabaceae, 4 species of the family Geraniaceae, 1 species of the family Hypericaceae, 3 species of the family Juncaceae, 4 species of the family Lamiaceae, 7 species of the family Onagraceae, 1 species of the family Pinaceae, 4 species of the family Plantaginaceae, 26 species of the family Poaceae, 8 species of the family Polygonaceae, 1 species of the family Primulaceae, 2 species of the family Rosaceae, 4 species of the family Rubiaceae, 1 species of the family Solanaceae, 2 species of the family Urticaceae, and 1 species of the family Violaceae.</generalTaxonomicCoverage>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Amaranthaceae</taxonRankValue>
+          <taxonId>3064</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Apiaceae</taxonRankValue>
+          <taxonId>6720</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Asteraceae</taxonRankValue>
+          <taxonId>3065</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Betulaceae</taxonRankValue>
+          <taxonId>4688</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Boraginaceae</taxonRankValue>
+          <taxonId>2498</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Brassicaceae</taxonRankValue>
+          <taxonId>3112</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Caprifoliaceae</taxonRankValue>
+          <taxonId>6710</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Caryophyllaceae</taxonRankValue>
+          <taxonId>2518</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Convolvulaceae</taxonRankValue>
+          <taxonId>2389</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Fabaceae</taxonRankValue>
+          <taxonId>5386</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Geraniaceae</taxonRankValue>
+          <taxonId>4676</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Hypericaceae</taxonRankValue>
+          <taxonId>4900406</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Juncaceae</taxonRankValue>
+          <taxonId>5353</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Lamiaceae</taxonRankValue>
+          <taxonId>2497</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Onagraceae</taxonRankValue>
+          <taxonId>2430</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Pinaceae</taxonRankValue>
+          <taxonId>3925</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Plantaginaceae</taxonRankValue>
+          <taxonId>2420</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Poaceae</taxonRankValue>
+          <taxonId>3073</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Polygonaceae</taxonRankValue>
+          <taxonId>2416</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Primulaceae</taxonRankValue>
+          <taxonId>6674</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Rosaceae</taxonRankValue>
+          <taxonId>5015</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Rubiaceae</taxonRankValue>
+          <taxonId>8798</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Solanaceae</taxonRankValue>
+          <taxonId>7717</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Urticaceae</taxonRankValue>
+          <taxonId>6639</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Violaceae</taxonRankValue>
+          <taxonId>6631</taxonId>
+        </taxonomicClassification>
+      </taxonomicCoverage>
+    </coverage>
+    <maintenance>
+      <description>
+        <para>Data is updated annually.</para>
+      </description>
+      <maintenanceUpdateFrequency>annually</maintenanceUpdateFrequency>
+    </maintenance>
+    <contact>
+      <individualName>
+        <givenName>Ciska</givenName>
+        <surName>Veen</surName>
+      </individualName>
+      <organizationName>Netherlands Institute of Ecology (NIOO-KNAW)</organizationName>
+      <address>
+        <city>Wageningen</city>
+        <country>NL</country>
+      </address>
+      <electronicMailAddress>c.veen@nioo.knaw.nl</electronicMailAddress>
+      <onlineUrl>https://nioo.knaw.nl/en/facilities/clue-field-veluwe-database</onlineUrl>
+      <userId>0000-0001-7736-9998</userId>
+    </contact>
+    <methods>
+      <methodStep>
+        <description>
+          <para>Starting in 1996, a former agricultural field was transformed into an experimental field site and fenced to exclude large mammalian herbivores.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>A randomized block design with 5 blocks each containing 4 plots of 10 m x 10 m was established and 4 different treatments assigned: 1) high diversity sowing, where each replicate was treated with the same seed mixture of mid- to high-secondary succession species of the local species pool; 2) low diversity sowing, where each replicate was treated with a different subset of the high diversity sowing mixture; 3) a natural colonization control and 4) a continued agricultural control.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>Until 2004, all plants were allowed natural colonisation without weeding and aboveground biomass was mowed and removed every year from all plots and border rows in September to October.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>In each plot 12 permanent subplots of 1m x 1m were established in which vegetation cover was assessed every year in July at peak standing biomass. The per cent cover of each plant species was estimated by using approximate midpoints of six classes (i.e. &lt; 1% estimated as 1%, &lt; 5% as 2%, &lt; 10% as5%, &lt; 25% as 15%, &lt; 50% as 25% and &gt; 50% as 50%) until 2001. From 2002 onwards, percent cover was measured directly.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>See also Fukami et al., 2005 - DOI: 10.1111/j.1461-0248.2005.00829.xÓ2005</para>
+        </description>
+      </methodStep>
+    </methods>
+  </dataset>
+</eml:eml>
