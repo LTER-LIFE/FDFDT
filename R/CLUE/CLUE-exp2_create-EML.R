@@ -32,7 +32,7 @@ creator <- list(individualName = list(givenName = "Wim H.",
                 address = list(country = "NL",
                                city = "Wageningen"),
                 electronicMailAddress = "W.vanderPutten@nioo.knaw.nl",
-                userID = "0000-0002-9341-4442")
+                userId = "0000-0002-9341-4442")
 
 # Information on the provider of the meta data
 metadataProvider <- list(individualName = list(givenName = "Cherine C.",
