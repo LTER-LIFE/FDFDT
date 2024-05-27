@@ -1,8 +1,8 @@
-# Map CLUE field master database of plant experiment 1 to Darwin Core ####
+# Map CLUE field vegetation data of experiment 1 to Darwin Core ####
 
 # Author: Cherine Jantzen
 # Created: 2024-03-25
-# Last updated: 2024-05-24
+# Last updated: 2024-05-27
 
 
 # I. Preparation ----------------------------------------------------------
@@ -15,29 +15,33 @@ library(readxl)
 library(stringr)
 
 # read in data
-plants <- readxl::read_xlsx(choose.files()) # "master database exp1.xlsx"
+plantCover <- readxl::read_xlsx(choose.files()) # "master database exp1.xlsx"
 
-source("retrieve-taxonInformation-from-GBIF.R")
+# retrieve function to retrieve taxonomic information from GBIF
+source(here::here("R", "CLUE", "retrieve-taxonInformation-from-GBIF.R"))
+
+# retrieve function to create meta.xml file
+source(here::here("R", "create-meta-xml-of-DwCA.R"))
 
 # II. Create event core ---------------------------------------------------
 
 # create eventID
-event <- plants %>% 
+event <- plantCover %>% 
   dplyr::mutate(eventID = paste(year, treatment, block, pq, sep = "-"),
                 language = "en",
                 country = "Netherlands",
                 countryCode = "NL",
                 institutionID = "https://ror.org/01g25jp36",
-                institutionCode = "NIOO",
+                institutionCode = "NIOO-KNAW",
                 type = "Event",
-                samplingProtocol = "?", #TODO
+                samplingProtocol = "Fukami, T., Martijn Bezemer, T., Mortimer, S.R. and van der Putten, W.H. (2005), Species divergence and trait convergence in experimental plant community assembly. Ecology Letters, 8: 1283-1290. https://doi.org/10.1111/j.1461-0248.2005.00829.x",
                 sampleSizeValue = 1,
-                sampleSizeUnit = "plot",
-                decimalLongitude = "5.7519", 
-                decimalLatitude = "52.0599", 
+                sampleSizeUnit = "square metre",
+                decimalLongitude = "5.75",
+                decimalLatitude = "52.07", 
                 geodeticDatum = "EPSG:4326", 
                 verbatimLocality = "Mossel", 
-                eventDate = year) %>%  #TODO which month? August/september?
+                eventDate = paste0(year, "-07")) %>%  
   dplyr::select("eventID", "samplingProtocol", "sampleSizeValue",
                 "sampleSizeUnit", "eventDate", "year", "country",
                 "countryCode", "verbatimLocality", "decimalLatitude", "decimalLongitude",
@@ -47,12 +51,12 @@ event <- plants %>%
 # III. Create occurrence file ---------------------------------------------
 
 # recode scientific names
-sciNames <- tibble::tibble(taxonName = names(plants)[5:135]) %>% 
+sciNames <- tibble::tibble(taxonName = names(plantCover)[5:length(plantCover)]) %>% 
   dplyr::mutate(newName = dplyr::case_when(taxonName == "Apiaceaa" ~ "Apiaceae",
                                            taxonName == "Trifolium spp. (repens/pratense)" ~ "Trifolium",
                                            TRUE ~ taxonName),
-                newName = stringr::str_remove_all(string = newName, pattern = " sp"),
-                newName = stringr::str_replace(string = newName, pattern = "Aperaica-venti", replace = "Apera spica-venti"),
+                newName = stringr::str_remove_all(string = newName, pattern = " sp"), # FIXME this is not very elegant as the following 3 taxa only need to be renamed because of deletion of "sp" that shouldn't be removed
+                newName = stringr::str_replace(string = newName, pattern = "Aperaica-venti", replace = "Apera spica-venti"), 
                 newName = stringr::str_replace(string = newName, pattern = "Galeopsiseciosa", replace = "Galeopsis speciosa"), 
                 newName = stringr::str_replace(string = newName, pattern = "Poaceaep.", replace = "Poaceae"),
                 newName = stringr::str_replace(string = newName, pattern = "Graminae", replace = "Gramineae"),
@@ -63,22 +67,24 @@ sciNames <- tibble::tibble(taxonName = names(plants)[5:135]) %>%
 # call function to retrieve taxonomic information
 taxonInformation <- get_taxonInformation(scientificNames = sciNames$newName,
                                          taxa_kingdom = "Plantae")
+
+# reorder retrieved tax. information and merge with original names
 taxon_reorderd <- taxonInformation %>% 
   dplyr::arrange(canonicalname) %>% 
   dplyr::bind_cols(sciNames %>% 
                      dplyr::arrange(newName)) %>% 
   tidyr::separate_wider_delim(cols = species,  names = c("Genus", "specificEpithet"), delim = " ", cols_remove = FALSE)
 
-occurrence <- plants %>% 
+# create occurrence file
+occurrence <- plantCover %>% 
   dplyr::mutate(eventID = paste(year, treatment, block, pq, sep = "-")) %>% 
-  tidyr::pivot_longer(cols = names(plants[5]):names(plants[length(plants)])) %>% 
+  tidyr::pivot_longer(cols = names(plantCover[5]):names(plantCover[length(plantCover)]), values_to = "organismQuantity", names_to = "taxon") %>% 
   dplyr::mutate(occurrenceID = paste(eventID, 1:dplyr::n(), sep = "_"), .by = eventID,
-                organismQuantityType = "individuals??",
+                organismQuantityType = "% cover",
                 basisOfRecord = "humanObservation",
                 occurrenceStatus = "present") %>% 
-  dplyr::left_join(taxon_reorderd, by = c("name" = "taxonName")) %>%
-  dplyr::rename("organismQuantity" = "value",
-                "scientificName" = "scientificname") %>% 
+  dplyr::left_join(taxon_reorderd, by = c("taxon" = "taxonName")) %>%
+  dplyr::rename("scientificName" = "scientificname") %>% 
   dplyr::select("eventID", "occurrenceID", "organismQuantity", 
                 "organismQuantityType", "basisOfRecord", "occurrenceStatus",
                 "scientificName", "kingdom", "phylum", "class", "order",
@@ -87,13 +93,18 @@ occurrence <- plants %>%
 
 # IV. Save files for DwC-A ------------------------------------------------
 
-write.csv(event, file = "CLUE-plants-exp1_event.csv", row.names = FALSE)
-write.csv(occurrence, file = "CLUE-plants-exp1_occurrence.csv", row.names = FALSE)
-save(taxonInformation, file= "CLUE_taxonomicInformation.Rda")
+write.csv(event, file = here::here("data", "CLUE-exp1_event.csv"), row.names = FALSE)
+write.csv(occurrence, file = here::here("data", "CLUE-exp1_occurrence.csv"), row.names = FALSE)
+save(taxonInformation, file = here::here("data", "CLUE_taxonomicInformation.Rda"))
+
 # V. Write meta.xml file --------------------------------------------------
 
-# source(here::here("R", "create-meta-xml-of-DwCA.R"))
-# 
-# create_meta_xml(core = c("Event" = here::here("data", "CLUE-plants-exp1_event.csv")),
-#                 extensions = "Occurrence" = here::here("data", "CLUE-plants-exp1_occurrence.csv"),
-#                 file = here::here("data", "CLUE-plants-exp1_meta.xml"))
+create_meta_xml(core = c("Event" = here::here("data", "CLUE-exp1_event.csv")),
+                extensions = c("Occurrence" = here::here("data", "CLUE-exp1_occurrence.csv")),
+                file = here::here("data", "CLUE-exp1_meta.xml"))
+
+
+# VI. Remove data files (should not be public yet) ------------------------
+
+file.remove(here::here("data", "CLUE-exp1_event.csv"))
+file.remove(here::here("data", "CLUE-exp1_occurrence.csv"))
