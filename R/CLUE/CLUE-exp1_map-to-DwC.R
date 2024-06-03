@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Created: 2024-03-25
-# Last updated: 2024-05-27
+# Last updated: 2024-06-03
 
 
 # I. Preparation ----------------------------------------------------------
@@ -55,11 +55,7 @@ sciNames <- tibble::tibble(taxonName = names(plantCover)[5:length(plantCover)]) 
   dplyr::mutate(newName = dplyr::case_when(taxonName == "Apiaceaa" ~ "Apiaceae",
                                            taxonName == "Trifolium spp. (repens/pratense)" ~ "Trifolium",
                                            TRUE ~ taxonName),
-                newName = stringr::str_remove_all(string = newName, pattern = " sp"), # FIXME this is not very elegant as the following 3 taxa only need to be renamed because of deletion of "sp" that shouldn't be removed
-                newName = stringr::str_replace(string = newName, pattern = "Aperaica-venti", replace = "Apera spica-venti"), 
-                newName = stringr::str_replace(string = newName, pattern = "Galeopsiseciosa", replace = "Galeopsis speciosa"), 
-                newName = stringr::str_replace(string = newName, pattern = "Poaceaep.", replace = "Poaceae"),
-                newName = stringr::str_replace(string = newName, pattern = "Graminae", replace = "Gramineae"),
+                newName = stringr::str_remove_all(string = newName, pattern = " sp$| sp\\.| spp\\."),
                 newName = stringr::str_replace(string = newName, pattern = "Sision amomum", replace = "Sison amomum"),
                 newName = stringr::str_replace(string = newName, pattern = "Polygonum  hydropiper", replace = "Polygonum hydropiper"))
 
@@ -91,16 +87,33 @@ occurrence <- plantCover %>%
                 "family", "genus", "specificEpithet")
 
 
-# IV. Save files for DwC-A ------------------------------------------------
+# IV. Create Measurement or fact file -------------------------------------
+
+measurementorfact <- plantCover %>% 
+  dplyr::mutate(eventID = paste(year, treatment, block, pq, sep = "-")) %>%  
+  dplyr::mutate(measurementID = paste(eventID, 1:dplyr::n(), sep = "_"), .by = eventID, 
+                measurementValue = dplyr::case_when(treatment == "CA" ~ "Continued agricultural rotation",
+                                                    treatment == "NC" ~ "Natural control",
+                                                    treatment == "HD" ~ "High diversity sowing", 
+                                                    treatment == "LD" ~ "Low diversity sowing"),
+                measurementUnit = NA, 
+                measurementType = "treatment (AGRO:00000322)",
+                measurementMethod = "Fukami, T., Martijn Bezemer, T., Mortimer, S.R. and van der Putten, W.H. (2005), Species divergence and trait convergence in experimental plant community assembly. Ecology Letters, 8: 1283-1290. https://doi.org/10.1111/j.1461-0248.2005.00829.x") %>% 
+  dplyr::select("eventID", "measurementID", "measurementType", "measurementValue", "measurementUnit",  "measurementMethod")
+
+
+# V. Save files for DwC-A -------------------------------------------------
 
 write.csv(event, file = here::here("data", "CLUE-exp1_event.csv"), row.names = FALSE)
 write.csv(occurrence, file = here::here("data", "CLUE-exp1_occurrence.csv"), row.names = FALSE)
+write.csv(measurementorfact, file = here::here("data", "CLUE-exp1_measurementOrFact.csv"), row.names = FALSE)
 save(taxonInformation, file = here::here("data", "CLUE_taxonomicInformation.Rda"))
 
-# V. Write meta.xml file --------------------------------------------------
+# VI. Write meta.xml file -------------------------------------------------
 
 create_meta_xml(core = c("Event" = here::here("data", "CLUE-exp1_event.csv")),
-                extensions = c("Occurrence" = here::here("data", "CLUE-exp1_occurrence.csv")),
+                extensions = c("Occurrence" = here::here("data", "CLUE-exp1_occurrence.csv"),
+                               "ExtendedMeasurementOrFact" = here::here("data", "CLUE-exp1_measurementOrFact.csv")),
                 file = here::here("data", "CLUE-exp1_meta.xml"))
 
 
@@ -108,3 +121,4 @@ create_meta_xml(core = c("Event" = here::here("data", "CLUE-exp1_event.csv")),
 
 file.remove(here::here("data", "CLUE-exp1_event.csv"))
 file.remove(here::here("data", "CLUE-exp1_occurrence.csv"))
+file.remove(here::here("data", "CLUE-exp1_measurementOrFact.csv"))

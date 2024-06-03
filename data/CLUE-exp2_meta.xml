@@ -41,4 +41,15 @@
     <field index="12" term="http://rs.tdwg.org/dwc/terms/genus"/>
     <field index="13" term="http://rs.tdwg.org/dwc/terms/specificEpithet"/>
   </extension>
+  <extension encoding="UTF-8" fieldsTerminatedBy="," linesTerminatedBy="\n" fieldsEnclosedBy="" ignoreHeaderLines="1" rowType="http://rs.iobis.org/obis/terms/ExtendedMeasurementOrFact">
+    <files>
+      <location>CLUE-exp2_measurementOrFact.csv</location>
+    </files>
+    <coreid index="0"/>
+    <field index="1" term="http://rs.tdwg.org/dwc/terms/measurementID"/>
+    <field index="2" term="http://rs.tdwg.org/dwc/terms/measurementType"/>
+    <field index="3" term="http://rs.tdwg.org/dwc/terms/measurementValue"/>
+    <field index="4" term="http://rs.tdwg.org/dwc/terms/measurementUnit"/>
+    <field index="5" term="http://rs.tdwg.org/dwc/terms/measurementMethod"/>
+  </extension>
 </archive>

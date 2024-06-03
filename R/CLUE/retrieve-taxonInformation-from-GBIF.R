@@ -30,9 +30,8 @@ get_taxonInformation <- function(scientificNames,
   taxonInformation <- taxInf_all %>%
     dplyr::filter(status == "ACCEPTED", matchtype == "EXACT", kingdom == taxa_kingdom)
   
-    # check whether there are scientific names still missing 
+  # check whether there are scientific names still missing 
   missing <- scientificNames[!scientificNames %in% taxonInformation$canonicalname]
-  
   
   if(length(missing) != 0) {
     
