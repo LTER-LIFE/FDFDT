@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Created: 2024-02-07
-# Last updated: 2024-02-19
+# Last updated: 2024-06-17
 
 
 # I. Preparation ----------------------------------------------------------
@@ -59,7 +59,7 @@ taxon_info_plant <- taxize::get_gbifid_(sci = "Tracheophyta") %>%
 
 occurrence_plants <- event_plants %>% 
   dplyr::select("eventID") %>% 
-  dplyr::mutate(occurrenceID = paste(eventID, 1, sep = "_"),
+  dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1:dplyr::n()), sep = "_"), .by = eventID,
                 phylum = "Tracheophyta",
                 organismQuantity = NA,
                 organismQuantityType = NA,
@@ -111,7 +111,7 @@ MOF_plants <- plants %>%
   dplyr::left_join(occurrence_plants %>%
                      dplyr::select("eventID", "occurrenceID"),
                    by = "eventID") %>% 
-  dplyr::mutate(measurementID = paste(occurrenceID, 1:dplyr::n(), sep = "_"), .by = "eventID") 
+  dplyr::mutate(measurementID = paste(stringr::str_remove(string = occurrenceID, pattern = "o"), paste0("m", 1:dplyr::n()), sep = "_"), .by = eventID) 
 
 
 # III. Mapping of cricket data --------------------------------------------
@@ -206,7 +206,7 @@ taxon_info_cricket <- taxize::get_gbifid_(sci = "Gryllus campestris") %>%
 # create occurrence file
 occurrence_crickets <- event_cricket %>% 
   dplyr::select("eventID", "organismID") %>% 
-  dplyr::mutate(occurrenceID = paste(eventID, 1, sep = "_"),
+  dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1:dplyr::n()), sep = "_"), .by = eventID,
                 organismQuantity = 1,
                 organismQuantityType = "individual",
                 basisOfRecord = "HumanObservation", 
@@ -220,7 +220,7 @@ MOF_crickets <- measurements_crickets %>%
   left_join(occurrence_crickets %>% 
               dplyr::select("eventID", "occurrenceID"),
             by = "eventID") %>%
-  dplyr::mutate(measurementID = paste(occurrenceID, 1:dplyr::n(), sep = "_"), .by = "eventID") %>%
+  dplyr::mutate(measurementID = paste(stringr::str_remove(string = occurrenceID, pattern = "o"), paste0("m", 1:dplyr::n()), sep = "_"), .by = eventID) %>%
   dplyr::select("measurementID", "eventID", "measurementType", "measurementValue", "measurementUnit", "measurementMethod")
 
 # IV. combine files for plants and crickets into final DwC-A files  ------------
