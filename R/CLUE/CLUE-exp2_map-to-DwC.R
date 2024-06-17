@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Created: 2024-05-27
-# Last updated: 2024-06-03
+# Last updated: 2024-06-17
 
 # I. Preparation ----------------------------------------------------------
 
@@ -78,7 +78,7 @@ occurrence <- plantCover %>%
                                             presence == "+" ~ "S1"),
                 eventID = paste(year, treatment, steppingstone, presence, sep = "-")) %>% 
   tidyr::pivot_longer(cols = names(plantCover[5]):names(plantCover[length(plantCover)]), values_to = "organismQuantity", names_to = "taxon") %>% 
-  dplyr::mutate(occurrenceID = paste(eventID, 1:dplyr::n(), sep = "_"), .by = eventID,
+  dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1:dplyr::n()), sep = "_"), .by = eventID,
                 organismQuantityType = "% cover",
                 basisOfRecord = "humanObservation",
                 occurrenceStatus = "present") %>% 
@@ -96,7 +96,7 @@ measurementorfact <- plantCover %>%
   dplyr::mutate(presence = dplyr::case_when(presence == "-" ~ "S0",
                                             presence == "+" ~ "S1"),
                 eventID = paste(year, treatment, steppingstone, presence, sep = "-")) %>%  
-  dplyr::mutate(measurementID = paste(eventID, 1:dplyr::n(), sep = "_"), .by = eventID, 
+  dplyr::mutate(measurementID = paste(eventID, paste0("m", 1:dplyr::n()), sep = "_"), .by = eventID, 
                 treatmentRecoded = dplyr::case_when(treatment == "NC" ~ "Natural control",
                                                     treatment == "HD" ~ "High diversity sowing", 
                                                     treatment == "LD" ~ "Low diversity sowing"),

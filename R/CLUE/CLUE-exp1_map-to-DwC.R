@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Created: 2024-03-25
-# Last updated: 2024-06-03
+# Last updated: 2024-06-17
 
 
 # I. Preparation ----------------------------------------------------------
@@ -75,7 +75,7 @@ taxon_reorderd <- taxonInformation %>%
 occurrence <- plantCover %>% 
   dplyr::mutate(eventID = paste(year, treatment, block, pq, sep = "-")) %>% 
   tidyr::pivot_longer(cols = names(plantCover[5]):names(plantCover[length(plantCover)]), values_to = "organismQuantity", names_to = "taxon") %>% 
-  dplyr::mutate(occurrenceID = paste(eventID, 1:dplyr::n(), sep = "_"), .by = eventID,
+  dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1:dplyr::n()), sep = "_"), .by = eventID,
                 organismQuantityType = "% cover",
                 basisOfRecord = "humanObservation",
                 occurrenceStatus = "present") %>% 
@@ -91,7 +91,7 @@ occurrence <- plantCover %>%
 
 measurementorfact <- plantCover %>% 
   dplyr::mutate(eventID = paste(year, treatment, block, pq, sep = "-")) %>%  
-  dplyr::mutate(measurementID = paste(eventID, 1:dplyr::n(), sep = "_"), .by = eventID, 
+  dplyr::mutate(measurementID = paste(eventID, paste0("m", 1:dplyr::n()), sep = "_"), .by = eventID, 
                 measurementValue = dplyr::case_when(treatment == "CA" ~ "Continued agricultural rotation",
                                                     treatment == "NC" ~ "Natural control",
                                                     treatment == "HD" ~ "High diversity sowing", 
