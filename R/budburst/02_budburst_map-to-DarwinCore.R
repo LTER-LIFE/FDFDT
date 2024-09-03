@@ -2,7 +2,7 @@
 
 # Authors: Cherine Jantzen, Stefan Vriend
 # Created: 2023-11-30
-# Last updated: 2023-01-22
+# Last updated: 2024-06-17
 
 # Part I: Retrieve data ---------------------------------------------------
 
@@ -20,8 +20,8 @@ library(stringr)
 # Note: function `retrieve_dataverse_data()` comes from R/dataverse-api.R.
 source(here::here("R", "retrieveData-API-Dataverse.R"))
 
-dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.80227/PDVNL/VLPXA3",
-                                          server = "demo.dataverse.nl")
+dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.34894/5SOKTV",  
+                                          server = "dataverse.nl")
 
 # Store each table as separate R objects for easier use, and exclude README
 purrr::walk2(.x = names(dataverse_list)[-1],
@@ -68,18 +68,10 @@ hierarchical_events <-
 
 ## 2. Create event file for Level 1: Years ####
 
-# Get all areas sampled within each year
-areas_per_year <-
-  d_budburst %>%
-  dplyr::group_by(Year) %>%
-  dplyr::distinct(Area, .keep_all = TRUE) %>%
-  dplyr::summarise(location = paste(Area, collapse = ", ")) %>%
-  dplyr::ungroup()
-
 # Create associated event file
 d_events_level1 <-
   hierarchical_events %>%
-  dplyr::select("eventID_L1", "Year") %>%
+  dplyr::select("eventID_L1", "Year", "Area") %>%
   dplyr::distinct(eventID_L1, .keep_all = TRUE) %>%
   dplyr::mutate(eventDate = as.character(Year),
                 month = NA,
@@ -92,25 +84,17 @@ d_events_level1 <-
                 decimalLongitude = NA,
                 geodeticDatum = NA,
                 minimumElevationInMeters = NA,
-                maximumElevationInMeters = NA,
-                verbatimLocality = areas_per_year$location[match(.$Year, areas_per_year$Year)]) %>%
+                maximumElevationInMeters = NA) %>%
   dplyr::rename("eventID" = "eventID_L1",
-                "year" = "Year")
+                "year" = "Year",
+                "verbatimLocality" = "Area")
 
 ## 3. Create event file for level 2: Sampling day within each year ####
-
-# Get all the areas that have been sampled on a specific day (in each year)
-areas_per_day <-
-  hierarchical_events %>%
-  dplyr::group_by(eventDate) %>%
-  dplyr::distinct(Area, .keep_all = TRUE) %>%
-  dplyr::summarise(location = paste(Area, collapse = ", ")) %>%
-  dplyr::ungroup()
 
 # Create event file
 d_events_level2 <-
   hierarchical_events %>%
-  dplyr::select("eventID_L2", "eventID_L1", "eventDate", "Year", "Month", "Day") %>%
+  dplyr::select("eventID_L2", "eventID_L1", "eventDate", "Year", "Month", "Day", "Area") %>%
   dplyr::distinct(eventID_L2, .keep_all = TRUE) %>%
   dplyr::mutate(samplingProtocol = NA,
                 sampleSizeValue = NA,
@@ -119,13 +103,13 @@ d_events_level2 <-
                 decimalLongitude = NA,
                 geodeticDatum = NA,
                 minimumElevationInMeters = NA,
-                maximumElevationInMeters = NA,
-                verbatimLocality = areas_per_day$location[match(.$eventDate, areas_per_day$eventDate)]) %>%
+                maximumElevationInMeters = NA) %>%
   dplyr::rename("eventID" = "eventID_L2",
                 "parentEventID" = "eventID_L1",
                 "year" = "Year",
                 "month" = "Month",
-                "day" = "Day") %>%
+                "day" = "Day",
+                "verbatimLocality" = "Area") %>%
   # Convert dates to characters to avoid merging problems later on
   dplyr::mutate(eventDate = as.character(eventDate))
 
@@ -141,20 +125,20 @@ d_budburst <- d_budburst %>%
 # Create associated event file
 d_events_level3 <-
   hierarchical_events %>%
-  dplyr::select("eventID_L3", "eventID_L2", "eventDate", "Year", "Month", "Day", "TreeID") %>%
+  dplyr::select("eventID_L3", "eventID_L2", "eventDate", "Year", "Month", "Day", "TreeID", "Area") %>%
   dplyr::mutate(samplingProtocol = "https://doi.org/10.1098/rspb.2000.1363",
                 sampleSizeValue = 1,
                 sampleSizeUnit = "tree",
                 decimalLatitude = d_tree$Latitude[match(.$TreeID, d_tree$TreeID)],
                 decimalLongitude = d_tree$Longitude[match(.$TreeID, d_tree$TreeID)],
                 minimumElevationInMeters = d_tree$Elevation[match(.$TreeID, d_tree$TreeID)],
-                maximumElevationInMeters = minimumElevationInMeters,
-                verbatimLocality = d_budburst$Area[match(.$eventID_L3, d_budburst$eventID)]) %>%
+                maximumElevationInMeters = minimumElevationInMeters) %>%
   dplyr::rename("eventID" = "eventID_L3",
                 "parentEventID" = "eventID_L2",
                 "year" = "Year",
                 "month" = "Month",
-                "day" = "Day") %>%
+                "day" = "Day",
+                "verbatimLocality" = "Area") %>%
   dplyr::select(!"TreeID")
 
 # Add geodetic Datum only for events where coordinates are given
@@ -227,9 +211,7 @@ tax <- taxize::get_gbifid_(sci = sciNames) %>%
 
 
 # Bind taxonomic information to each observation
-tree_species_tax <- dplyr::left_join(tree_species,
-                                     tax,
-                                     by = c("species" = "canonicalname"))
+tree_species_tax <- dplyr::left_join(tree_species, tax, by = c("species" = "canonicalname"))
 
 
 ## 2. Create occurrence IDs ####
@@ -244,11 +226,10 @@ if(d_budburst %>% dplyr::count(eventID) %>% dplyr::filter(n > 1) %>% nrow() > 0)
 
 }
 
-# Create occurrenceID by extending eventID with '_1'
+# Create occurrenceID by extending eventID with number of occurrences per event (here always: '_1')
 occID <-
   d_events_level3 %>%
-  dplyr::arrange(eventDate) %>%
-  dplyr::mutate(occurrenceID = paste(eventID, 1, sep = "_"))
+  dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1:dplyr::n()), sep = "_"), .by = eventID)
 
 # Create occurrence file
 occurrence <-
@@ -286,21 +267,13 @@ measurement_or_fact <-
 
 ## 2. Create measurementID ####
 
-# Number the measurements per occurrence
-measurement_or_fact <-
-  measurement_or_fact %>%
-  dplyr::group_by(eventID) %>%
-  dplyr::mutate("ID" = 1:dplyr::n()) %>%
-  dplyr::ungroup()
-
 # Add occurrenceID & create measurementID by extending occurrenceID by number of measurement
 measurement_or_fact <-
   measurement_or_fact %>%
   dplyr::left_join(occurrence %>%
                      dplyr::select("occurrenceID", "eventID"),
                    by = "eventID") %>%
-  dplyr::mutate(measurementID = paste(occurrenceID, ID, sep = "_")) %>%
-  dplyr::select(!c("ID", "occurrenceID")) %>%
+  dplyr::mutate(measurementID = paste(stringr::str_remove(string = occurrenceID, pattern = "o"), paste0("m", 1:dplyr::n()), sep = "_"), .by = occurrenceID) %>%
   # Rename measurement types to fit more controlled vocabulary
   dplyr::mutate(measurementType = dplyr::case_when(measurementType == "TreeTopScore" ~ "bud burst stage (PO:0025532) of the tree crown",
                                                    measurementType == "TreeAllScore" ~ "bud burst stage (PO:0025532) of the whole tree")) %>%
