@@ -60,11 +60,11 @@ licensed <- list(licenseName = "Creative Commons Attribution 4.0 International (
                  url = "https://creativecommons.org/licenses/by/4.0/")
 
 # Geographic coverage of the data
-geographic_coverage <- list(geographicDescription = "Several sites across the Netherlands have been sampled: The Nationalpark Hoge Veluwe, Oosterhout, Warnsborn, Doorwerth, Bennekom, Buunderkamp, Wolfheze, Rhene, Heveadorp, Goffert, Kernhem, Loenen",
-                            boundingCoordinates = list(westBoundingCoordinate = "5.574453",
-                                                       eastBoundingCoordinate = "6.019378",
-                                                       northBoundingCoordinate = "52.116720",
-                                                       southBoundingCoordinate = "51.821770"))
+geographic_coverage <- list(geographicDescription = "Several sites across the Netherlands have been sampled: The Nationalpark Hoge Veluwe, Oosterhout, Warnsborn, Doorwerth, Bennekom, Buunderkamp, Wolfheze, Rhenen, Heveadorp, Goffert, Kernhem, Loenen",
+                            boundingCoordinates = list(westBoundingCoordinate = "5.5711",
+                                                       eastBoundingCoordinate = "6.0190",
+                                                       northBoundingCoordinate = "52.1164",
+                                                       southBoundingCoordinate = "51.8218"))
 
 # Temporal coverage of the data
 temporal_coverage <- list(rangeOfDates = list(beginDate = list(calendarDate = "1988-04-21"),
