@@ -8,7 +8,7 @@
 # Load packages -----------------------------------------------------------
 
 library(WikidataQueryServiceR)
-library(WikidataR)
+#library(WikidataR)
 
 # Get English common name through {WikidataQueryServiceR} -----------------
 
@@ -44,32 +44,33 @@ get_common_name <- function(sci_name) {
   
 }
 
-# Get English common name through {WikidataR} -----------------------------
+
+# (alternative) Get English common name through {WikidataR} ---------------
 
 # Arguments
 # sci_name: Character specifying one or more scientific names
 
-get_common_name2 <- function(sci_name) {
-  
-  purrr::map_chr(.x = sci_name,
-                 .f = ~{
-                   
-                   # Search Wikidata item corresponding to scientific name
-                   item <- WikidataR::find_item(.x) |> 
-                     purrr::flatten()
-                   
-                   # Retrieve properties from Wikidata item
-                   wiki <- WikidataR::get_item(item$id)
-                   
-                   # Extract English common name
-                   wiki[[1]]$claims$P1843 |> 
-                     purrr::pluck("mainsnak", "datavalue", "value") |> 
-                     dplyr::filter(language == "en") |> 
-                     dplyr::pull("text") |> 
-                     purrr::as_vector() |> 
-                     stringr::str_to_sentence() |>
-                     unique()
-                   
-                 })
-  
-}
+# get_common_name2 <- function(sci_name) {
+#   
+#   purrr::map_chr(.x = sci_name,
+#                  .f = ~{
+#                    
+#                    # Search Wikidata item corresponding to scientific name
+#                    item <- WikidataR::find_item(.x) |> 
+#                      purrr::flatten()
+#                    
+#                    # Retrieve properties from Wikidata item
+#                    wiki <- WikidataR::get_item(item$id)
+#                    
+#                    # Extract English common name
+#                    wiki[[1]]$claims$P1843 |> 
+#                      purrr::pluck("mainsnak", "datavalue", "value") |> 
+#                      dplyr::filter(language == "en") |> 
+#                      dplyr::pull("text") |> 
+#                      purrr::as_vector() |> 
+#                      stringr::str_to_sentence() |>
+#                      unique()
+#                    
+#                  })
+#   
+# }
