@@ -8,7 +8,7 @@
 # Load packages -----------------------------------------------------------
 
 library(WikidataQueryServiceR)
-library(purrr)
+library(dplyr)
 library(stringr)
 #library(WikidataR)
 
@@ -37,8 +37,8 @@ get_common_name <- function(sci_name) {
   # Send query to Wikidata query service and extract English common name
   common_name <- WikidataQueryServiceR::query_wikidata(sparql_query = query,
                                                        format = "smart") |> 
-    purrr::map("common_name") |>
-    purrr::as_vector() |> 
+    dplyr::bind_rows() |> 
+    dplyr::pull("common_name") |>
     stringr::str_to_sentence() |>
     unique()
   
