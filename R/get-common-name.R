@@ -8,6 +8,8 @@
 # Load packages -----------------------------------------------------------
 
 library(WikidataQueryServiceR)
+library(purrr)
+library(stringr)
 #library(WikidataR)
 
 # Get English common name through {WikidataQueryServiceR} -----------------
