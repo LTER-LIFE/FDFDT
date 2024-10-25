@@ -10,34 +10,33 @@
 library(WikidataQueryServiceR)
 library(WikidataR)
 
+# Get English common name through {WikidataQueryServiceR} -----------------
 
-# Function ----------------------------------------------------------------
+# Note: this code uses SPARQL (an RDF-query language)
 
 # Arguments
 # sci_name: Character specifying one or more scientific names
 
 get_common_name <- function(sci_name) {
   
-  # Query common name from Wikidata
+  # SPARQL query to select common name from Wikidata
   query <- paste0('
       SELECT
         ?item ?common_name
       WHERE {
-        ?item wdt:P225 ?scientific_name;
+        ?item wdt:P225', '"', sci_name, '"', ';
               wdt:P1843 ?common_name.
 
       FILTER(LANGMATCHES(LANG(?common_name), "en"))
 
-      FILTER(lcase(str(?scientific_name)) IN (',
-        '"', tolower(sci_name), '"',
-      '))
-
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}
       ')
   
+  # Send query to Wikidata query service and extract English common name
   common_name <- WikidataQueryServiceR::query_wikidata(sparql_query = query,
-                                                       format = "smart") %>%
-    dplyr::pull("common_name") |>
+                                                       format = "smart") |> 
+    purrr::map("common_name") |>
+    purrr::as_vector() |> 
     stringr::str_to_sentence() |>
     unique()
   
@@ -45,21 +44,32 @@ get_common_name <- function(sci_name) {
   
 }
 
-# Alternative -------------------------------------------------------------
+# Get English common name through {WikidataR} -----------------------------
+
+# Arguments
+# sci_name: Character specifying one or more scientific names
 
 get_common_name2 <- function(sci_name) {
   
-  # Query common name from Wikidata
-  item <- WikidataR::find_item(sci_name) |> 
-    purrr::flatten()
-  
-  wiki <- WikidataR::get_item(item$id)
-  
-  wiki[[1]]$claims$P1843 |> 
-    purrr::pluck("mainsnak", "datavalue", "value") |> 
-    dplyr::filter(language == "en") |> 
-    dplyr::pull(text) |> 
-    stringr::str_to_sentence() |>
-    unique()
+  purrr::map_chr(.x = sci_name,
+                 .f = ~{
+                   
+                   # Search Wikidata item corresponding to scientific name
+                   item <- WikidataR::find_item(.x) |> 
+                     purrr::flatten()
+                   
+                   # Retrieve properties from Wikidata item
+                   wiki <- WikidataR::get_item(item$id)
+                   
+                   # Extract English common name
+                   wiki[[1]]$claims$P1843 |> 
+                     purrr::pluck("mainsnak", "datavalue", "value") |> 
+                     dplyr::filter(language == "en") |> 
+                     dplyr::pull("text") |> 
+                     purrr::as_vector() |> 
+                     stringr::str_to_sentence() |>
+                     unique()
+                   
+                 })
   
 }
