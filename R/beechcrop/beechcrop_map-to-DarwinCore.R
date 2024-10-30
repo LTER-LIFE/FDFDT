@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Created: 2024-02-29
-# Last updated: 2024-04-16
+# Last updated: 2024-10-30
 
 # Part I: Retrieve data ---------------------------------------------------
 
@@ -69,10 +69,7 @@ trees <- d_tree %>%
                    by = "AreaID") %>% 
   dplyr::left_join(d_species %>% 
                      dplyr::select("TreeSpeciesID", "TreeSpeciesName"),
-                   by = "TreeSpeciesID") %>% 
-  dplyr::left_join(d_site %>% 
-                     dplyr::select(!c("SysDate", "SysUser", "Remarks")),
-                   by = c("TreeID", "TreeNumber", "SiteNumber"))
+                   by = "TreeSpeciesID")
 
 
 # create level 2 events: collection of nuts in one plot of an individual tree
