@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Date: 08/11/2023
-# Last updated: 09/03/2024
+# Last updated: 30/10/2024
 
 # load packages
 library(dplyr)
@@ -24,10 +24,6 @@ con <- DBI::dbConnect(drv = odbc::odbc(),
 dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", table ="tbl_BeechSample")) %>% 
   dplyr::collect() -> d_sample
 
-## tbl_NameSite
-dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", table = "tbl_NameSite")) %>% 
-  dplyr::collect() -> d_site
-
 ## tbl_WeightPerNut
 dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", table = "tbl_WeightPerNut")) %>% 
   dplyr::collect() -> d_weight
@@ -41,13 +37,13 @@ dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", ta
   dplyr::collect() -> d_observer
 
 ## tbl_Tree
-dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Budburst", schema = "dbo", table = "tbl_Tree")) %>%
+dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Trees", schema = "dbo", table ="tbl_Tree")) %>% 
   dplyr::collect() -> d_tree
 
 ## tbl_TreeSpecies
-dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Budburst", schema = "dbo", table = "tbl_TreeSpecies")) %>%
+dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Trees", schema = "dbo", table ="tbl_TreeSpecies")) %>% 
   dplyr::collect() -> d_species
 
 ##tbl_Area
-dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Budburst", schema = "dbo", table = "tbl_Area")) %>%
+dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Trees", schema = "dbo", table ="tbl_Area")) %>% 
   dplyr::collect() -> d_area
