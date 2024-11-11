@@ -41,7 +41,36 @@ get_common_name <- function(sci_name,
                                                        format = "smart") |> 
     dplyr::bind_rows() |> 
     dplyr::mutate(common_name = stringr::str_to_title(common_name)) |> 
-    dplyr::distinct()
+    dplyr::distinct() |> 
+    dplyr::select(-"item")
+  
+  if(nrow(common_name) != length(lang)) {
+    
+    query <- paste0('
+      SELECT DISTINCT
+        ?item ?label ?common_name (LANG(?label) AS ?lang) (LANG(?common_name) AS ?lang_cn)
+      WHERE {
+        ?item wdt:P225', '"', sci_name, '"', ';
+              wdt:P1843 ?common_name;
+              rdfs:label ?label.
+
+      FILTER(LANG(?label) = ', '"', lang, '")
+
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}
+      ')
+    
+    common_name <- WikidataQueryServiceR::query_wikidata(sparql_query = query,
+                                                         format = "smart") |> 
+      dplyr::bind_rows() |> 
+      dplyr::mutate(common_name = dplyr::case_when(lang == "en" & lang_cn == "en" ~ stringr::str_to_title(common_name),
+                                                   lang == "en" & lang_cn != "en" ~ NA_character_,
+                                                   lang != "en" ~ stringr::str_to_title(label))) |> 
+      dplyr::select(-"lang_cn") |> 
+      dplyr::distinct() |> 
+      dplyr::select(-"item", -"label") |> 
+      dplyr::filter(if_all(common_name, ~!is.na(.)), .by = "lang")
+    
+  }
   
   return(common_name)
   
