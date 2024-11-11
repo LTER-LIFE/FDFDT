@@ -18,7 +18,7 @@ library(stringr)
 
 # Arguments
 # sci_name: Character specifying one or more scientific names
-# lang: Character specifying one or more languages the common name
+# lang: Character specifying one or more languages of the common name
 
 get_common_name <- function(sci_name,
                             lang = "en") {
