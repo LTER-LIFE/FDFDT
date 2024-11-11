@@ -2,7 +2,7 @@
 
 # Author: Stefan Vriend
 # Created: 2024-10-24
-# Last updated: 2024-10-28
+# Last updated: 2024-11-11
 
 
 # Load packages -----------------------------------------------------------
@@ -44,6 +44,8 @@ get_common_name <- function(sci_name,
     dplyr::distinct() |> 
     dplyr::select(-"item")
   
+  # For some taxa (e.g., plants and fungi), non-English common names are stored as 
+  # rdfs:label properties rather than wdt:P1843 properties
   if(nrow(common_name) != length(lang)) {
     
     query <- paste0('
@@ -68,7 +70,10 @@ get_common_name <- function(sci_name,
       dplyr::select(-"lang_cn") |> 
       dplyr::distinct() |> 
       dplyr::select(-"item", -"label") |> 
-      dplyr::filter(if_all(common_name, ~!is.na(.)), .by = "lang")
+      # For chosen languages that do not have a common name for the taxon,
+      # (e.g., Wikidata does not provide an English common name for the fungus Sparassis crispa)
+      # return NA.
+      dplyr::filter(!(is.na(common_name) & dplyr::n() > 1), .by = "lang")
     
   }
   
