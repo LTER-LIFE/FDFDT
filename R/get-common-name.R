@@ -1,4 +1,4 @@
-# Function to retrieve a species' English common name from Wikidata
+# Function to retrieve a taxon's common names from Wikidata
 
 # Author: Stefan Vriend
 # Created: 2024-10-24
