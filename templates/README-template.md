@@ -1,7 +1,8 @@
 This README was generated on [YYYY-MM-DD] by [NAME]  
 
 (Help text in parentheses should be deleted before finalising the document.)
-([Text in square brackets should be filled for your dataset].)  
+
+(Text in [square brackets] should be filled for your dataset.)  
 
 # Title
 (A brief description of the dataset. Recommended to include: subject, location, time period.)  
@@ -78,4 +79,14 @@ This README was generated on [YYYY-MM-DD] by [NAME]
 (Description of data files include the meaning of columns and values, and the relationship between the files.)  
 (This can also be done in a more structured way via a separate data dictionary.)  
 
-[description]  
+[file 1]
+
+|column|description|
+|:---|:-----|
+|[text]|[text]|
+
+[file 2]
+
+|column|description|
+|:---|:-----|
+|[text]|[text]|
