@@ -2,7 +2,7 @@
 
 # Authors: Cherine Jantzen, Stefan Vriend
 # Created: 2023-11-30
-# Last updated: 2024-06-17
+# Last updated: 2025-07-07
 
 # Part I: Retrieve data ---------------------------------------------------
 
@@ -27,9 +27,9 @@ dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.34894/5SOKTV",
 purrr::walk2(.x = names(dataverse_list)[-1],
              .y = dataverse_list[-1],
              .f = ~{
-
+               
                assign(.x, .y, envir = .GlobalEnv)
-
+               
              })
 
 
@@ -149,8 +149,7 @@ d_events_level3 <-
                 eventDate = as.character(eventDate))
 
 # Combine all three event files into the final event-core file
-event <-
-  dplyr::bind_rows(d_events_level1, d_events_level2, d_events_level3) %>%
+event <- dplyr::bind_rows(d_events_level1, d_events_level2, d_events_level3) %>%
   dplyr::arrange(eventDate, eventID)
 
 # Add DwC columns that apply to all event levels
@@ -162,7 +161,7 @@ event <-
                 institutionID = "https://ror.org/01g25jp36",
                 institutionCode = "NIOO",
                 type = "Event") %>%
-  # Reorder event file according to GBIF list
+  # Reorder event file (according to GBIF list)
   dplyr::select("eventID", "parentEventID", "samplingProtocol", "sampleSizeValue",
                 "sampleSizeUnit", "eventDate", "year", "month", "day", "country",
                 "countryCode", "verbatimLocality", "minimumElevationInMeters",
@@ -178,30 +177,29 @@ write.csv(event, file = here::here("data", "budburst_event.csv"), row.names = FA
 # Part III. Create occurrence table ---------------------------------------
 
 # Merge tables to assign tree species to each measurement
-tree_species <-
-  d_tree %>%
+tree_species <- d_tree %>%
   dplyr::select("TreeID", "TreeSpeciesID") %>%
-  #dplyr::select("TreeID", "TreeSpeciesID", "Remarks") %>%
   dplyr::left_join(tbl_treeSpecies, by = "TreeSpeciesID") %>%
   dplyr::right_join(d_budburst, by = "TreeID")
 
 
 ## 1. Get the taxonomic information of all species ####
 
+# show species names
+tbl_treeSpecies$TreeSpeciesName
+
 # Add scientific names to tree table
-tree_species <-
-  tree_species %>%
+tree_species <- tree_species %>%
   dplyr::mutate(species = dplyr::case_when(TreeSpeciesName == "European oak" ~ "Quercus robur",
                                            TreeSpeciesName == "American oak" ~ "Quercus rubra",
                                            TreeSpeciesName == "Larch" ~ "Larix kaempferi",
                                            TreeSpeciesName == "Pine" ~ "Pinus sylvestris",
-                                           TreeSpeciesName == "Birch" ~ "Betula pendula",
-                                           TRUE ~ "Tracheophyta"))
+                                           TreeSpeciesName == "Birch" ~ "Betula pendula"))
 
 # Get all scientific Names to query the taxonomic information in the next step
 sciNames <- unique(tree_species$species)
 
-# Query for all species
+# Query taxonomic information for all species from GBIF backbone taxonomy
 tax <- taxize::get_gbifid_(sci = sciNames) %>%
   dplyr::bind_rows() %>%
   dplyr::filter(status == "ACCEPTED" & matchtype == "EXACT") %>%
@@ -219,16 +217,15 @@ tree_species_tax <- dplyr::left_join(tree_species, tax, by = c("species" = "cano
 # Check whether there is any occasion in which more than one tree was sampled at a sampling event
 # (should not be the case here as we know that one measurement is only one tree at a time)
 if(d_budburst %>% dplyr::count(eventID) %>% dplyr::filter(n > 1) %>% nrow() > 0) {
-
+  
   stop(paste("In", d_budburst %>% dplyr::count(eventID) %>% dplyr::filter(n > 1) %>% nrow(),
              "instances of an event, more than one tree was sampled.",
              "This should not be the case for level-3 events."))
-
+  
 }
 
 # Create occurrenceID by extending eventID with number of occurrences per event (here always: '_1')
-occID <-
-  d_events_level3 %>%
+occID <- d_events_level3 %>%
   dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1:dplyr::n()), sep = "_"), .by = eventID)
 
 # Create occurrence file
@@ -252,11 +249,11 @@ occurrence <-
 # Save file as text file
 write.csv(occurrence, file = here::here("data", "budburst_occurrence.csv"), row.names = FALSE)
 
+
 # Part IV: Create Measurement or fact file --------------------------------
 
 ## 1. Create measurement or fact file ####
-measurement_or_fact <-
-  tree_species_tax %>%
+measurement_or_fact <- tree_species_tax %>%
   tidyr::pivot_longer(col = c("TreeTopScore", "TreeAllScore"),
                       names_to = "measurementType",
                       values_to = "measurementValue")  %>%
@@ -268,8 +265,7 @@ measurement_or_fact <-
 ## 2. Create measurementID ####
 
 # Add occurrenceID & create measurementID by extending occurrenceID by number of measurement
-measurement_or_fact <-
-  measurement_or_fact %>%
+measurement_or_fact <- measurement_or_fact %>%
   dplyr::left_join(occurrence %>%
                      dplyr::select("occurrenceID", "eventID"),
                    by = "eventID") %>%
@@ -291,3 +287,4 @@ create_meta_xml(core = c("Event" = here::here("data", "budburst_event.csv")),
                 extensions = c("ExtendedMeasurementOrFact" = here::here("data", "budburst_extendedmeasurementorfact.csv"),
                                "Occurrence" = here::here("data", "budburst_occurrence.csv")),
                 file = here::here("data", "budburst_meta.xml"))
+
