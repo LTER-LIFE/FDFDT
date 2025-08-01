@@ -218,7 +218,8 @@ if(d_budburst %>% dplyr::count(eventID) %>% dplyr::filter(n > 1) %>% nrow() > 0)
   
 }
 
-# temporary fix for touble entries:
+# temporary fix for double entries
+#TODO should automatically resolve when these updates are merged into the database; check again later
 d_budburst <- d_budburst %>% 
   dplyr::filter(!BudburstID %in% c(61801, 61794, 62736, 62656)) %>% 
   dplyr::mutate(AprilDate = dplyr::case_when(BudburstID == 101469 ~ 43,

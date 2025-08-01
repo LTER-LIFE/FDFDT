@@ -1,8 +1,8 @@
 # Retrieve data from data base and prepare data for Dataverse ####
 
 # Authors: Cherine Jantzen, Stefan Vriend
-# Created: 12/12/2023
-# Last updated: 19/01/2023
+# Created: 2023-12-12
+# Last updated: 2025-08-01
 
 # Load packages
 library(DBI)
