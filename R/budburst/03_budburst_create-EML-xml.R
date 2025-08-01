@@ -15,7 +15,7 @@ library(here)
 # 1. Fill in metadata ----------------------------------------------------
 
 # Title of the data set
-title <- "Darwin Core version of: Bud burst data of department of Animal Ecology/NIOO-KNAW"
+title <- "Darwin Core Archive version of: Bud burst data of department of Animal Ecology/NIOO-KNAW"
 
 # Information on the creator of the data set
 creator <- list(organizationName = "Department of Animal Ecology, Netherlands Institute of Ecology (NIOO-KNAW)",
