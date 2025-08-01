@@ -2,7 +2,7 @@
 
 # Authors: Cherine Jantzen, Stefan Vriend
 # Created: 2023-12-04
-# Last updated: 2024-03-01
+# Last updated: 2025-08-01
 
 
 # Load packages
@@ -15,7 +15,7 @@ library(here)
 # 1. Fill in metadata ----------------------------------------------------
 
 # Title of the data set
-title <- "Bud burst data of department of Animal Ecology/NIOO-KNAW"
+title <- "Darwin Core version of: Bud burst data of department of Animal Ecology/NIOO-KNAW"
 
 # Information on the creator of the data set
 creator <- list(organizationName = "Department of Animal Ecology, Netherlands Institute of Ecology (NIOO-KNAW)",
@@ -41,13 +41,13 @@ contact_person <- list(organizationName = "Department of Animal Ecology, Netherl
                        electronicMailAddress = "AnE_Database@nioo.knaw.nl")
 
 # Date of publication of the data set
-publication_date <- "2023-12-19"
+publication_date <- "2025-08-01"
 
 # Language of the data
 language <- "en"
 
 # Abstract describing the data set
-abstract <- list(para = "The stage of bud burst has been measured from 1988 onwards on several tree species in different areas across the Netherlands to record the phenology of the trees.")
+abstract <- list(para = "The stage of bud burst has been measured from 1988 onwards on three tree species in different areas across the Netherlands to record the phenology of the trees.")
 
 # List of keywords and the thesaurus they are listed in
 keywords <- list(list(keyword = list("bud burst", "trees", "ecology", "plant phenology"),
@@ -60,18 +60,18 @@ licensed <- list(licenseName = "Creative Commons Attribution 4.0 International (
                  url = "https://creativecommons.org/licenses/by/4.0/")
 
 # Geographic coverage of the data
-geographic_coverage <- list(geographicDescription = "Several sites across the Netherlands have been sampled: The Nationalpark Hoge Veluwe, Oosterhout, Warnsborn, Doorwerth, Bennekom, Buunderkamp, Wolfheze, Rhenen, Heveadorp, Goffert, Kernhem, Loenen",
+geographic_coverage <- list(geographicDescription = "Several sites across the Netherlands have been sampled: The National Park Hoge Veluwe, Oosterhout, Warnsborn, Doorwerth, Bennekom, Buunderkamp, Wolfheze, Rhenen, Heveadorp, Goffert, Kernhem, Loenen",
                             boundingCoordinates = list(westBoundingCoordinate = "5.5711",
                                                        eastBoundingCoordinate = "6.0190",
                                                        northBoundingCoordinate = "52.1164",
                                                        southBoundingCoordinate = "51.8218"))
 
 # Temporal coverage of the data
-temporal_coverage <- list(rangeOfDates = list(beginDate = list(calendarDate = "1988-04-21"),
-                                              endDate = list(calendarDate = "2023-05-21")))
+temporal_coverage <- list(rangeOfDates = list(beginDate = list(calendarDate = "1988-04-28"),
+                                              endDate = list(calendarDate = "2024-05-09")))
 
 # Taxonomic coverage of the data
-taxonomic_coverage <- list(generalTaxonomicCoverage = "Data covers a range of tree species that are either unknown or identified to species level.",
+taxonomic_coverage <- list(generalTaxonomicCoverage = "The data contain measures of three different tree species.",
                            taxonomicClassification = list(list(taxonRankName = "Species",
                                                                taxonRankValue = "Quercus robur",
                                                                taxonId = "2878688",
@@ -83,19 +83,7 @@ taxonomic_coverage <- list(generalTaxonomicCoverage = "Data covers a range of tr
                                                           list(taxonRankName = "Species",
                                                                taxonRankValue = "Betula pendula",
                                                                taxonId = "5331916",
-                                                               commonName = "Silver birch"),
-                                                          list(taxonRankName = "Species",
-                                                               taxonRankValue = "Larix kaempferi",
-                                                               taxonId = "2686157",
-                                                               commonName = "Japanese larch"),
-                                                          list(taxonRankName = "Species",
-                                                               taxonRankValue = "Pinus sylvestris",
-                                                               taxonId = "5285637",
-                                                               commonName = "Scots pine"),
-                                                          list(taxonRankName = "Phylum",
-                                                               taxonRankValue = "Tracheophyta",
-                                                               taxonId = "7707728",
-                                                               commonName = "Vascular plants")))
+                                                               commonName = "Silver birch")))
 
 # Combine all three types of coverage
 coverage <- list(geographicCoverage = geographic_coverage,
@@ -103,13 +91,15 @@ coverage <- list(geographicCoverage = geographic_coverage,
                  taxonomicCoverage = taxonomic_coverage)
 
 # Maintenance: frequency of updates
-maintenance <- list(maintenanceUpdateFrequency = "annually",
-                    description = list(para = "Data is updated after annual data collection."))
+maintenance <- list(maintenanceUpdateFrequency = "unknown",  
+                    description = list(para = "Update frequency is unknown."))
 
 
 # Methods for data collection
-methods <- list(methodStep = list(list(description = list(para = "Bud burst state is visually assessed twice a week from the beginning of April onwards.")),
-                                  list(description = list(para = "In the years 1989, 1990, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, bud burst was scored on a scale from 0 to 3 with increments of 0.25. In all other years, only increments of 0.5 were allowed. On this scale, 0 means that buds are not yet green, 0.5 means buds are swollen, 1 means buds are green and swollen, 2 means small leaves are sticking out and 3 means that leaves are bended at the leafbase. This score is assigned to both the lower part of the tree and the top of the tree."))))
+methods <- list(methodStep = list(list(description = list(para = "The stage of bud burst has been measured from 1988 onwards on different deciduous tree species in different areas across the Netherlands to record the phenology of the trees.")),
+                                  list(description = list(para = "The bud burst stage is visually assessed with binoculars two to three times a week from the beginning of April onwards. In some areas in the years 1989, 1990, 1997, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, bud burst was scored on a scale from 0 to 3 with increments of 0.25. In all other years, only increments of 0.5 were allowed. On this scale, 0 means that buds are not yet green, 0.5 means buds are swollen, 1 means buds are green and swollen, 2 means small leaves are sticking out and 3 means that leaves are bended at the leaf base. This score is assigned to both the entire tree and the top of the tree."))),
+                qualityControl = list(list(description = list(para = "Missing values in the data indicate true missing values (i.e., no data has been collected) and can occur for different reasons: there are no remaining leaves on the trees due to either late frosts that the leaves did not survive or high caterpillar abundance through which all leaves got eaten, or trees have a dead crown but the rest of the tree still has leaves leading to missing values for the TopScore.")),
+                                      list(description = list(para = "Not all trees have been scored on all days. Therefore, data should not be analysed within dates but rather within trees (e.g., for calculations of the bud burst date). The bud burst date can be calculated by setting a threshold value (e.g., TopScore = 1) and calculate the average date when this value was reached. You cannot take the average bud burst score on a particular day, because trees that have already reached a score of 3 are no longer scored."))))
 
 
 # 2. Create the EML.xml file ----------------------------------------------
@@ -160,9 +150,9 @@ xml2::xml_set_attr(title_node, attr = "xml:lang", value = "en")
 
 # 4. Validate EML file ----------------------------------------------------
 if(!emld::eml_validate(EML)) {
-
+  
   stop("The generated EML is not schema-valid.")
-
+  
 }
 
 # Write final EML file

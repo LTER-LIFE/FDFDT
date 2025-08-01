@@ -2,7 +2,7 @@
 
 # Authors: Cherine Jantzen, Stefan Vriend
 # Created: 2023-11-30
-# Last updated: 2025-07-07
+# Last updated: 2025-08-01
 
 # Part I: Retrieve data ---------------------------------------------------
 
@@ -170,10 +170,6 @@ event <-
   # Rename "Hoge Veluwe" back to original name
   dplyr::mutate(verbatimLocality = stringr::str_replace(string = verbatimLocality, pattern = "_", replacement = " "))
 
-# Save file as text file
-write.csv(event, file = here::here("data", "budburst_event.csv"), row.names = FALSE)
-
-
 # Part III. Create occurrence table ---------------------------------------
 
 # Merge tables to assign tree species to each measurement
@@ -192,8 +188,6 @@ tbl_treeSpecies$TreeSpeciesName
 tree_species <- tree_species %>%
   dplyr::mutate(species = dplyr::case_when(TreeSpeciesName == "European oak" ~ "Quercus robur",
                                            TreeSpeciesName == "American oak" ~ "Quercus rubra",
-                                           TreeSpeciesName == "Larch" ~ "Larix kaempferi",
-                                           TreeSpeciesName == "Pine" ~ "Pinus sylvestris",
                                            TreeSpeciesName == "Birch" ~ "Betula pendula"))
 
 # Get all scientific Names to query the taxonomic information in the next step
@@ -224,6 +218,12 @@ if(d_budburst %>% dplyr::count(eventID) %>% dplyr::filter(n > 1) %>% nrow() > 0)
   
 }
 
+# temporary fix for touble entries:
+d_budburst <- d_budburst %>% 
+  dplyr::filter(!BudburstID %in% c(61801, 61794, 62736, 62656)) %>% 
+  dplyr::mutate(AprilDate = dplyr::case_when(BudburstID == 101469 ~ 43,
+                                             TRUE ~ AprilDate))
+
 # Create occurrenceID by extending eventID with number of occurrences per event (here always: '_1')
 occID <- d_events_level3 %>%
   dplyr::mutate(occurrenceID = paste(eventID, paste0("o", 1:dplyr::n()), sep = "_"), .by = eventID)
@@ -245,10 +245,6 @@ occurrence <-
                 "individualCount", "basisOfRecord", "occurrenceStatus",
                 "occurrenceRemarks", "organismID", "scientificName", "kingdom", "phylum", "class", "order",
                 "family", "genus", "specificEpithet")
-
-# Save file as text file
-write.csv(occurrence, file = here::here("data", "budburst_occurrence.csv"), row.names = FALSE)
-
 
 # Part IV: Create Measurement or fact file --------------------------------
 
@@ -278,6 +274,8 @@ measurement_or_fact <- measurement_or_fact %>%
                 "measurementUnit", "measurementMethod", "measurementRemarks")
 
 # Save file as text file
+write.csv(event, file = here::here("data", "budburst_event.csv"), row.names = FALSE)
+write.csv(occurrence, file = here::here("data", "budburst_occurrence.csv"), row.names = FALSE)
 write.csv(measurement_or_fact, file = here::here("data", "budburst_extendedmeasurementorfact.csv"), row.names = FALSE)
 
 # Create meta.xml for bud burst DwC-A -------------------------------------
