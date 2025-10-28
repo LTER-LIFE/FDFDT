@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Date: 08/11/2023
-# Last updated: 30/10/2024
+# Last updated: 24/10/2025
 
 # load packages
 library(dplyr)
@@ -33,8 +33,8 @@ dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", ta
   dplyr::collect() -> d_position
 
 ## tbl_Observer
-dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", table = "tbl_Observer")) %>% 
-  dplyr::collect() -> d_observer
+# dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", table = "tbl_Observer")) %>% 
+#   dplyr::collect() -> d_observer
 
 ## tbl_Tree
 dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Trees", schema = "dbo", table ="tbl_Tree")) %>% 
@@ -47,3 +47,11 @@ dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Trees", schema = "dbo", table 
 ##tbl_Area
 dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Trees", schema = "dbo", table ="tbl_Area")) %>% 
   dplyr::collect() -> d_area
+
+## tbl_SampleType
+dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", table = "tbl_SampleType")) %>%
+  dplyr::collect() -> d_sampletype
+
+## vw_BeechSampleAll
+dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", table ="vw_BeechSampleAll")) %>% 
+  dplyr::collect() -> d_sample_view

@@ -27,16 +27,19 @@
     <pubDate>2024-02-28</pubDate>
     <language>en</language>
     <abstract>
-      <para>Within the National Park Hoge Veluwe the amount of beech nuts is assessed yearly to determine the beech crop index and thereby monitor seed availability for dependent predators.</para>
+      <para>Seed production of European beech (Fagus sylvatica) is assessed yearly by the Netherlands Institute of Ecology (NIOO-KNAW) since 1976. The data contains individual-level information on beechnut production of a selected set of trees in the Nationalpar Hoge Veluwe, Netherlands, consisting of counts and weights.</para>
     </abstract>
     <keywordSet>
       <keyword>trees</keyword>
       <keyword>ecology</keyword>
+      <keyword>seed production</keyword>
       <keywordThesaurus>envThes</keywordThesaurus>
     </keywordSet>
     <keywordSet>
       <keyword>beech</keyword>
       <keyword>beechnut</keyword>
+      <keyword>masting</keyword>
+      <keyword>Fagus sylvatica</keyword>
     </keywordSet>
     <licensed>
       <licenseName>Creative Commons Attribution 4.0 International (CC BY 4.0)</licenseName>
@@ -58,7 +61,7 @@
             <calendarDate>1976-10-08</calendarDate>
           </beginDate>
           <endDate>
-            <calendarDate>2022-10-19</calendarDate>
+            <calendarDate>2024-12-16</calendarDate>
           </endDate>
         </rangeOfDates>
       </temporalCoverage>
@@ -74,9 +77,9 @@
     </coverage>
     <maintenance>
       <description>
-        <para>Data is updated after annual data collection.</para>
+        <para>Update frequency is unknown.</para>
       </description>
-      <maintenanceUpdateFrequency>annually</maintenanceUpdateFrequency>
+      <maintenanceUpdateFrequency>unknown</maintenanceUpdateFrequency>
     </maintenance>
     <contact>
       <organizationName>Department of Animal Ecology, Netherlands Institute of Ecology (NIOO-KNAW)</organizationName>
@@ -95,22 +98,27 @@
       </methodStep>
       <methodStep>
         <description>
-          <para>Four grids of 30 by 30 cm are placed in the direction of a cross that is carved into the bark of the tree. The first grid is placed half a meter from the stem and the last grid prependicular to the end point of the farthest overhanging branch, while the other two grids are placed on equal distances in between the first and last grid.</para>
+          <para>Four grids of 25 by 25 cm are placed in the direction of either a cross carved into the bark of the tree or a coloured pin. The first grid is placed half a meter from the stem, the last grid prependicular to the end point of the farthest overhanging branch, and the other two grids in equal distances in between the first and last grid.</para>
         </description>
       </methodStep>
       <methodStep>
         <description>
-          <para>All beech nuts in each grid are collected (from whole nuts to partial nuts) and packed, per grid, in labelled bags.</para>
+          <para>In each grid, all beechnuts are collected (from whole nuts to partial nuts) and packed, per grid, in labelled bags.</para>
         </description>
       </methodStep>
       <methodStep>
         <description>
-          <para>Within few days, nuts have to be analysed. From 2011 onwards, the nuts are dried (outside the bags) at room temperature for 24 hours before analysis. After drying, the nuts are sorted into six categories: whole nuts (shiny and firm; total number and gross weight in milligrams are determined), caterpillar nuts (have small round hole and, when opened, usually are full of caterpillar droppings; total number is counted), eaten nuts (hole in nut is not smooth but frayed and mainly located at the thick side of the nut or the corner; total number is counted), empty nuts (can easily be squashed with the fingers and are completely empty inside; total number is counted), rotten nuts (usually seem firm and whole, but are very light in weight and have smaller black nuts in the inside when opened; total number is counted) and other (nut that do not belong to any other category; total number is counted).</para>
+          <para>Within few days, nuts have to be analysed. From 2011 onwards, the nuts are dried (outside the bags) at room temperature for at least 24 hours before analysis. After drying, the nuts are sorted into six categories: whole nuts (shiny and firm; total number and gross weight in milligrams are determined), caterpillar nuts (have small round hole and, when opened, usually are full of caterpillar droppings; total number is counted), eaten nuts (hole in nut is not smooth but frayed and mainly located at the thick side of the nut or the corner; total number is counted), empty nuts (can easily be squashed with the fingers and are completely empty inside; total number is counted), rotten nuts (usually seem firm and whole, but are very light in weight and have smaller black nuts in the inside when opened; total number is counted) and other (nut that do not belong to any other category; total number is counted).</para>
         </description>
       </methodStep>
       <methodStep>
         <description>
-          <para>For whole nuts, the total gross weight of all nuts is weighted and all whole nuts are separately weighted with peel (gross weight) and without peel (net weight) with a maximum of five nuts per sample.</para>
+          <para>For whole nuts, the total gross weight of all whole nuts is taken. Additionally, all whole nuts are individually weighted with peel (gross weight) and without peel (net weight) with a maximum of five nuts per sample.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>For all details on the data collection and deviations from the general methods decribed here, please see Jantzen &amp; Visser, 2026 (doi:  XX).</para>
         </description>
       </methodStep>
     </methods>

@@ -2,7 +2,7 @@
 
 # Authors: Cherine Jantzen
 # Created: 2024-02-28
-# Last updated: 2024-03-05
+# Last updated: 2025-10-28
 
 
 # Load packages
@@ -43,12 +43,12 @@ contact_person <- list(organizationName = "Department of Animal Ecology, Netherl
 language <- "en"
 
 # Abstract describing the data set
-abstract <- list(para = "Within the National Park Hoge Veluwe the amount of beech nuts is assessed yearly to determine the beech crop index and thereby monitor seed availability for dependent predators.")
+abstract <- list(para = "Seed production of European beech (Fagus sylvatica) is assessed yearly by the Netherlands Institute of Ecology (NIOO-KNAW) since 1976. The data contains individual-level information on beechnut production of a selected set of trees in the Nationalpar Hoge Veluwe, Netherlands, consisting of counts and weights.")
 
 # List of keywords and the thesaurus they are listed in
-keywords <- list(list(keyword = list("trees", "ecology"),
+keywords <- list(list(keyword = list("trees", "ecology", "seed production"),
                       keywordThesaurus = "envThes"),
-                 list(keyword = list("beech", "beechnut")))
+                 list(keyword = list("beech", "beechnut", "masting", "Fagus sylvatica")))
 
 # License for the work
 licensed <- list(licenseName = "Creative Commons Attribution 4.0 International (CC BY 4.0)",
@@ -63,7 +63,7 @@ geographic_coverage <- list(geographicDescription = "The Nationalpark Hoge Veluw
 
 # Temporal coverage of the data
 temporal_coverage <- list(rangeOfDates = list(beginDate = list(calendarDate = "1976-10-08"),
-                                              endDate = list(calendarDate = "2022-10-19")))
+                                              endDate = list(calendarDate = "2024-12-16")))
 
 # Taxonomic coverage of the data
 taxonomic_coverage <- list(generalTaxonomicCoverage = "Data is collected on European beech trees.",
@@ -78,19 +78,20 @@ coverage <- list(geographicCoverage = geographic_coverage,
                  taxonomicCoverage = taxonomic_coverage)
 
 # Maintenance: frequency of updates
-maintenance <- list(maintenanceUpdateFrequency = "annually",
-                    description = list(para = "Data is updated after annual data collection."))
+maintenance <- list(maintenanceUpdateFrequency = "unknown",
+                    description = list(para = "Update frequency is unknown."))
 
 # date of publication
-publication_date <- "2024-02-28"
+publication_date <- "2024-02-28" # TODO update
 
 
 # Methods for data collection
 methods <- list(methodStep = list(list(description = list(para = "A set of selected beech trees is visited each year in autumn.")),
-                                  list(description = list(para = "Four grids of 30 by 30 cm are placed in the direction of a cross that is carved into the bark of the tree. The first grid is placed half a meter from the stem and the last grid prependicular to the end point of the farthest overhanging branch, while the other two grids are placed on equal distances in between the first and last grid.")),
-                                  list(description = list(para = "All beech nuts in each grid are collected (from whole nuts to partial nuts) and packed, per grid, in labelled bags.")),
-                                  list(description = list(para = "Within few days, nuts have to be analysed. From 2011 onwards, the nuts are dried (outside the bags) at room temperature for 24 hours before analysis. After drying, the nuts are sorted into six categories: whole nuts (shiny and firm; total number and gross weight in milligrams are determined), caterpillar nuts (have small round hole and, when opened, usually are full of caterpillar droppings; total number is counted), eaten nuts (hole in nut is not smooth but frayed and mainly located at the thick side of the nut or the corner; total number is counted), empty nuts (can easily be squashed with the fingers and are completely empty inside; total number is counted), rotten nuts (usually seem firm and whole, but are very light in weight and have smaller black nuts in the inside when opened; total number is counted) and other (nut that do not belong to any other category; total number is counted).")),
-                                  list(description = list(para = "For whole nuts, the total gross weight of all nuts is weighted and all whole nuts are separately weighted with peel (gross weight) and without peel (net weight) with a maximum of five nuts per sample."))))
+                                  list(description = list(para = "Four grids of 25 by 25 cm are placed in the direction of either a cross carved into the bark of the tree or a coloured pin. The first grid is placed half a meter from the stem, the last grid prependicular to the end point of the farthest overhanging branch, and the other two grids in equal distances in between the first and last grid.")),
+                                  list(description = list(para = "In each grid, all beechnuts are collected (from whole nuts to partial nuts) and packed, per grid, in labelled bags.")),
+                                  list(description = list(para = "Within few days, nuts have to be analysed. From 2011 onwards, the nuts are dried (outside the bags) at room temperature for at least 24 hours before analysis. After drying, the nuts are sorted into six categories: whole nuts (shiny and firm; total number and gross weight in milligrams are determined), caterpillar nuts (have small round hole and, when opened, usually are full of caterpillar droppings; total number is counted), eaten nuts (hole in nut is not smooth but frayed and mainly located at the thick side of the nut or the corner; total number is counted), empty nuts (can easily be squashed with the fingers and are completely empty inside; total number is counted), rotten nuts (usually seem firm and whole, but are very light in weight and have smaller black nuts in the inside when opened; total number is counted) and other (nut that do not belong to any other category; total number is counted).")),
+                                  list(description = list(para = "For whole nuts, the total gross weight of all whole nuts is taken. Additionally, all whole nuts are individually weighted with peel (gross weight) and without peel (net weight) with a maximum of five nuts per sample.")),
+                                  list(description = list(para = "For all details on the data collection and deviations from the general methods decribed here, please see Jantzen & Visser, 2026 (doi:  XX).")))) # TODO fill in the DOI
 
 # 2. Create the EML.xml file ----------------------------------------------
 
@@ -147,3 +148,11 @@ if(!emld::eml_validate(EML)) {
 
 # Write final EML file
 xml2::write_xml(EML, file = here::here("data", "beechcrop_EML.xml"))
+
+
+# Save file locally -------------------------------------------------------
+
+# choose directory to store files
+dir_loc <- rstudioapi::selectDirectory()
+
+xml2::write_xml(EML, file = paste0(dir_loc, "/", "beechcrop_EML.xml"))

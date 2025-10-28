@@ -244,7 +244,7 @@ assign_uri <- function(term) {
     
   } else {
     
-    url <- paste0("https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/", term)
+    url <- paste0("https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/", term, "/")
     try_dc <- try_url(url)
     
     if(is.null(try_dc$error) & !is.null(try_dc$result)) {
