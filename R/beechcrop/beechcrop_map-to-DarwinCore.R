@@ -2,7 +2,7 @@
 
 # Author: Cherine C. Jantzen
 # Created: 2024-02-29
-# Last updated: 2025-10-28
+# Last updated: 2025-11-07
 
 # Part I: Retrieve data ---------------------------------------------------
 
@@ -17,7 +17,6 @@ library(taxize)
 
 # retrieve data
 source(here::here("R", "beechcrop", "beechcrop_retrieveData-SQL-Server.R"))
-
 
 
 # II. Check contents of data and remove unnecessary information -----------
@@ -73,8 +72,15 @@ names(d_weight)
 unique(d_weight$Remarks)
 # remarks relevant
 
+# remove Remarks that are not suitable for external use
 weight <- d_weight %>% 
+  dplyr::mutate(weight_Remarks = dplyr::case_when(Remarks %in% c("Gross weight was estimated") ~  Remarks,
+                                                  Remarks == "Record replaces previously combined positions, JR 20250513;no net weight, value not reliable" ~ "no net weight, value not reliable",
+                                                  TRUE ~ NA_character_)) %>% 
   dplyr::select(!c("SysUser", "SysDate"))
+
+unique(weight$weight_Remarks)
+
 
 ## d_sample_view is the homogenized and processed version of d_sample (i.e., only use this) 
 names(d_sample_view)
@@ -84,6 +90,13 @@ unique(d_sample_view$Remarks)
 # Remarks relevant
 
 samples <- d_sample_view %>% 
+  dplyr::mutate(sample_Remarks = dplyr::case_when(Remarks %in% c("Possibly false count",  "possible false count") ~ "Possibly false count",
+                                                  Remarks %in% c("outer skin missing, no gross weight", "4th position extrapolated from positions 1 to 3;Possibly false count") ~ Remarks,
+                                                  Remarks %in% c("4th position extrapolated from positions 1 to 3;E1 in book, recoded to E2 as used interchangeably over time",
+                                                                 "4th position extrapolated from positions 1 to 3;Record replaces previously combined positions, JR 20250513;",
+                                                                 "4th position extrapolated from positions 1 to 3;Record replaces previously combined positions, JR 20250513;E1 in book, recoded to E2 as used interchangeably over time",
+                                                                 "4th position extrapolated from positions 1 to 3;Sample without nuts, zeros added April 2024") ~ "4th position extrapolated from positions 1 to 3", 
+                                                  TRUE ~ NA_character_)) %>% 
   dplyr::select(!c("SysUser", "SysDate")) %>% 
   dplyr::rename("SampleTypeID" = "SampleType")
 
@@ -146,9 +159,7 @@ level2_eventIDs <- events_level2 %>%
 # create level 3 events: weights of individual nuts per plot
 events_level3 <- samples %>% 
   dplyr::left_join(level2_eventIDs, by = c("BeechSampleID", "Position")) %>% 
-  dplyr::left_join(weight %>% 
-                     dplyr::rename("weight_Remarks" = "Remarks"), 
-                   by = "BeechSampleID", relationship = "many-to-many") %>% # BeechSampleID is not unique because of corrections, and several weights belong to the same plot (i.e., BeechSampleID)
+  dplyr::left_join(weight, by = "BeechSampleID", relationship = "many-to-many") %>% # BeechSampleID is not unique because of corrections, and several weights belong to the same plot (i.e., BeechSampleID)
   dplyr::filter(!is.na(WeightID)) %>% 
   dplyr::mutate(eventID = paste(parentEventID, paste0("N", 1:dplyr::n()), sep = "_"), 
                 .by = c(BeechSampleID, Position),
@@ -248,14 +259,16 @@ measures_2 <- events_level2 %>%
   dplyr::left_join(occurrence_L2 %>% 
                      dplyr::select("BeechSampleID","Position", "occurrenceID"),
                    by = c("BeechSampleID", "Position"), relationship = "many-to-many") %>% 
-  tidyr::pivot_longer(cols = c(starts_with("Nbr"), all_of(c("Position", "PositionOriginal", "SampleTypeID"))), 
-                      names_to = "variable", values_to = "measurementValue") %>%
+  tidyr::pivot_longer(cols = c(starts_with("Nbr"), 
+                               all_of(c("TotalGrossWeightWhole", "Position", "SampleTypeID"))), 
+                      names_to = "variable", 
+                      values_to = "measurementValue") %>%
   dplyr::mutate(measurementDeterminedDate = lubridate::make_date(year, MonthWeight, DayWeight),
                 measurementDeterminedBy = AnalysticObserverID,
                 measurementID = paste(stringr::str_remove(string = occurrenceID, pattern = "o"), 
                                       paste0("m", 1:dplyr::n()), sep = "_"), 
                 .by = occurrenceID,
-                measurementRemarks = NA_character_)
+                measurementRemarks = sample_Remarks)
 
 # measurements on individual nut level (level 3 events)
 measures_3 <- occurrence_L3 %>% 
@@ -282,7 +295,6 @@ measurement_or_fact <- dplyr::bind_rows(measures_2, measures_3) %>%
       variable == "GrossWeight" ~ "Nut fruit weight (TO:0001093) with pericarp (PO:0009084) of individual whole (PATO:0001446) nut fruits (PO:0030102)",
       variable == "NetWeight" ~ "Nut fruit weight (TO:0001093) without pericarp (PO:0009084) of individual whole (PATO:0001446) nut fruits (PO:0030102)",
       variable == "Position" ~ "Numeric position of plot",
-      variable == "PositionOriginal" ~ "Original position of plot",
       variable == "SampleTypeID" ~ "Sample Type (NCIT:C210102) ID"
     ),
     measurementUnit = dplyr::if_else((stringr::str_detect(string = measurementType, pattern = "weight") & 

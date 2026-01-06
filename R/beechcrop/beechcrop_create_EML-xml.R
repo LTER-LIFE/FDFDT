@@ -14,7 +14,7 @@ library(here)
 # 1. Fill in metadata ----------------------------------------------------
 
 # Title of the data set
-title <- "Beech crop data of department of Animal Ecology/NIOO-KNAW"
+title <- "Beech crop data of the department of Animal Ecology/NIOO-KNAW"
 
 # Information on the creator of the data set
 creator <- list(organizationName = "Department of Animal Ecology, Netherlands Institute of Ecology (NIOO-KNAW)",
