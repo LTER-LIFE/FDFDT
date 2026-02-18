@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="1ecc2c0b-6140-4029-b4f3-b6d4984b5da5" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
   <dataset>
-    <title xml:lang="en">Beech crop data of department of Animal Ecology/NIOO-KNAW</title>
+    <title xml:lang="en">Long-term seed production data of European beeches in the Hoge Veluwe, Netherlands</title>
     <creator>
-      <organizationName>Department of Animal Ecology, Netherlands Institute of Ecology (NIOO-KNAW)</organizationName>
+      <organizationName>Netherlands Institute of Ecology (NIOO-KNAW) - Department of Animal Ecology</organizationName>
       <positionName>Databank manager</positionName>
       <address>
         <city>Wageningen</city>
@@ -24,10 +24,10 @@
       </address>
       <electronicMailAddress>C.Jantzen@nioo.knaw.nl</electronicMailAddress>
     </metadataProvider>
-    <pubDate>2024-02-28</pubDate>
+    <pubDate>2026-02-18</pubDate>
     <language>en</language>
     <abstract>
-      <para>Seed production of European beech (Fagus sylvatica) is assessed yearly by the Netherlands Institute of Ecology (NIOO-KNAW) since 1976. The data contains individual-level information on beechnut production of a selected set of trees in the Nationalpar Hoge Veluwe, Netherlands, consisting of counts and weights.</para>
+      <para>Seed production of European beech (Fagus sylvatica) is assessed yearly by the Netherlands Institute of Ecology (NIOO-KNAW) since 1976. The data contains individual-level information on beechnut production of a selected set of trees in the Nationalpark Hoge Veluwe, Netherlands, consisting of counts and weights.</para>
     </abstract>
     <keywordSet>
       <keyword>trees</keyword>
@@ -49,19 +49,19 @@
       <geographicCoverage>
         <geographicDescription>The Nationalpark Hoge Veluwe</geographicDescription>
         <boundingCoordinates>
-          <westBoundingCoordinate>5.824437</westBoundingCoordinate>
-          <eastBoundingCoordinate>5.870356</eastBoundingCoordinate>
-          <northBoundingCoordinate>52.046648</northBoundingCoordinate>
-          <southBoundingCoordinate>52.032393</southBoundingCoordinate>
+          <westBoundingCoordinate>5.824</westBoundingCoordinate>
+          <eastBoundingCoordinate>5.870</eastBoundingCoordinate>
+          <northBoundingCoordinate>52.047</northBoundingCoordinate>
+          <southBoundingCoordinate>52.032</southBoundingCoordinate>
         </boundingCoordinates>
       </geographicCoverage>
       <temporalCoverage>
         <rangeOfDates>
           <beginDate>
-            <calendarDate>1976-10-08</calendarDate>
+            <calendarDate>1976-09-10</calendarDate>
           </beginDate>
           <endDate>
-            <calendarDate>2024-12-16</calendarDate>
+            <calendarDate>2025-10-16</calendarDate>
           </endDate>
         </rangeOfDates>
       </temporalCoverage>
@@ -82,7 +82,7 @@
       <maintenanceUpdateFrequency>unknown</maintenanceUpdateFrequency>
     </maintenance>
     <contact>
-      <organizationName>Department of Animal Ecology, Netherlands Institute of Ecology (NIOO-KNAW)</organizationName>
+      <organizationName>Netherlands Institute of Ecology (NIOO-KNAW) - Department of Animal Ecology</organizationName>
       <positionName>Databank manager</positionName>
       <address>
         <city>Wageningen</city>
@@ -113,12 +113,12 @@
       </methodStep>
       <methodStep>
         <description>
-          <para>For whole nuts, the total gross weight of all whole nuts is taken. Additionally, all whole nuts are individually weighted with peel (gross weight) and without peel (net weight) with a maximum of five nuts per sample.</para>
+          <para>For whole nuts, the total gross weight of all whole nuts is taken. Additionally, whole nuts are individually weighted with peel (gross weight) and without peel (net weight) with a maximum of five nuts per sample.</para>
         </description>
       </methodStep>
       <methodStep>
         <description>
-          <para>For all details on the data collection and deviations from the general methods decribed here, please see Jantzen &amp; Visser, 2026 (doi:  XX).</para>
+          <para>For all details on the data collection and deviations from the general methods decribed here, please see Jantzen and Visser (submitted).</para>
         </description>
       </methodStep>
     </methods>

@@ -2,7 +2,7 @@
 
 # Author: Cherine Jantzen
 # Date: 08/11/2023
-# Last updated: 24/10/2025
+# Last updated: 18/02/2026
 
 # load packages
 library(dplyr)
@@ -28,13 +28,9 @@ dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", ta
 dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", table = "tbl_WeightPerNut")) %>% 
   dplyr::collect() -> d_weight
 
-# ## tbl_Position
+## tbl_Position
 dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", table = "tbl_Position")) %>%
   dplyr::collect() -> d_position
-
-## tbl_Observer
-# dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_BeechCrop", schema = "dbo", table = "tbl_Observer")) %>% 
-#   dplyr::collect() -> d_observer
 
 ## tbl_Tree
 dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Trees", schema = "dbo", table ="tbl_Tree")) %>% 

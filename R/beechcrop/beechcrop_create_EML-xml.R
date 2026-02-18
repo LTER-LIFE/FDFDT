@@ -1,8 +1,8 @@
 # Pipeline for creation of EML metadata file of the DwC-A of beech crop data ####
 
-# Authors: Cherine Jantzen
-# Created: 2024-02-28
-# Last updated: 2025-10-28
+# Authors:          Cherine Jantzen
+# Created:          2024-02-28
+# Last updated:     2026-02-18
 
 
 # Load packages
@@ -14,10 +14,10 @@ library(here)
 # 1. Fill in metadata ----------------------------------------------------
 
 # Title of the data set
-title <- "Beech crop data of the department of Animal Ecology/NIOO-KNAW"
+title <- "Long-term seed production data of European beeches in the Hoge Veluwe, Netherlands"
 
 # Information on the creator of the data set
-creator <- list(organizationName = "Department of Animal Ecology, Netherlands Institute of Ecology (NIOO-KNAW)",
+creator <- list(organizationName = "Netherlands Institute of Ecology (NIOO-KNAW) - Department of Animal Ecology",
                 positionName = "Databank manager",
                 address = list(country = "NL",
                                city = "Wageningen"),
@@ -33,7 +33,7 @@ metadataProvider <- list(individualName = list(givenName = "Cherine",
                          electronicMailAddress = "C.Jantzen@nioo.knaw.nl")
 
 # Information on the contact person
-contact_person <- list(organizationName = "Department of Animal Ecology, Netherlands Institute of Ecology (NIOO-KNAW)",
+contact_person <- list(organizationName = "Netherlands Institute of Ecology (NIOO-KNAW) - Department of Animal Ecology",
                        address = list(country = "NL",
                                       city = "Wageningen"),
                        positionName = "Databank manager",
@@ -43,7 +43,7 @@ contact_person <- list(organizationName = "Department of Animal Ecology, Netherl
 language <- "en"
 
 # Abstract describing the data set
-abstract <- list(para = "Seed production of European beech (Fagus sylvatica) is assessed yearly by the Netherlands Institute of Ecology (NIOO-KNAW) since 1976. The data contains individual-level information on beechnut production of a selected set of trees in the Nationalpar Hoge Veluwe, Netherlands, consisting of counts and weights.")
+abstract <- list(para = "Seed production of European beech (Fagus sylvatica) is assessed yearly by the Netherlands Institute of Ecology (NIOO-KNAW) since 1976. The data contains individual-level information on beechnut production of a selected set of trees in the Nationalpark Hoge Veluwe, Netherlands, consisting of counts and weights.")
 
 # List of keywords and the thesaurus they are listed in
 keywords <- list(list(keyword = list("trees", "ecology", "seed production"),
@@ -56,14 +56,14 @@ licensed <- list(licenseName = "Creative Commons Attribution 4.0 International (
 
 # Geographic coverage of the data
 geographic_coverage <- list(geographicDescription = "The Nationalpark Hoge Veluwe",
-                            boundingCoordinates = list(westBoundingCoordinate = "5.824437",
-                                                       eastBoundingCoordinate = "5.870356",
-                                                       northBoundingCoordinate = "52.046648",
-                                                       southBoundingCoordinate = "52.032393"))
+                            boundingCoordinates = list(westBoundingCoordinate = "5.824",
+                                                       eastBoundingCoordinate = "5.870",
+                                                       northBoundingCoordinate = "52.047",
+                                                       southBoundingCoordinate = "52.032"))
 
 # Temporal coverage of the data
-temporal_coverage <- list(rangeOfDates = list(beginDate = list(calendarDate = "1976-10-08"),
-                                              endDate = list(calendarDate = "2024-12-16")))
+temporal_coverage <- list(rangeOfDates = list(beginDate = list(calendarDate = "1976-09-10"),
+                                              endDate = list(calendarDate = "2025-10-16")))
 
 # Taxonomic coverage of the data
 taxonomic_coverage <- list(generalTaxonomicCoverage = "Data is collected on European beech trees.",
@@ -82,7 +82,7 @@ maintenance <- list(maintenanceUpdateFrequency = "unknown",
                     description = list(para = "Update frequency is unknown."))
 
 # date of publication
-publication_date <- "2024-02-28" # TODO update
+publication_date <- "2026-02-18"
 
 
 # Methods for data collection
@@ -90,8 +90,8 @@ methods <- list(methodStep = list(list(description = list(para = "A set of selec
                                   list(description = list(para = "Four grids of 25 by 25 cm are placed in the direction of either a cross carved into the bark of the tree or a coloured pin. The first grid is placed half a meter from the stem, the last grid prependicular to the end point of the farthest overhanging branch, and the other two grids in equal distances in between the first and last grid.")),
                                   list(description = list(para = "In each grid, all beechnuts are collected (from whole nuts to partial nuts) and packed, per grid, in labelled bags.")),
                                   list(description = list(para = "Within few days, nuts have to be analysed. From 2011 onwards, the nuts are dried (outside the bags) at room temperature for at least 24 hours before analysis. After drying, the nuts are sorted into six categories: whole nuts (shiny and firm; total number and gross weight in milligrams are determined), caterpillar nuts (have small round hole and, when opened, usually are full of caterpillar droppings; total number is counted), eaten nuts (hole in nut is not smooth but frayed and mainly located at the thick side of the nut or the corner; total number is counted), empty nuts (can easily be squashed with the fingers and are completely empty inside; total number is counted), rotten nuts (usually seem firm and whole, but are very light in weight and have smaller black nuts in the inside when opened; total number is counted) and other (nut that do not belong to any other category; total number is counted).")),
-                                  list(description = list(para = "For whole nuts, the total gross weight of all whole nuts is taken. Additionally, all whole nuts are individually weighted with peel (gross weight) and without peel (net weight) with a maximum of five nuts per sample.")),
-                                  list(description = list(para = "For all details on the data collection and deviations from the general methods decribed here, please see Jantzen & Visser, 2026 (doi:  XX).")))) # TODO fill in the DOI
+                                  list(description = list(para = "For whole nuts, the total gross weight of all whole nuts is taken. Additionally, whole nuts are individually weighted with peel (gross weight) and without peel (net weight) with a maximum of five nuts per sample.")),
+                                  list(description = list(para = "For all details on the data collection and deviations from the general methods decribed here, please see Jantzen and Visser (submitted)."))))
 
 # 2. Create the EML.xml file ----------------------------------------------
 

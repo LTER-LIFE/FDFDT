@@ -2,7 +2,7 @@
 
 # Author: Cherine C. Jantzen
 # Created: 2024-02-29
-# Last updated: 2025-11-07
+# Last updated: 2026-02-18
 
 # Part I: Retrieve data ---------------------------------------------------
 
@@ -30,6 +30,7 @@ d_tree %>%
   dplyr::filter(compare_treeNumber != 0)
 # no rows remaining, i.e., both numbers are identical and TreeNumber_1976_1998 can go
 
+# delete unneeded columns
 tree <- d_tree %>%
   dplyr::select(!c("SysDate", "SysUser", "Budburst", "Frass", "Wintermoth_Selection", 
                    "TreeNumber_1976_1998", "UserPlaceName"))
@@ -41,6 +42,7 @@ names(d_area)
 unique(d_area$Remarks) 
 # no relevant remarks
 
+# delete unneeded columns
 area <- d_area %>% 
   dplyr::select(!c("AreaShortName", "AreaID_GT", "SysUser", "SysDate", "Remarks"))
 
@@ -51,6 +53,7 @@ names(d_species)
 unique(d_species$Remarks) 
 # no remarks
 
+# delete unneeded columns
 species <- d_species %>% 
   dplyr::select(!c("SysUser", "SysDate", "Remarks"))
 
@@ -61,6 +64,7 @@ names(d_sampletype)
 unique(d_sampletype$Remark)
 # remarks relevant
 
+# delete unneeded columns
 sampletype <- d_sampletype %>% 
   dplyr::select(!c("SysUser", "SysDate")) %>% 
   dplyr::rename("sampletype_Remark" = "Remark")
@@ -76,6 +80,7 @@ unique(d_weight$Remarks)
 weight <- d_weight %>% 
   dplyr::mutate(weight_Remarks = dplyr::case_when(Remarks %in% c("Gross weight was estimated") ~  Remarks,
                                                   Remarks == "Record replaces previously combined positions, JR 20250513;no net weight, value not reliable" ~ "no net weight, value not reliable",
+                                                  Remarks == "Record replaces previously combined positions, JR 20250513;dried out" ~ "dried out",
                                                   TRUE ~ NA_character_)) %>% 
   dplyr::select(!c("SysUser", "SysDate"))
 
@@ -90,15 +95,18 @@ unique(d_sample_view$Remarks)
 # Remarks relevant
 
 samples <- d_sample_view %>% 
-  dplyr::mutate(sample_Remarks = dplyr::case_when(Remarks %in% c("Possibly false count",  "possible false count") ~ "Possibly false count",
-                                                  Remarks %in% c("outer skin missing, no gross weight", "4th position extrapolated from positions 1 to 3;Possibly false count") ~ Remarks,
-                                                  Remarks %in% c("4th position extrapolated from positions 1 to 3;E1 in book, recoded to E2 as used interchangeably over time",
-                                                                 "4th position extrapolated from positions 1 to 3;Record replaces previously combined positions, JR 20250513;",
-                                                                 "4th position extrapolated from positions 1 to 3;Record replaces previously combined positions, JR 20250513;E1 in book, recoded to E2 as used interchangeably over time",
-                                                                 "4th position extrapolated from positions 1 to 3;Sample without nuts, zeros added April 2024") ~ "4th position extrapolated from positions 1 to 3", 
-                                                  TRUE ~ NA_character_)) %>% 
+  dplyr::mutate(sample_Remarks = dplyr::case_when(Remarks %in% c("Possibly false count",  "possible false count") ~ "Possibly false count", 
+                                                  Remarks %in% c("outer skin missing, no gross weight", "4th position extrapolated from positions 1 to 3;")  ~ Remarks, 
+                                                  TRUE ~ NA_character_),
+                TotalGrossWeightWhole = dplyr::case_when(TotalGrossWeightWhole == 0 ~ NA,
+                                                         TotalGrossWeightWhole > 0  ~ TotalGrossWeightWhole,
+                                                         TRUE ~ NA)) %>% 
   dplyr::select(!c("SysUser", "SysDate")) %>% 
   dplyr::rename("SampleTypeID" = "SampleType")
+
+
+# check remarks again
+unique(samples$sample_Remarks)
 
 ## check position table
 names(d_position)
@@ -106,6 +114,7 @@ names(d_position)
 
 position <- d_position %>% 
   dplyr::select(!c("SysUser", "SysDate"))
+
 
 # II. Event table ---------------------------------------------------------
 
@@ -143,7 +152,7 @@ events_level2 <- samples %>%
 # create level 1 events: sampling one individual tree on one day in a year
 events_level1 <- events_level2 %>% 
   dplyr::distinct(parentEventID, .keep_all = TRUE) %>% 
-  dplyr::mutate(samplingProtocol = "Perdeck, A. C., Visser, M. E., & Van Balen, J. H. (2000). Great tit Parus major survival and the beech-crop. Ardea, 88, 99-106.", #TODO: change to our paper 
+  dplyr::mutate(samplingProtocol = "Jantzen & Visser (submitted). Long-term annual seed production data of individual European beech (Fagus sylvatica) trees in the Netherlands", 
                 sampleSizeValue = 1,
                 sampleSizeUnit = "tree",
                 verbatimLocality = tree_info$AreaName[match(.$TreeID, tree_info$TreeID)],
@@ -154,7 +163,7 @@ events_level1 <- events_level2 %>%
 
 
 level2_eventIDs <- events_level2 %>% 
-  select("BeechSampleID", "Position", "parentEventID" = "eventID")
+  dplyr::select("BeechSampleID", "Position", "parentEventID" = "eventID")
 
 # create level 3 events: weights of individual nuts per plot
 events_level3 <- samples %>% 
@@ -168,8 +177,8 @@ events_level3 <- samples %>%
                 day = DayWeight,
                 eventDate = lubridate::make_date(year, month, day),
                 samplingProtocol = "weighing of individual nuts",
-                sampleSizeValue = 1,
-                sampleSizeUnit = "nut",
+                sampleSizeValue = 0.0625,
+                sampleSizeUnit = "square metre",
                 verbatimLocality = "NIOO-KNAW",
                 recordedByID = AnalysticObserverID,
                 fieldNumber = paste0("weightID_", WeightID))
@@ -259,8 +268,8 @@ measures_2 <- events_level2 %>%
   dplyr::left_join(occurrence_L2 %>% 
                      dplyr::select("BeechSampleID","Position", "occurrenceID"),
                    by = c("BeechSampleID", "Position"), relationship = "many-to-many") %>% 
-  tidyr::pivot_longer(cols = c(starts_with("Nbr"), 
-                               all_of(c("TotalGrossWeightWhole", "Position", "SampleTypeID"))), 
+  tidyr::pivot_longer(cols = c(tidyr::starts_with("Nbr"), 
+                               tidyr::all_of(c("TotalGrossWeightWhole", "Position", "SampleTypeID"))), 
                       names_to = "variable", 
                       values_to = "measurementValue") %>%
   dplyr::mutate(measurementDeterminedDate = lubridate::make_date(year, MonthWeight, DayWeight),
@@ -272,7 +281,7 @@ measures_2 <- events_level2 %>%
 
 # measurements on individual nut level (level 3 events)
 measures_3 <- occurrence_L3 %>% 
-  tidyr::pivot_longer(cols = all_of(c("GrossWeight", "NetWeight")), names_to = "variable", values_to = "measurementValue") %>%
+  tidyr::pivot_longer(cols = tidyr::all_of(c("GrossWeight", "NetWeight")), names_to = "variable", values_to = "measurementValue") %>%
   dplyr::mutate(measurementID = paste(stringr::str_remove(string = occurrenceID, pattern = "o"), 
                                       paste0("m", 1:dplyr::n()), sep = "_"), 
                 .by = occurrenceID,
@@ -312,7 +321,8 @@ measurement_or_fact <- dplyr::bind_rows(measures_2, measures_3) %>%
       variable == "SampleTypeID" ~ sampletype_Remark)) %>% 
   dplyr::select("eventID", "occurrenceID", "measurementID", "measurementType", "verbatimMeasurementType", "measurementValue",
                 "measurementUnit", "measurementDeterminedDate", "measurementDeterminedBy", "measurementMethod",
-                "measurementRemarks")
+                "measurementRemarks") %>% 
+  dplyr::arrange(eventID)
 
 
 # IV. Save DwC-A files -----------------------------------------------------
