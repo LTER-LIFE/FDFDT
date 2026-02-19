@@ -187,8 +187,8 @@ events_level3 <- samples %>%
 event <- dplyr::bind_rows(events_level1, events_level2, events_level3) %>% 
   dplyr::select("eventID", "parentEventID", "eventDate", "verbatimEventDate", "year", "month", "day", "samplingProtocol",
                 "sampleSizeValue", "sampleSizeUnit", "TreeID", "verbatimLocality", "recordedByID", "fieldNumber") %>% 
-  dplyr::mutate(decimalLatitude = tree_info$Longitude[match(.$TreeID, tree_info$TreeID)],
-                decimalLongitude = tree_info$Latitude[match(.$TreeID, tree_info$TreeID)],
+  dplyr::mutate(decimalLatitude = tree_info$Latitude[match(.$TreeID, tree_info$TreeID)],
+                decimalLongitude = tree_info$Longitude[match(.$TreeID, tree_info$TreeID)],
                 geodeticDatum = dplyr::case_when(!is.na(decimalLatitude) ~ "EPSG:4326",
                                                  TRUE ~ NA_character_),
                 minimumElevationInMeters = tree_info$Elevation[match(.$TreeID, tree_info$TreeID)],

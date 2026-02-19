@@ -14,7 +14,7 @@ library(here)
 # 1. Fill in metadata ----------------------------------------------------
 
 # Title of the data set
-title <- "Long-term seed production data of European beeches in the Hoge Veluwe, Netherlands"
+title <- "Long-term seed production data of European beeches in the National Park De Hoge Veluwe, Netherlands"
 
 # Information on the creator of the data set
 creator <- list(organizationName = "Netherlands Institute of Ecology (NIOO-KNAW) - Department of Animal Ecology",
@@ -43,7 +43,7 @@ contact_person <- list(organizationName = "Netherlands Institute of Ecology (NIO
 language <- "en"
 
 # Abstract describing the data set
-abstract <- list(para = "Seed production of European beech (Fagus sylvatica) is assessed yearly by the Netherlands Institute of Ecology (NIOO-KNAW) since 1976. The data contains individual-level information on beechnut production of a selected set of trees in the Nationalpark Hoge Veluwe, Netherlands, consisting of counts and weights.")
+abstract <- list(para = "Seed production of European beech (Fagus sylvatica) is assessed yearly by the Netherlands Institute of Ecology (NIOO-KNAW) since 1976. The data contains individual-level information on beechnut production of a selected set of trees in the National Park De Hoge Veluwe, Netherlands, consisting of counts and weights.")
 
 # List of keywords and the thesaurus they are listed in
 keywords <- list(list(keyword = list("trees", "ecology", "seed production"),
@@ -51,11 +51,11 @@ keywords <- list(list(keyword = list("trees", "ecology", "seed production"),
                  list(keyword = list("beech", "beechnut", "masting", "Fagus sylvatica")))
 
 # License for the work
-licensed <- list(licenseName = "Creative Commons Attribution 4.0 International (CC BY 4.0)",
-                 url = "https://creativecommons.org/licenses/by/4.0/")
+licensed <- list(licenseName = "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+                 url = "https://creativecommons.org/licenses/by-sa/4.0/")
 
 # Geographic coverage of the data
-geographic_coverage <- list(geographicDescription = "The Nationalpark Hoge Veluwe",
+geographic_coverage <- list(geographicDescription = "National Park De Hoge Veluwe",
                             boundingCoordinates = list(westBoundingCoordinate = "5.824",
                                                        eastBoundingCoordinate = "5.870",
                                                        northBoundingCoordinate = "52.047",
@@ -82,7 +82,7 @@ maintenance <- list(maintenanceUpdateFrequency = "unknown",
                     description = list(para = "Update frequency is unknown."))
 
 # date of publication
-publication_date <- "2026-02-18"
+publication_date <- "2026-02-19"
 
 
 # Methods for data collection
@@ -117,14 +117,17 @@ eml <- list(dataset =
             system = "uuid",
             packageId = packageId)
 
+# choose directory to store files
+dir_loc <- rstudioapi::selectDirectory()
+
 # Write EMl file
-EML::write_eml(eml, file = here::here("data", "beechcrop_EML.xml"))
+EML::write_eml(eml, file = paste0(dir_loc, "/", "beechcrop_EML.xml"))
 
 
 # 3. Add attributes for specific nodes ------------------------------------
 
 # Read EML file as XML file
-EML <- xml2::read_xml(here::here("data", "beechcrop_EML.xml"))
+EML <- xml2::read_xml(paste0(dir_loc, "/", "beechcrop_EML.xml"))
 
 # Identify all taxonId nodes for which attribute shall be set
 taxonId_node <- xml2::xml_find_all(EML, xpath = "//taxonId")
@@ -147,12 +150,5 @@ if(!emld::eml_validate(EML)) {
 }
 
 # Write final EML file
-xml2::write_xml(EML, file = here::here("data", "beechcrop_EML.xml"))
-
-
-# Save file locally -------------------------------------------------------
-
-# choose directory to store files
-dir_loc <- rstudioapi::selectDirectory()
-
 xml2::write_xml(EML, file = paste0(dir_loc, "/", "beechcrop_EML.xml"))
+
