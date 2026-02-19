@@ -20,8 +20,8 @@ library(stringr)
 # Note: function `retrieve_dataverse_data()` comes from R/dataverse-api.R.
 source(here::here("R", "retrieveData-API-Dataverse.R"))
 
-dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.34894/5SOKTV",
-                                          server = "dataverse.nl")
+dataverse_list <- retrieve_dataverse_data(dataset = "doi:10.80227/PDVNL/VLPXA3",
+                                          server = "demo.dataverse.nl")
 
 # Store each table as separate R objects for easier use, and exclude README
 purrr::walk2(.x = names(dataverse_list)[-1],
