@@ -43,17 +43,18 @@
     <field index="1" term="http://rs.tdwg.org/dwc/terms/occurrenceID"/>
     <field index="2" term="http://rs.tdwg.org/dwc/terms/organismQuantity"/>
     <field index="3" term="http://rs.tdwg.org/dwc/terms/organismQuantityType"/>
-    <field index="4" term="http://rs.tdwg.org/dwc/terms/basisOfRecord"/>
-    <field index="5" term="http://rs.tdwg.org/dwc/terms/occurrenceStatus"/>
-    <field index="6" term="http://rs.tdwg.org/dwc/terms/organismID"/>
-    <field index="7" term="http://rs.tdwg.org/dwc/terms/scientificName"/>
-    <field index="8" term="http://rs.tdwg.org/dwc/terms/kingdom"/>
-    <field index="9" term="http://rs.tdwg.org/dwc/terms/phylum"/>
-    <field index="10" term="http://rs.tdwg.org/dwc/terms/class"/>
-    <field index="11" term="http://rs.tdwg.org/dwc/terms/order"/>
-    <field index="12" term="http://rs.tdwg.org/dwc/terms/family"/>
-    <field index="13" term="http://rs.tdwg.org/dwc/terms/genus"/>
-    <field index="14" term="http://rs.tdwg.org/dwc/terms/specificEpithet"/>
-    <field index="15" term="http://rs.tdwg.org/dwc/terms/taxonRank"/>
+    <field index="4" term="http://rs.tdwg.org/dwc/terms/sex"/>
+    <field index="5" term="http://rs.tdwg.org/dwc/terms/basisOfRecord"/>
+    <field index="6" term="http://rs.tdwg.org/dwc/terms/occurrenceStatus"/>
+    <field index="7" term="http://rs.tdwg.org/dwc/terms/organismID"/>
+    <field index="8" term="http://rs.tdwg.org/dwc/terms/scientificName"/>
+    <field index="9" term="http://rs.tdwg.org/dwc/terms/kingdom"/>
+    <field index="10" term="http://rs.tdwg.org/dwc/terms/phylum"/>
+    <field index="11" term="http://rs.tdwg.org/dwc/terms/class"/>
+    <field index="12" term="http://rs.tdwg.org/dwc/terms/order"/>
+    <field index="13" term="http://rs.tdwg.org/dwc/terms/family"/>
+    <field index="14" term="http://rs.tdwg.org/dwc/terms/genus"/>
+    <field index="15" term="http://rs.tdwg.org/dwc/terms/specificEpithet"/>
+    <field index="16" term="http://rs.tdwg.org/dwc/terms/taxonRank"/>
   </extension>
 </archive>

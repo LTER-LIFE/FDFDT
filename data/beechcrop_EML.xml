@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="1ecc2c0b-6140-4029-b4f3-b6d4984b5da5" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+  <dataset>
+    <title xml:lang="en">Long-term seed production data of European beeches in the Hoge Veluwe, Netherlands</title>
+    <creator>
+      <organizationName>Netherlands Institute of Ecology (NIOO-KNAW) - Department of Animal Ecology</organizationName>
+      <positionName>Databank manager</positionName>
+      <address>
+        <city>Wageningen</city>
+        <country>NL</country>
+      </address>
+      <electronicMailAddress>AnE_Database@nioo.knaw.nl</electronicMailAddress>
+      <onlineUrl>https://nioo.knaw.nl/en/facilities/hole-breeding-passerines-monitoring-hoge-veluwe </onlineUrl>
+    </creator>
+    <metadataProvider>
+      <individualName>
+        <givenName>Cherine</givenName>
+        <surName>Jantzen</surName>
+      </individualName>
+      <organizationName>Netherlands Institute of Ecology (NIOO-KNAW)</organizationName>
+      <address>
+        <city>Wageningen</city>
+        <country>NL</country>
+      </address>
+      <electronicMailAddress>C.Jantzen@nioo.knaw.nl</electronicMailAddress>
+    </metadataProvider>
+    <pubDate>2026-02-18</pubDate>
+    <language>en</language>
+    <abstract>
+      <para>Seed production of European beech (Fagus sylvatica) is assessed yearly by the Netherlands Institute of Ecology (NIOO-KNAW) since 1976. The data contains individual-level information on beechnut production of a selected set of trees in the Nationalpark Hoge Veluwe, Netherlands, consisting of counts and weights.</para>
+    </abstract>
+    <keywordSet>
+      <keyword>trees</keyword>
+      <keyword>ecology</keyword>
+      <keyword>seed production</keyword>
+      <keywordThesaurus>envThes</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>beech</keyword>
+      <keyword>beechnut</keyword>
+      <keyword>masting</keyword>
+      <keyword>Fagus sylvatica</keyword>
+    </keywordSet>
+    <licensed>
+      <licenseName>Creative Commons Attribution 4.0 International (CC BY 4.0)</licenseName>
+      <url>https://creativecommons.org/licenses/by/4.0/</url>
+    </licensed>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>The Nationalpark Hoge Veluwe</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>5.824</westBoundingCoordinate>
+          <eastBoundingCoordinate>5.870</eastBoundingCoordinate>
+          <northBoundingCoordinate>52.047</northBoundingCoordinate>
+          <southBoundingCoordinate>52.032</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates>
+          <beginDate>
+            <calendarDate>1976-09-10</calendarDate>
+          </beginDate>
+          <endDate>
+            <calendarDate>2025-10-16</calendarDate>
+          </endDate>
+        </rangeOfDates>
+      </temporalCoverage>
+      <taxonomicCoverage>
+        <generalTaxonomicCoverage>Data is collected on European beech trees.</generalTaxonomicCoverage>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Fagus sylvatica</taxonRankValue>
+          <commonName>European beech</commonName>
+          <taxonId provider="https://www.gbif.org/">2882316</taxonId>
+        </taxonomicClassification>
+      </taxonomicCoverage>
+    </coverage>
+    <maintenance>
+      <description>
+        <para>Update frequency is unknown.</para>
+      </description>
+      <maintenanceUpdateFrequency>unknown</maintenanceUpdateFrequency>
+    </maintenance>
+    <contact>
+      <organizationName>Netherlands Institute of Ecology (NIOO-KNAW) - Department of Animal Ecology</organizationName>
+      <positionName>Databank manager</positionName>
+      <address>
+        <city>Wageningen</city>
+        <country>NL</country>
+      </address>
+      <electronicMailAddress>AnE_Database@nioo.knaw.nl</electronicMailAddress>
+    </contact>
+    <methods>
+      <methodStep>
+        <description>
+          <para>A set of selected beech trees is visited each year in autumn.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>Four grids of 25 by 25 cm are placed in the direction of either a cross carved into the bark of the tree or a coloured pin. The first grid is placed half a meter from the stem, the last grid prependicular to the end point of the farthest overhanging branch, and the other two grids in equal distances in between the first and last grid.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>In each grid, all beechnuts are collected (from whole nuts to partial nuts) and packed, per grid, in labelled bags.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>Within few days, nuts have to be analysed. From 2011 onwards, the nuts are dried (outside the bags) at room temperature for at least 24 hours before analysis. After drying, the nuts are sorted into six categories: whole nuts (shiny and firm; total number and gross weight in milligrams are determined), caterpillar nuts (have small round hole and, when opened, usually are full of caterpillar droppings; total number is counted), eaten nuts (hole in nut is not smooth but frayed and mainly located at the thick side of the nut or the corner; total number is counted), empty nuts (can easily be squashed with the fingers and are completely empty inside; total number is counted), rotten nuts (usually seem firm and whole, but are very light in weight and have smaller black nuts in the inside when opened; total number is counted) and other (nut that do not belong to any other category; total number is counted).</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>For whole nuts, the total gross weight of all whole nuts is taken. Additionally, whole nuts are individually weighted with peel (gross weight) and without peel (net weight) with a maximum of five nuts per sample.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>For all details on the data collection and deviations from the general methods decribed here, please see Jantzen and Visser (submitted).</para>
+        </description>
+      </methodStep>
+    </methods>
+  </dataset>
+</eml:eml>

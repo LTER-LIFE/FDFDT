@@ -2,7 +2,7 @@
 
 # Authors: Cherine Jantzen, Stefan Vriend
 # Created: 2023-12-04
-# Last updated: 2025-08-01
+# Last updated: 2026-02-18
 
 
 # Load packages
@@ -41,7 +41,7 @@ contact_person <- list(organizationName = "Department of Animal Ecology, Netherl
                        electronicMailAddress = "AnE_Database@nioo.knaw.nl")
 
 # Date of publication of the data set
-publication_date <- "2025-08-01"
+publication_date <- "2026-02-18"
 
 # Language of the data
 language <- "en"
@@ -65,10 +65,9 @@ geographic_coverage <- list(geographicDescription = "Several sites across the Ne
                                                        eastBoundingCoordinate = "6.0190",
                                                        northBoundingCoordinate = "52.1164",
                                                        southBoundingCoordinate = "51.8218"))
-
 # Temporal coverage of the data
 temporal_coverage <- list(rangeOfDates = list(beginDate = list(calendarDate = "1988-04-28"),
-                                              endDate = list(calendarDate = "2024-05-09")))
+                                              endDate = list(calendarDate = "2025-04-28")))
 
 # Taxonomic coverage of the data
 taxonomic_coverage <- list(generalTaxonomicCoverage = "The data contain measures of three different tree species.",
@@ -126,8 +125,9 @@ eml <- list(dataset =
             system = "uuid",
             packageId = packageId)
 
+
 # Write EMl file
-EML::write_eml(eml, file = here::here("data", "budburst_EML.xml"))
+EML::write_eml(eml, file = here::here("data", "budburst_EML.xml"), namespaces = c("http://purl.org/dc/terms/"))
 
 
 # 3. Add attributes for specific nodes ------------------------------------
@@ -147,6 +147,22 @@ title_node <- xml2::xml_find_all(EML, xpath = "//title")
 # Set title attribute
 xml2::xml_set_attr(title_node, attr = "xml:lang", value = "en")
 
+## Add additional metadata manually to include namespaces of Dublin Core terms
+
+# Add the Dublin Core namespace declaration on the root element (for additional metadata)
+root <- xml2::xml_root(EML)
+xml2::xml_set_attr(root, "xmlns:dcterms", "http://purl.org/dc/terms/")
+
+# Create the additionalMetadata structure manually using xml2
+additionalMetadata_node <- xml2::xml_add_child(root, "additionalMetadata")
+metadata_node <- xml2::xml_add_child(additionalMetadata_node, "metadata")
+relations_node <- xml2::xml_add_child(metadata_node, "relations")
+
+# Add relation to original bud burst data with isVersionOf
+relation1 <- xml2::xml_add_child(relations_node, "dcterms:relation")
+xml2::xml_add_child(relation1, "relationType", "isVersionOf")
+xml2::xml_add_child(relation1, "relatedResource", "https://doi.org/10.34894/5SOKTV")
+xml2::xml_add_child(relation1, "description", "Darwin Core Archive version of the original bud burst dataset")
 
 # 4. Validate EML file ----------------------------------------------------
 if(!emld::eml_validate(EML)) {
