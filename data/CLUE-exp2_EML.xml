@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="874348bf-714a-4f63-9225-2277c7cf1bab" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+  <dataset>
+    <title xml:lang="en">CLUE field data - Vegetation cover under soil inoculation and seed addition treatments - Terrestrial Ecology/NIOO-KNAW</title>
+    <creator>
+      <individualName>
+        <givenName>Wim H.</givenName>
+        <surName>van der Putten</surName>
+      </individualName>
+      <organizationName>Netherlands Institute of Ecology (NIOO-KNAW)</organizationName>
+      <positionName>head of department</positionName>
+      <address>
+        <city>Wageningen</city>
+        <country>NL</country>
+      </address>
+      <electronicMailAddress>W.vanderPutten@nioo.knaw.nl</electronicMailAddress>
+      <userId directory="https://orcid.org/">0000-0002-9341-4442</userId>
+    </creator>
+    <metadataProvider>
+      <individualName>
+        <givenName>Cherine C.</givenName>
+        <surName>Jantzen</surName>
+      </individualName>
+      <organizationName>Netherlands Institute of Ecology (NIOO-KNAW)</organizationName>
+      <address>
+        <city>Wageningen</city>
+        <country>NL</country>
+      </address>
+      <electronicMailAddress>C.Jantzen@nioo.knaw.nl</electronicMailAddress>
+      <userId directory="https://orcid.org/">0009-0006-0723-2682</userId>
+    </metadataProvider>
+    <language>en</language>
+    <abstract>
+      <para/>
+    </abstract>
+    <keywordSet>
+      <keyword>primary succession</keyword>
+      <keyword>grassland</keyword>
+      <keyword>vegetation</keyword>
+      <keyword>nematodes</keyword>
+      <keyword>biodiversity</keyword>
+      <keyword>ecosystem function</keyword>
+      <keyword>secondary succession</keyword>
+      <keyword>plant biomass</keyword>
+      <keyword>productivity</keyword>
+      <keyword>plant diversity</keyword>
+      <keywordThesaurus>envThes</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>long-term experiment</keyword>
+      <keyword>soil biodiversity</keyword>
+      <keywordThesaurus>GEMET</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>soil community</keyword>
+      <keyword>soil inoculation</keyword>
+      <keyword>ragwort</keyword>
+      <keyword>low diversity</keyword>
+      <keyword>high diversity</keyword>
+      <keyword>Jacobaea vulgaris</keyword>
+    </keywordSet>
+    <licensed>
+      <licenseName>Creative Commons Attribution 4.0 International</licenseName>
+      <url>https://creativecommons.org/licenses/by/4.0/</url>
+      <identifier>CC-BY-4.0</identifier>
+    </licensed>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>Mossel, Netherlands</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>5.751</westBoundingCoordinate>
+          <eastBoundingCoordinate>5.752</eastBoundingCoordinate>
+          <northBoundingCoordinate>52.060</northBoundingCoordinate>
+          <southBoundingCoordinate>52.059</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates>
+          <beginDate>
+            <calendarDate>1996</calendarDate>
+          </beginDate>
+          <endDate>
+            <calendarDate>2016</calendarDate>
+          </endDate>
+        </rangeOfDates>
+      </temporalCoverage>
+      <taxonomicCoverage>
+        <generalTaxonomicCoverage>Data covers 131 plant species coming from 25 families. It includes 2 species of the family Amaranthaceae, 5 species of the family Apiaceae, 27 species of the family Asteraceae, 2 species of the family Betulaceae, 3 species of the family Boraginaceae, 6 species of the family Brassicaceae, 1 species of the family Caprifoliaceae, 3 species of the family Caryophyllaceae, 1 species of the family Convolvulaceae, 12 species of the family Fabaceae, 4 species of the family Geraniaceae, 1 species of the family Hypericaceae, 3 species of the family Juncaceae, 4 species of the family Lamiaceae, 7 species of the family Onagraceae, 1 species of the family Pinaceae, 4 species of the family Plantaginaceae, 26 species of the family Poaceae, 8 species of the family Polygonaceae, 1 species of the family Primulaceae, 2 species of the family Rosaceae, 4 species of the family Rubiaceae, 1 species of the family Solanaceae, 2 species of the family Urticaceae, and 1 species of the family Violaceae.</generalTaxonomicCoverage>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Amaranthaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">3064</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Apiaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">6720</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Asteraceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">3065</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Betulaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">4688</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Boraginaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">2498</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Brassicaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">3112</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Caprifoliaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">6710</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Caryophyllaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">2518</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Convolvulaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">2389</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Fabaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">5386</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Geraniaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">4676</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Hypericaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">4900406</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Juncaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">5353</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Lamiaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">2497</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Onagraceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">2430</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Pinaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">3925</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Plantaginaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">2420</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Poaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">3073</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Polygonaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">2416</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Primulaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">6674</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Rosaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">5015</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Rubiaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">8798</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Solanaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">7717</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Urticaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">6639</taxonId>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Family</taxonRankName>
+          <taxonRankValue>Violaceae</taxonRankValue>
+          <taxonId provider="https://www.gbif.org/">6631</taxonId>
+        </taxonomicClassification>
+      </taxonomicCoverage>
+    </coverage>
+    <maintenance>
+      <description>
+        <para>Data is updated annually.</para>
+      </description>
+      <maintenanceUpdateFrequency>annually</maintenanceUpdateFrequency>
+    </maintenance>
+    <contact>
+      <individualName>
+        <givenName>Ciska</givenName>
+        <surName>Veen</surName>
+      </individualName>
+      <organizationName>Netherlands Institute of Ecology (NIOO-KNAW)</organizationName>
+      <address>
+        <city>Wageningen</city>
+        <country>NL</country>
+      </address>
+      <electronicMailAddress>c.veen@nioo.knaw.nl</electronicMailAddress>
+      <onlineUrl>https://nioo.knaw.nl/en/facilities/clue-field-veluwe-database</onlineUrl>
+      <userId directory="https://orcid.org/">0000-0001-7736-9998</userId>
+    </contact>
+    <methods>
+      <methodStep>
+        <description>
+          <para>Starting in 1996, a former agricultural field was transformed into an experimental field site and fenced to exclude large mammalian herbivores.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>A randomized block design with 5 blocks each containing 4 plots of 2m x 2m was established and seed addition and soil inoculation treatments applied and fully crossed in design. At the start of the experiment, half of the plots were treated with a soil inoculum collected from a nearby mid-succession grassland which has been undergoing natural secondary succession since 1985 and was similar in abiotic conditions. The other half the plots were hand-sown with 15 mid-succession plant species, equally representing grasses, legumes and non-legume forbs. Plants were sown at a density of 500 seeds per square metre for each grass species and 100 seeds per square metre for legume and other forb species. The species Vicia cracca was reduced to 20 seeds per square metre to prevent it from becoming dominant.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>Towards the end of each growing season, approximately in September, all aboveground vegetation of the plots and border rows was mown and removed.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>Measurements of taxonomic composition of plant species were recorded each year in the central 1m x 1m square of each plot.</para>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>See also Wubs et al., 2019 - DOI: 10.1111/ele.13271</para>
+        </description>
+      </methodStep>
+    </methods>
+  </dataset>
+</eml:eml>

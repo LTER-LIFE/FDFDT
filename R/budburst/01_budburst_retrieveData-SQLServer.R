@@ -1,8 +1,8 @@
 # Retrieve data from data base and prepare data for Dataverse ####
 
 # Authors: Cherine Jantzen, Stefan Vriend
-# Created: 12/12/2023
-# Last updated: 19/01/2023
+# Created: 2023-12-12
+# Last updated: 2025-08-01
 
 # Load packages
 library(DBI)
@@ -20,7 +20,7 @@ con <- DBI::dbConnect(drv = odbc::odbc(),
 # Get input data
 
 ## tbl_Area
-dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Budburst", schema = "dbo", table = "tbl_Area")) %>%
+dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Trees", schema = "dbo", table = "tbl_Area")) %>%
   dplyr::collect() %>%
   dplyr::select(!c("Remarks", "SysUser", "SysDate")) %>%
   write.csv(here::here("data", "tbl_area.csv"), row.names = FALSE)
@@ -32,13 +32,13 @@ dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Budburst", schema = "dbo", tab
   write.csv(here::here("data", "tbl_budburst.csv"), row.names = FALSE)
 
 ## tbl_Tree
-dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Budburst", schema = "dbo", table = "tbl_Tree")) %>%
+dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Trees", schema = "dbo", table = "tbl_Tree")) %>%
   dplyr::collect() %>%
   dplyr::select(!c("ExtraCode", "Remarks", "SysUser", "SysDate", "Budburst", "Frass", "Wintermoth_Selection")) %>%
   write.csv(here::here("data", "tbl_tree.csv"), row.names = FALSE)
 
 ## tbl_TreeSpecies
-dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Budburst", schema = "dbo", table = "tbl_TreeSpecies")) %>%
+dplyr::tbl(con, dbplyr::in_catalog(catalog = "AnE_Trees", schema = "dbo", table = "tbl_TreeSpecies")) %>%
   dplyr::collect() %>%
   dplyr::select(!c("Remarks", "SysUser", "SysDate")) %>%
   write.csv(here::here("data", "tbl_treeSpecies.csv"), row.names = FALSE)
