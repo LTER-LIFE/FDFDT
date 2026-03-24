@@ -1,8 +1,8 @@
 ### Pipeline: Bud burst data of Animal Ecology/NIOO-KNAW to Darwin Core ###
 
-# Authors: Cherine Jantzen, Stefan Vriend
-# Created: 2023-11-30
-# Last updated: 2025-08-01
+# Authors:        Cherine Jantzen, Stefan Vriend
+# Created:        2023-11-30
+# Last updated:   2026-03-24
 
 # Part I: Retrieve data ---------------------------------------------------
 
@@ -217,13 +217,6 @@ if(d_budburst %>% dplyr::count(eventID) %>% dplyr::filter(n > 1) %>% nrow() > 0)
              "This should not be the case for level-3 events."))
   
 }
-
-# temporary fix for double entries
-#TODO should automatically resolve when these updates are merged into the database; check again later
-d_budburst <- d_budburst %>% 
-  dplyr::filter(!BudburstID %in% c(61801, 61794, 62736, 62656)) %>% 
-  dplyr::mutate(AprilDate = dplyr::case_when(BudburstID == 101469 ~ 43,
-                                             TRUE ~ AprilDate))
 
 # Create occurrenceID by extending eventID with number of occurrences per event (here always: '_1')
 occID <- d_events_level3 %>%

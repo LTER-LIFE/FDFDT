@@ -1,8 +1,8 @@
 # Pipeline for creation of EML metadata file of the DwC-A of bud burst data ####
 
-# Authors: Cherine Jantzen, Stefan Vriend
-# Created: 2023-12-04
-# Last updated: 2026-02-18
+# Authors:        Cherine Jantzen, Stefan Vriend
+# Created:        2023-12-04
+# Last updated:   2026-03-24
 
 
 # Load packages
@@ -18,7 +18,7 @@ library(here)
 title <- "Darwin Core Archive version of: Bud burst data of department of Animal Ecology/NIOO-KNAW"
 
 # Information on the creator of the data set
-creator <- list(organizationName = "Department of Animal Ecology, Netherlands Institute of Ecology (NIOO-KNAW)",
+creator <- list(organizationName = "Netherlands Institute of Ecology (NIOO-KNAW) - Department of Animal Ecology",
                 positionName = "Databank manager",
                 address = list(country = "NL",
                                city = "Wageningen"),
@@ -34,14 +34,14 @@ metadataProvider <- list(individualName = list(givenName = "Cherine",
                          electronicMailAddress = "C.Jantzen@nioo.knaw.nl")
 
 # Information on the contact person
-contact_person <- list(organizationName = "Department of Animal Ecology, Netherlands Institute of Ecology (NIOO-KNAW)",
+contact_person <- list(organizationName = "Netherlands Institute of Ecology (NIOO-KNAW) - Department of Animal Ecology",
                        address = list(country = "NL",
                                       city = "Wageningen"),
                        positionName = "Databank manager",
                        electronicMailAddress = "AnE_Database@nioo.knaw.nl")
 
 # Date of publication of the data set
-publication_date <- "2026-02-18"
+publication_date <- "2026-03-24"
 
 # Language of the data
 language <- "en"
@@ -60,7 +60,7 @@ licensed <- list(licenseName = "Creative Commons Attribution 4.0 International (
                  url = "https://creativecommons.org/licenses/by/4.0/")
 
 # Geographic coverage of the data
-geographic_coverage <- list(geographicDescription = "Several sites across the Netherlands have been sampled: De Hoge Veluwe National Park, Oosterhout, Warnsborn, Doorwerth, Bennekom, Buunderkamp, Wolfheze, Rhenen, Heveadorp, Goffert, Kernhem, Loenen",
+geographic_coverage <- list(geographicDescription = "Several sites across the Netherlands have been sampled: National Park De Hoge Veluwe, Oosterhout, Warnsborn, Doorwerth, Bennekom, Buunderkamp, Wolfheze, Rhenen, Heveadorp, Goffert, Kernhem, Loenen",
                             boundingCoordinates = list(westBoundingCoordinate = "5.5711",
                                                        eastBoundingCoordinate = "6.0190",
                                                        northBoundingCoordinate = "52.1164",
@@ -100,6 +100,8 @@ methods <- list(methodStep = list(list(description = list(para = "The stage of b
                 qualityControl = list(list(description = list(para = "Missing values in the data indicate true missing values (i.e., no data has been collected) and can occur for different reasons: there are no remaining leaves on the trees due to either late frosts that the leaves did not survive or high caterpillar abundance through which all leaves got eaten, or trees have a dead crown but the rest of the tree still has leaves leading to missing values for the TopScore.")),
                                       list(description = list(para = "Not all trees have been scored on all days. Therefore, data should not be analysed within dates but rather within trees (e.g., for calculations of the bud burst date). The bud burst date can be calculated by setting a threshold value (e.g., TopScore = 1) and calculate the average date when this value was reached. You cannot take the average bud burst score on a particular day, because trees that have already reached a score of 3 are no longer scored."))))
 
+# Add usage citations
+usageCitation <- list(bibtex = "@article{JantzenVriend2026, title = {Putting FAIR into practice for ecologists: How to make ecological data more reusable}, journal = {Ecological Informatics}, volume = {95}, pages = {103712}, year = {2026}, issn = {1574-9541}, doi = {https://doi.org/10.1016/j.ecoinf.2026.103712}, url = {https://www.sciencedirect.com/science/article/pii/S1574954126001184}, author = {Cherine C. Jantzen and Stefan J.G. Vriend}, keywords = {FAIR principles, FAIR implementation, Data sharing, Data reuse, Data management, Ecological data}, abstract = {Ecological data is highly diverse due to the complex nature of the systems they describe. Proper documentation and management are often lacking or not designed for data reuse by others, making the data difficult to find, understand, and at risk to be lost. Adopting the FAIR (Findable, Accessible, Interoperable, Reusable) principles into data practices is a way to mitigate these problems. However, the FAIR principles are abstract and not easily understood by domain scientists. Despite a growing body of assessment tools and resources about FAIR, applying it in practice remains challenging as clear implementation guidelines are missing. We aim to fill this gap by translating the FAIR principles into four data components (metadata, storage, standard and structure) that can be successively worked on to enhance the FAIRness and structure of data and provide a general workflow together with a hands-on guide to give practical suggestions on how to improve the reusability of ecological data. For every workflow step, we introduce the rationale behind it and point towards implementation solutions tailored to ecology. Additionally, we introduce an evaluation tool that facilitates the entry to this workflow by guiding to only those steps that are necessary for the evaluated dataset. With the workflow, guide and tool introduced here, we lower the threshold for ecologists to start making ecological data FAIR, which will ensure long-term reusability of valuable data sources.}}")
 
 # 2. Create the EML.xml file ----------------------------------------------
 
@@ -121,7 +123,8 @@ eml <- list(dataset =
                    coverage = coverage,
                    maintenance = maintenance,
                    contact = contact_person,
-                   methods = methods),
+                   methods = methods,
+                   usageCitation = usageCitation),
             system = "uuid",
             packageId = packageId)
 
@@ -173,3 +176,4 @@ if(!emld::eml_validate(EML)) {
 
 # Write final EML file
 xml2::write_xml(EML, file = here::here("data", "budburst_EML.xml"))
+
